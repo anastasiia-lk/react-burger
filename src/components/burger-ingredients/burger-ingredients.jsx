@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import data from '../../utils/data.js';
 
 const IngredientsSelector = () => {
@@ -22,15 +22,21 @@ const IngredientsSelector = () => {
 
 const IngredientCard = ({ ingredient }) => {
   return (
-    <div className = {burgerIngredientsStyles.bunCard}>
-      {ingredient.type}
+    <div className = {`${burgerIngredientsStyles.card} ml-4 mr-2 mb-4 mt-4`}>
+      <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient.image + ')', backgroundSize: 'cover' }}>
+      </div>
+      <p className="text text_type_digits-default">1234567890</p>
+      <CurrencyIcon type="primary" />
+      <p className="text text_type_main-default">
+        The quick brown fox jumps over the lazy dog.
+      </p>
     </div>
   )
 }
 
 const IngredientsGrid = ({ingredientsType}) => {
   return (
-    <div className = {burgerIngredientsStyles.bunsSelector}>
+    <div className = {`${burgerIngredientsStyles.ingredientsGrid}`}>
       {ingredientsType.map((ingredient) => {
         return <IngredientCard ingredient = {ingredient} key={ingredient._id}/>
       })
@@ -51,7 +57,13 @@ class BurgerIngredients extends React.Component {
           Булки
         </p>
         <IngredientsGrid ingredientsType={data.filter((item) => item.type==='bun')} />
+        <p className="text text_type_main-medium mt-10 mb-6">
+          Соусы
+        </p>
         <IngredientsGrid ingredientsType={data.filter((item) => item.type==='sauce')} />
+        <p className="text text_type_main-medium mt-10 mb-6">
+          Начинки
+        </p>
         <IngredientsGrid ingredientsType={data.filter((item) => item.type==='main')} />
       </div>
     )
