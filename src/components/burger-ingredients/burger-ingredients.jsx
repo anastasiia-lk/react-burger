@@ -20,15 +20,23 @@ const IngredientsSelector = () => {
   )
 }
 
+const PriceElement = ({price}) => {
+  return (
+    <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
+      <p className={`${burgerIngredientsStyles.price__element} text text_type_digits-default`}>{price}</p>
+      <CurrencyIcon type="primary" />
+    </div> 
+  )
+}
+
 const IngredientCard = ({ ingredient }) => {
   return (
-    <div className = {`${burgerIngredientsStyles.card} ml-4 mr-2 mb-4 mt-4`}>
+    <div className = {`${burgerIngredientsStyles.card}`}>
       <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient.image + ')', backgroundSize: 'cover' }}>
       </div>
-      <p className="text text_type_digits-default">1234567890</p>
-      <CurrencyIcon type="primary" />
-      <p className="text text_type_main-default">
-        The quick brown fox jumps over the lazy dog.
+      <PriceElement price = {ingredient.price} />
+      <p className = {`${burgerIngredientsStyles.name} text text_type_main-default`}>
+        {ingredient.name}
       </p>
     </div>
   )
@@ -36,7 +44,7 @@ const IngredientCard = ({ ingredient }) => {
 
 const IngredientsGrid = ({ingredientsType}) => {
   return (
-    <div className = {`${burgerIngredientsStyles.ingredientsGrid}`}>
+    <div className = {`${burgerIngredientsStyles.ingredientsGrid} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
         return <IngredientCard ingredient = {ingredient} key={ingredient._id}/>
       })

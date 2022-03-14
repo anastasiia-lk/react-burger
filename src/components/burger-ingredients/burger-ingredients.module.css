@@ -1,6 +1,12 @@
+.card {
+  width: 272px;
+  height: 208px;
+}
+
 .image {
   width: 240px;
   height: 120px;
+  margin: auto;
 }
 
 .ingredientsGrid {
@@ -10,4 +16,17 @@
   grid-template-rows: repeat(auto-fit, minmax(208px, 1fr));
   row-gap: 20px;
   column-gap: 17px;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  text-align: center;
+}
+
+.price__element {
+  margin-right: 9px;
 }
