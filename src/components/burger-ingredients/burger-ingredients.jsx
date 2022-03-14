@@ -56,7 +56,7 @@ const IngredientsGrid = ({ingredientsType}) => {
 class BurgerIngredients extends React.Component {
   render() {
     return(
-      <div className = {burgerIngredientsStyles.ingredientsSelector}>
+      <div className = {`${burgerIngredientsStyles.ingredientsBlock} ml-5 mr-5`}>
         <p className="text text_type_main-large mt-10 mb-5">
           Соберите бургер
         </p>
