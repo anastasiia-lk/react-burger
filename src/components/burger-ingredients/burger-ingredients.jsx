@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import data from '../../utils/data.js';
@@ -23,7 +23,7 @@ const IngredientsSelector = () => {
 const PriceElement = ({price}) => {
   return (
     <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
-      <p className={`${burgerIngredientsStyles.price__element} text text_type_digits-default`}>{price}</p>
+      <h3 className={`${burgerIngredientsStyles.price__element} text text_type_digits-default`}>{price}</h3>
       <CurrencyIcon type="primary" />
     </div> 
   )
@@ -51,29 +51,35 @@ const IngredientsGrid = ({ingredientsType}) => {
       }
     </div>
   )
-} 
+}
+
+const IngredientsBlock = ({text, ingredientType})=> {
+  return (
+    <div>
+    <h2 className="text text_type_main-medium mb-6">
+      {text}
+    </h2>
+    <IngredientsGrid ingredientsType={data.filter((item) => item.type===ingredientType)} />
+    </div>
+  )
+}
 
 class BurgerIngredients extends React.Component {
   render() {
     return(
-      <div className = {`${burgerIngredientsStyles.ingredientsBlock} ml-5 mr-5`}>
-        <p className="text text_type_main-large mt-10 mb-5">
+      <section className = {`${burgerIngredientsStyles.constructor}`}>
+        <h1 className="text text_type_main-large mt-10 mb-5">
           Соберите бургер
-        </p>
-        <IngredientsSelector />
-        <p className="text text_type_main-medium mt-10 mb-6">
-          Булки
-        </p>
-        <IngredientsGrid ingredientsType={data.filter((item) => item.type==='bun')} />
-        <p className="text text_type_main-medium mt-10 mb-6">
-          Соусы
-        </p>
-        <IngredientsGrid ingredientsType={data.filter((item) => item.type==='sauce')} />
-        <p className="text text_type_main-medium mt-10 mb-6">
-          Начинки
-        </p>
-        <IngredientsGrid ingredientsType={data.filter((item) => item.type==='main')} />
-      </div>
+        </h1>
+        <div className = 'mb-10'>
+          <IngredientsSelector />
+        </div>
+        <div className = {`${burgerIngredientsStyles.ingredientsBlock}`}>
+          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'}/>
+          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'}/>
+          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'}/>
+        </div>
+      </section>
     )
   }
 }

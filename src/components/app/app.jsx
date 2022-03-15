@@ -6,13 +6,13 @@ import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 
 function App() {
   return (
-    <div className={appStyles.body}>
+    <body className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
-      <div style = {{display: 'flex', justifyContent: 'space-between', width: '100%', margin: 'auto'}}>
+      <main style = {{display: 'flex', justifyContent: 'space-between', width: '100%', margin: 'auto'}}>
         <BurgerIngredients />
         <BurgerConstructor />
-      </div>
-    </div>
+      </main>
+    </body>
   );
 }
 

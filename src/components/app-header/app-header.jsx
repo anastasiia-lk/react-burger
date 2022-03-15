@@ -5,7 +5,7 @@ import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-dev
 class AppHeader extends React.Component {
   render() {
     return (
-      <div style={{ backgroundColor: '#1C1C21' }} className = {appHeaderStyles.header}>
+      <header style={{ backgroundColor: '#1C1C21' }} className = {appHeaderStyles.header}>
         <nav className = {appHeaderStyles.menu}>
           <ul className = {appHeaderStyles.list}>
             <li className={`${appHeaderStyles.header__item} ml-0 mr-2 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
@@ -35,7 +35,7 @@ class AppHeader extends React.Component {
             Личный кабинет
           </p>
         </div>  
-      </div>
+      </header>
     )
   }
 }

@@ -1,3 +1,8 @@
+.ingredientsBlock {
+  max-height: 664px;
+  overflow-y: scroll;
+}
+
 .card {
   width: 272px;
   height: 208px;
