@@ -39,3 +39,9 @@
 .price-element {
   margin-right: 9px;
 }
+
+.counter {
+  position: relative;
+  top: 0;
+  right: 0;
+}

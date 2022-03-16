@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const IngredientsSelector = () => {
   const [current, setCurrent] = React.useState('one')
@@ -32,6 +32,9 @@ const PriceElement = ({price}) => {
 const IngredientCard = ({ ingredient }) => {
   return (
     <div className = {`${burgerIngredientsStyles.card}`}>
+      <div className={burgerIngredientsStyles.counter}>
+        <Counter count={1} size="default"/>
+      </div>
       <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient.image + ')', backgroundSize: 'cover' }}>
       </div>
       <PriceElement price = {ingredient.price} />
