@@ -1,0 +1,47 @@
+.ingredients-block {
+  max-height: 664px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar-track {
+  height: 12px;
+}
+
+.card {
+  width: 272px;
+  height: 208px;
+}
+
+.image {
+  width: 240px;
+  height: 120px;
+  margin: auto;
+}
+
+.ingredients-grid {
+  display: grid;
+  max-width: 600px;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(208px, 1fr));
+  row-gap: 20px;
+  column-gap: 17px;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  text-align: center;
+}
+
+.price-element {
+  margin-right: 9px;
+}
+
+.counter {
+  position: relative;
+  top: 0;
+  right: 0;
+}
