@@ -8,7 +8,7 @@ class AppHeader extends React.Component {
       <header style={{ backgroundColor: '#1C1C21' }} className = {appHeaderStyles.header}>
         <nav className = {appHeaderStyles.menu}>
           <ul className = {appHeaderStyles.list}>
-            <li className={`${appHeaderStyles.header__item} ml-0 mr-2 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
+            <li className={`${appHeaderStyles['header-item']} ml-0 mr-2 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
               <div className="ml-0 mr-2 mb-0 mt-0">
                 <BurgerIcon type="primary"/>
               </div>
@@ -16,7 +16,7 @@ class AppHeader extends React.Component {
                 Конструктор
               </p>
             </li>
-            <li className={`${appHeaderStyles.header__item} ml-0 mr-0 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
+            <li className={`${appHeaderStyles['header-item']} ml-0 mr-0 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
               <div className="ml-0 mr-2 mb-0 mt-0">
                 <ListIcon type="primary"/>
               </div>
@@ -27,7 +27,7 @@ class AppHeader extends React.Component {
           </ul>
         </nav>  
         <Logo />
-        <div className={`${appHeaderStyles.header__item} ml-0 mr-0 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
+        <div className={`${appHeaderStyles['header-item']} ml-0 mr-0 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
           <div className="ml-0 mr-2 mb-0 mt-0">
             <ProfileIcon type="primary"/>
           </div>

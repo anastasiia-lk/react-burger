@@ -1,4 +1,4 @@
-.ingredientsBlock {
+.ingredients-block {
   max-height: 664px;
   overflow-y: scroll;
 }
@@ -14,7 +14,7 @@
   margin: auto;
 }
 
-.ingredientsGrid {
+.ingredients-grid {
   display: grid;
   max-width: 600px;
   grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
@@ -32,6 +32,6 @@
   text-align: center;
 }
 
-.price__element {
+.price-element {
   margin-right: 9px;
 }

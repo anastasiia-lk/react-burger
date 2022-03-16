@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import data from '../../utils/data.js';
 
 const IngredientsSelector = () => {
   const [current, setCurrent] = React.useState('one')
@@ -23,7 +23,7 @@ const IngredientsSelector = () => {
 const PriceElement = ({price}) => {
   return (
     <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
-      <h3 className={`${burgerIngredientsStyles.price__element} text text_type_digits-default`}>{price}</h3>
+      <h3 className={`${burgerIngredientsStyles['price-element']} text text_type_digits-default`}>{price}</h3>
       <CurrencyIcon type="primary" />
     </div> 
   )
@@ -44,7 +44,7 @@ const IngredientCard = ({ ingredient }) => {
 
 const IngredientsGrid = ({ingredientsType}) => {
   return (
-    <div className = {`${burgerIngredientsStyles.ingredientsGrid} mt-6 mb-10 ml-4 mr-4`}>
+    <div className = {`${burgerIngredientsStyles['ingredients-grid']} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
         return <IngredientCard ingredient = {ingredient} key={ingredient._id}/>
       })
@@ -53,20 +53,19 @@ const IngredientsGrid = ({ingredientsType}) => {
   )
 }
 
-const IngredientsBlock = ({text, ingredientType})=> {
+const IngredientsBlock = ({text, ingredientType, ingredients})=> {
   return (
     <div>
     <h2 className="text text_type_main-medium mb-6">
       {text}
     </h2>
-    <IngredientsGrid ingredientsType={data.filter((item) => item.type===ingredientType)} />
+    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)} />
     </div>
   )
 }
 
-class BurgerIngredients extends React.Component {
-  render() {
-    return(
+const BurgerIngredients = ({ingredients}) => {
+    return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
           Соберите бургер
@@ -74,14 +73,17 @@ class BurgerIngredients extends React.Component {
         <div className = 'mb-10'>
           <IngredientsSelector />
         </div>
-        <div className = {`${burgerIngredientsStyles.ingredientsBlock}`}>
-          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'}/>
-          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'}/>
-          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'}/>
+        <div className = {`${burgerIngredientsStyles['ingredients-block']}`}>
+          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients}/>
         </div>
       </section>
     )
-  }
+}
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BurgerIngredients;
