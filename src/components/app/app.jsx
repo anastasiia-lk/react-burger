@@ -8,7 +8,7 @@ function App() {
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
-      <main style = {{display: 'flex', justifyContent: 'space-between', width: '100%', margin: 'auto'}}>
+      <main className={appStyles.main}>
         <BurgerIngredients ingredients={data}/>
         <BurgerConstructor ingredients={data}/>
       </main>
