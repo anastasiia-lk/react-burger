@@ -3,6 +3,10 @@
   overflow-y: scroll;
 }
 
+::-webkit-scrollbar-track {
+  height: 12px;
+}
+
 .card {
   width: 272px;
   height: 208px;

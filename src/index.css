@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body *::-webkit-scrollbar {
+  width: 8px;
+}
+
+body *::-webkit-scrollbar-track {
+  background: #2f2f37;
+  border: 1px solid #4c4cff;
+}
+
+body *::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border: 3px solid #8585ad;
+  width: 8px;
+}
