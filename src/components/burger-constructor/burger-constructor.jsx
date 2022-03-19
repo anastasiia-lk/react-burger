@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerComponents = ({ingredients}) => {
+function BurgerComponents ({ingredients}) {
   const addsIngredients = ingredients.filter((item) => item.type !== 'bun')
   return (
     <div className = {`${burgerConstructorStyles.block} pt-25`}>
@@ -43,7 +43,7 @@ const BurgerComponents = ({ingredients}) => {
   )
 }
 
-const BurgerConstructor = ({ingredients}) => {
+function BurgerConstructor ({ingredients}) {
     return (
       <section>
         <BurgerComponents ingredients={ingredients}/>

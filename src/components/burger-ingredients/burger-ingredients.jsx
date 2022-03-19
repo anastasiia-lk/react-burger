@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const IngredientsSelector = () => {
+function IngredientsSelector (){
   const [current, setCurrent] = React.useState('one')
   return (
     <div style={{ display: 'flex' }}>
@@ -20,7 +20,7 @@ const IngredientsSelector = () => {
   )
 }
 
-const PriceElement = ({price}) => {
+function PriceElement ({price}){
   return (
     <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
       <h3 className={`${burgerIngredientsStyles['price-element']} text text_type_digits-default`}>{price}</h3>
@@ -29,7 +29,7 @@ const PriceElement = ({price}) => {
   )
 }
 
-const IngredientCard = ({ ingredient }) => {
+function IngredientCard ({ ingredient }) {
   return (
     <div className = {`${burgerIngredientsStyles.card}`}>
       <div className={burgerIngredientsStyles.counter}>
@@ -45,7 +45,7 @@ const IngredientCard = ({ ingredient }) => {
   )
 }
 
-const IngredientsGrid = ({ingredientsType}) => {
+function IngredientsGrid ({ingredientsType}) {
   return (
     <div className = {`${burgerIngredientsStyles['ingredients-grid']} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
@@ -56,7 +56,7 @@ const IngredientsGrid = ({ingredientsType}) => {
   )
 }
 
-const IngredientsBlock = ({text, ingredientType, ingredients})=> {
+function IngredientsBlock ({text, ingredientType, ingredients}) {
   return (
     <div>
     <h2 className="text text_type_main-medium mb-6">
@@ -67,7 +67,7 @@ const IngredientsBlock = ({text, ingredientType, ingredients})=> {
   )
 }
 
-const BurgerIngredients = ({ingredients}) => {
+function BurgerIngredients ({ingredients}) {
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
