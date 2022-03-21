@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.caption-block {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  color: #8585ad;
+}
+
+.caption {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.image {
+  width: 480px;
+}

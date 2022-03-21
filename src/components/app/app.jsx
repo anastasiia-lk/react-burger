@@ -36,14 +36,16 @@ function App() {
       {isLoading && "Загрузка ..."}
       {hasError && "Ошибка"}
       {!isLoading && !hasError && data &&
+      <>
       <main className={appStyles.main}>
         <BurgerIngredients ingredients={data.data}/>
         <BurgerConstructor ingredients={data.data}/>
       </main>
-      }
-      <Modal>
-        <IngredientDetails />
+      <Modal text='Детали ингредиента'>
+        <IngredientDetails ingredient = {data.data[0]}/>
       </Modal>
+      </>
+      }
       {console.log(data)}
     </div>
   );
