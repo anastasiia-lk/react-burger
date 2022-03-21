@@ -43,7 +43,7 @@ function BurgerComponents ({ingredients}) {
   )
 }
 
-function BurgerConstructor ({ingredients}) {
+function BurgerConstructor ({ingredients, openModal}) {
     return (
       <section>
         <BurgerComponents ingredients={ingredients}/>
@@ -52,9 +52,11 @@ function BurgerConstructor ({ingredients}) {
             <p className="text text_type_digits-medium mr-2">610</p>
             <CurrencyIcon type="primary" />
           </div>
+          <div onClick={openModal}>
           <Button type="primary" size="large">
             Оформить заказ
           </Button>
+          </div>
         </div>
       </section>
     )

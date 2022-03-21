@@ -43,6 +43,11 @@ function App() {
     setOrderDetailsModal({visibility: false})
   }
 
+  const openIngredientsDetailsModal = () => {
+    setIngredientDetailsModal({visibility: true}) 
+  }
+
+
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
@@ -52,7 +57,7 @@ function App() {
       <>
       <main className={appStyles.main}>
         <BurgerIngredients ingredients={data.data}/>
-        <BurgerConstructor ingredients={data.data}/>
+        <BurgerConstructor ingredients={data.data} openModal={openIngredientsDetailsModal}/>
       </main>
       { ingredientDetailsModal.visibility &&
         <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
