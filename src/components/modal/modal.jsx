@@ -1,12 +1,10 @@
+import {useEffect} from 'react';
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import modalStyles from './modal.module.css';
 import { createPortal } from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function Modal (props) {
-  function openModalOverlay() {
-
-  }
 
   function closeModalOverlay() {
 
@@ -18,7 +16,7 @@ function Modal (props) {
       <div className={`${modalStyles.modal} pt-10 pr-10 pb-15 pl-10`}>
         <div className={modalStyles.title}>
           <h2 className='text text_type_main-large'>{props.text}</h2>
-          <div>
+          <div className='closeIcon'>
             <CloseIcon type="primary" />
           </div>
         </div>

@@ -15,6 +15,10 @@ function App() {
     hasError: false,
   });
 
+  const [ingredientsDetailsModal, setIngredientsDetailsModal] = useState ({visibility: false})
+
+  const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false})
+
   const { data, isLoading, hasError } = ingredients;
   
   useEffect(()=>{
@@ -42,12 +46,16 @@ function App() {
         <BurgerIngredients ingredients={data.data}/>
         <BurgerConstructor ingredients={data.data}/>
       </main>
-      {/* <Modal text='Детали ингредиента'>
-        <IngredientDetails ingredient = {data.data[0]}/>
-      </Modal> */}
+      { ingredientsDetailsModal.visibility &&
+        <Modal text='Детали ингредиента'>
+          <IngredientDetails ingredient = {data.data[0]}/>
+        </Modal>
+      }
+      { orderDetailsModal.visibility &&
       <Modal text=''>
         <OrderDetails order = '034536'/>
       </Modal>
+      }  
       </>
       }
       {console.log(data)}
