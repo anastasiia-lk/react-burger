@@ -1,6 +1,6 @@
 import modalOverlayStyles from './modal-overlay.module.css';
 
-function ModalOverlay () {
+function ModalOverlay (props) {
   function openModalOverlay() {
 
   }
@@ -11,6 +11,7 @@ function ModalOverlay () {
 
   return (
     <div className={modalOverlayStyles['modal-overlay']}>
+      {props.children}
     </div>
   )
 }

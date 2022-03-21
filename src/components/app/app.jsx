@@ -4,6 +4,7 @@ import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+import Modal from '../modal/modal';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -30,7 +31,6 @@ function App() {
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
-      <ModalOverlay />
       <AppHeader />
       {isLoading && "Загрузка ..."}
       {hasError && "Ошибка"}
@@ -40,6 +40,7 @@ function App() {
         <BurgerConstructor ingredients={data.data}/>
       </main>
       }
+      <Modal />
       {console.log(data)}
     </div>
   );
