@@ -6,6 +6,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -41,8 +42,11 @@ function App() {
         <BurgerIngredients ingredients={data.data}/>
         <BurgerConstructor ingredients={data.data}/>
       </main>
-      <Modal text='Детали ингредиента'>
+      {/* <Modal text='Детали ингредиента'>
         <IngredientDetails ingredient = {data.data[0]}/>
+      </Modal> */}
+      <Modal text=''>
+        <OrderDetails order = '034536'/>
       </Modal>
       </>
       }
