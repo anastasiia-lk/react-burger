@@ -5,6 +5,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -40,7 +41,9 @@ function App() {
         <BurgerConstructor ingredients={data.data}/>
       </main>
       }
-      <Modal />
+      <Modal>
+        <IngredientDetails />
+      </Modal>
       {console.log(data)}
     </div>
   );

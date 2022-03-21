@@ -9,6 +9,9 @@ function IngredientDetails () {
 
   return (
     <>
+    <div>
+      Hello
+    </div>
     </>
   )
 }
