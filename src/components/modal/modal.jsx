@@ -3,11 +3,18 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import modalStyles from './modal.module.css';
 import { createPortal } from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {ESC_KEY} from '../../utils/data';
 
 function Modal (props) {
+  
+  useEffect(() => {
+    document.addEventListener('keydown', escPress)
 
-  function closeModalOverlay() {
+    return () => document.removeEventListener('keydown', escPress)
+  }, [])
 
+  function escPress (evt) {
+    if (evt.key === ESC_KEY) props.closeModal()
   }
 
   return createPortal(

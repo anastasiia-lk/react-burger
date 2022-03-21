@@ -1,3 +1,5 @@
+export const ESC_KEY = "Escape";
+
 const data = [
   {
    "_id":"60666c42cc7b410027a1a9b1",
