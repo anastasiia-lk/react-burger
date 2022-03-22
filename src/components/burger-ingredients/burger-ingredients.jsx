@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import {useEffect} from 'react-dom';
 
 function IngredientsSelector (){
   const [current, setCurrent] = React.useState('one')
@@ -29,9 +30,10 @@ function PriceElement ({price}){
   )
 }
 
-function IngredientCard ({ ingredient }) {
+function IngredientCard ({ ingredient, openModal }) {
+
   return (
-    <div className = {`${burgerIngredientsStyles.card}`}>
+    <div className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
       <div className={burgerIngredientsStyles.counter}>
         <Counter count={1} size="default"/>
       </div>
@@ -45,29 +47,29 @@ function IngredientCard ({ ingredient }) {
   )
 }
 
-function IngredientsGrid ({ingredientsType}) {
+function IngredientsGrid ({ingredientsType, openModal}) {
   return (
     <div className = {`${burgerIngredientsStyles['ingredients-grid']} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
-        return <IngredientCard ingredient = {ingredient} key={ingredient._id}/>
+        return <IngredientCard ingredient = {ingredient} key={ingredient._id} openModal={openModal} />
       })
       }
     </div>
   )
 }
 
-function IngredientsBlock ({text, ingredientType, ingredients}) {
+function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
   return (
     <div>
     <h2 className="text text_type_main-medium mb-6">
       {text}
     </h2>
-    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)} />
+    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)} openModal = {openModal}/>
     </div>
   )
 }
 
-function BurgerIngredients ({ingredients}) {
+function BurgerIngredients ({ingredients, openModal}) {
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
@@ -77,9 +79,9 @@ function BurgerIngredients ({ingredients}) {
           <IngredientsSelector />
         </div>
         <div className = {`${burgerIngredientsStyles['ingredients-block']}`}>
-          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients}/>
-          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients}/>
-          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients} openModal = {openModal}/>
+          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients} openModal = {openModal}/>
+          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients} openModal = {openModal}/>
         </div>
       </section>
     )

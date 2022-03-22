@@ -15,9 +15,11 @@ function App() {
     hasError: false,
   });
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
+  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: true})
 
-  const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: true})
+  const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
+
+  const [clickedIngredient, setClickedIngredient] = useState ({});
 
   const { data, isLoading, hasError } = ingredients;
   
@@ -43,8 +45,13 @@ function App() {
     setOrderDetailsModal({visibility: false})
   }
 
-  const openIngredientsDetailsModal = () => {
+  const openIngredientsDetailsModal = (data) => {
+    setClickedIngredient(data);
     setIngredientDetailsModal({visibility: true}) 
+  }
+
+  const openOrderDetailsModal = () => {
+    setOrderDetailsModal({visibility: true});
   }
 
 
@@ -56,12 +63,12 @@ function App() {
       {!isLoading && !hasError && data &&
       <>
       <main className={appStyles.main}>
-        <BurgerIngredients ingredients={data.data}/>
-        <BurgerConstructor ingredients={data.data} openModal={openIngredientsDetailsModal}/>
+        <BurgerIngredients ingredients={data.data} openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
+        <BurgerConstructor ingredients={data.data} openModal={openOrderDetailsModal}/>
       </main>
       { ingredientDetailsModal.visibility &&
         <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
-          <IngredientDetails ingredient = {data.data[0]}/>
+          <IngredientDetails ingredient = {clickedIngredient}/>
         </Modal>
       }
       { orderDetailsModal.visibility &&
