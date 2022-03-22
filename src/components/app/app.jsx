@@ -15,7 +15,7 @@ function App() {
     hasError: false,
   });
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: true})
+  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
   const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
 

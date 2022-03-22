@@ -1,14 +1,7 @@
 import ingredientStyles from './ingredient-details.module.css';
+import {ingredientsPropTypes} from '../../utils/data';
 
 function IngredientDetails ({ingredient}) {
-  function openModalOverlay() {
-
-  }
-
-  function closeModalOverlay() {
-
-  }
-
   const CaptionBlock = ({caption, content}) => {
     return(
     <div className={ingredientStyles['caption-block']}>
@@ -48,6 +41,10 @@ function IngredientDetails ({ingredient}) {
     </div>
     </>
   )
+}
+
+IngredientDetails.propTypes = {
+	ingredient: ingredientsPropTypes.isRequired,
 }
 
 export default IngredientDetails;

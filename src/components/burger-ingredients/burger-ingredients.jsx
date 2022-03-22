@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {ingredientsPropTypes} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import {useEffect} from 'react-dom';
 
 function IngredientsSelector (){
   const [current, setCurrent] = React.useState('one')
@@ -88,7 +88,13 @@ function BurgerIngredients ({ingredients, openModal}) {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object)
+  ingredients: PropTypes.arrayOf(PropTypes.object(ingredientsPropTypes.isRequired)),
+  openModal: PropTypes.func
+}
+
+IngredientsBlock.propTypes = {
+  text: PropTypes.string,
+  ingredientType: PropTypes.string
 }
 
 export default BurgerIngredients;
