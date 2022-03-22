@@ -1,14 +1,7 @@
 import orderDetailsStyles from './order-details.module.css';
-import {CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+
 function OrderDetails (props) {
-  function openModalOverlay() {
-
-  }
-
-  function closeModalOverlay() {
-
-  }
-
   return (
     <div className={`${orderDetailsStyles.container} mt-15`}>
       <div className='text text_type_digits-large'>

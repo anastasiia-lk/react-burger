@@ -6,8 +6,7 @@ import { createPortal } from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import {ESC_KEY} from '../../utils/data';
 
-function Modal (props) {
-  
+function Modal (props) { 
   useEffect(() => {
     document.addEventListener('keydown', escPress)
 
