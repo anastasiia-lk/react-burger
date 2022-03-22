@@ -7,6 +7,7 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
+import {SERVICE_URL} from '../../utils/data';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -29,7 +30,7 @@ function App() {
   }, []);
 
   const getIngredients = async() => {
-    fetch('https://norma.nomoreparties.space/api/ingredients')
+    fetch(SERVICE_URL)
       .then(res => res.json())
       .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
       .catch(e => {

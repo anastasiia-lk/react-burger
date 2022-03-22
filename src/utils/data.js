@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
 export const ESC_KEY = "Escape";
-export const ingredientsPropTypes = PropTypes.shape({
+export const INGREDIENT_PROP_TYPE = PropTypes.shape({
   calories: PropTypes.number,
   carbohydrates: PropTypes.number,
-  fat: 26,
+  fat: PropTypes.number,
   image: PropTypes.string,
   image_large: PropTypes.string,
   image_mobile: PropTypes.string,
@@ -15,3 +15,4 @@ export const ingredientsPropTypes = PropTypes.shape({
   __v: PropTypes.number,
   _id: PropTypes.string,
 });
+export const SERVICE_URL = 'https://norma.nomoreparties.space/api/ingredients';

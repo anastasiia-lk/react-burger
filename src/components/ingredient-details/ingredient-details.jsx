@@ -1,5 +1,5 @@
 import ingredientStyles from './ingredient-details.module.css';
-import {ingredientsPropTypes} from '../../utils/data';
+import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 
 function IngredientDetails ({ingredient}) {
   const CaptionBlock = ({caption, content}) => {
@@ -44,7 +44,7 @@ function IngredientDetails ({ingredient}) {
 }
 
 IngredientDetails.propTypes = {
-	ingredient: ingredientsPropTypes.isRequired,
+	ingredient: INGREDIENT_PROP_TYPE.isRequired,
 }
 
 export default IngredientDetails;

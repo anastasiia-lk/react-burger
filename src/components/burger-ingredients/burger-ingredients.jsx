@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ingredientsPropTypes} from '../../utils/data';
+import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -88,7 +88,7 @@ function BurgerIngredients ({ingredients, openModal}) {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object(ingredientsPropTypes.isRequired)),
+  ingredients: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired),
   openModal: PropTypes.func
 }
 
