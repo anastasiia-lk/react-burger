@@ -15,7 +15,7 @@ function App() {
     hasError: false,
   });
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: true})
+  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
   const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
 
@@ -30,7 +30,12 @@ function App() {
 
   const getIngredients = async() => {
     fetch(SERVICE_URL)
-      .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+         return res.json();
+     }
+     return Promise.reject(res.status);
+    })
       .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
       .catch(e => {
         setIngredients({ ...ingredients, hasError: true, isLoading: false });
