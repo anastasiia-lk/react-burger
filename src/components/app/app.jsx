@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useReducer} from 'react';
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
@@ -7,7 +7,19 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
-import {APIContext} from '../../services/appContext';
+import {APIContext, TotalPriceContext} from '../../services/appContext';
+
+const totalPriceInitialState = { totalPrice: 0 };
+function reducer(state, action) {
+  switch (action.type) {
+    case "set":
+      return { totalPrice: action.totalPrice };
+    case "reset":
+      return totalPriceInitialState;
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -23,6 +35,8 @@ function App() {
   const [clickedIngredient, setClickedIngredient] = useState ({});
 
   const { data, isLoading, hasError } = ingredients;
+
+  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
   
   useEffect(()=>{
     setIngredients({...ingredients, hasError: false, isLoading: true});
@@ -71,7 +85,9 @@ function App() {
       <main className={appStyles.main}>
         <APIContext.Provider value={data.data}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <BurgerConstructor openModal={openOrderDetailsModal}/>
+          <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
+            <BurgerConstructor openModal={openOrderDetailsModal}/>
+          </TotalPriceContext.Provider>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&

@@ -1,12 +1,11 @@
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext} from '../../services/appContext';
+import {APIContext, TotalPriceContext} from '../../services/appContext';
 
-function BurgerComponents ({ingredients}) {
-  const addsIngredients = ingredients.filter((item) => item.type !== 'bun')
+function BurgerComponents ({ingredients, addsIngredients}) {
   return (
     <div className = {`${burgerConstructorStyles.block} pt-25`}>
       <div className="ml-6">
@@ -47,12 +46,29 @@ function BurgerComponents ({ingredients}) {
 
 function BurgerConstructor ({openModal}) {
   const ingredients = useContext(APIContext);
+  const {totalPriceState} = useContext(TotalPriceContext);
+  const { totalPriceDispatcher } = useContext(TotalPriceContext);
+
+  const [addsIngredients, setAddsIngredients] = useState([]);
+
+  const currentIngredients = ingredients.filter((item) => item.type !== 'bun');
+  const currentTotalPrice = addsIngredients.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
+
+  useEffect(()=>{
+    updateTotalPrice();
+  }, [currentTotalPrice]);
+
+  const updateTotalPrice = () => {
+    setAddsIngredients(currentIngredients);
+    totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice});
+  }
+
     return (
       <section>
-        <BurgerComponents ingredients={ingredients}/>
+        <BurgerComponents ingredients={ingredients} addsIngredients={addsIngredients}/>
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            <p className="text text_type_digits-medium mr-2">610</p>
+            <p className="text text_type_digits-medium mr-2">{totalPriceState.totalPrice}</p>
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={openModal}>
