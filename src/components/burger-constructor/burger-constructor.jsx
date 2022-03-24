@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext, TotalPriceContext, AddsIngredientsContext} from '../../services/appContext';
+import {APIContext, TotalPriceContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
 
 function BurgerComponents ({ingredients, addsIngredients}) {
   return (
@@ -52,19 +52,25 @@ function BurgerConstructor ({openModal}) {
   const {addsIngredients} = useContext(AddsIngredientsContext);
   const { setAddsIngredients } = useContext(AddsIngredientsContext);
 
+  const {bunsIngredients} = useContext(BunsIngredientsContext);
+  const { setBunsIngredients } = useContext(BunsIngredientsContext);
+
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const currentIngredients = ingredients.filter((item) => item.type === 'bun');
+  const currentAdds = ingredients.filter((item) => item.type !== 'bun');
+  const currentBuns = ingredients[0];
 
   useEffect(()=>{
-    updateTotalPrice(currentIngredients);
+    updateTotalPrice(currentAdds, currentBuns);
   }, [totalPriceState.totalPrice]);
 
-  const updateTotalPrice = (currentIngredients) => {
-    const currentTotalPrice = currentIngredients.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
-    setSelectedIngredients(currentIngredients);
+  const updateTotalPrice = (currentAdds, currentBuns) => {
+    const currentAddsPrice = currentAdds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
+    const currentBunsPrice = currentBuns.price * 2;
+    const currentTotalPrice = currentAddsPrice + currentBunsPrice;
+    setSelectedIngredients(currentAdds);
     totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice});
-    setAddsIngredients({...addsIngredients, data: currentIngredients});
+    setAddsIngredients({...addsIngredients, data: currentAdds});
   }
 
     return (

@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
-import {APIContext, TotalPriceContext, AddsIngredientsContext} from '../../services/appContext';
+import {APIContext, TotalPriceContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
 
 const totalPriceInitialState = { totalPrice: 0 };
 function reducer(state, action) {
@@ -39,6 +39,7 @@ function App() {
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
   const [addsIngredients, setAddsIngredients] = useState({data: null});
+  const [bunsIngredients, setBunsIngredients] = useState({data: null});
 
   const [orderNumber, setOrderNumber] = useState(0);
   
@@ -121,9 +122,11 @@ function App() {
         <APIContext.Provider value={data.data}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
           <AddsIngredientsContext.Provider value={{addsIngredients, setAddsIngredients}}>
-            <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
-              <BurgerConstructor openModal={openOrderDetailsModal}/>
-            </TotalPriceContext.Provider>
+            <BunsIngredientsContext.Provider value={{bunsIngredients, setBunsIngredients}}>
+              <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
+                <BurgerConstructor openModal={openOrderDetailsModal}/>
+              </TotalPriceContext.Provider>
+            </BunsIngredientsContext.Provider>
           </AddsIngredientsContext.Provider>
         </APIContext.Provider>
       </main>
