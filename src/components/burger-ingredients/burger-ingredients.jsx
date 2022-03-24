@@ -1,11 +1,12 @@
-import React from 'react';
+import {useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import {BurgerIngredientsContext} from '../../services/appContext';
 
 function IngredientsSelector (){
-  const [current, setCurrent] = React.useState('one')
+  const [current, setCurrent] = useState('one')
   return (
     <div style={{ display: 'flex' }}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -69,7 +70,8 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
   )
 }
 
-function BurgerIngredients ({ingredients, openModal}) {
+function BurgerIngredients ({openModal}) {
+  const ingredients = useContext(BurgerIngredientsContext);
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
