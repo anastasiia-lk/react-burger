@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const IngredientsSelector = () => {
+function IngredientsSelector (){
   const [current, setCurrent] = React.useState('one')
   return (
     <div style={{ display: 'flex' }}>
@@ -20,7 +21,7 @@ const IngredientsSelector = () => {
   )
 }
 
-const PriceElement = ({price}) => {
+function PriceElement ({price}){
   return (
     <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
       <h3 className={`${burgerIngredientsStyles['price-element']} text text_type_digits-default`}>{price}</h3>
@@ -29,9 +30,10 @@ const PriceElement = ({price}) => {
   )
 }
 
-const IngredientCard = ({ ingredient }) => {
+function IngredientCard ({ ingredient, openModal }) {
+
   return (
-    <div className = {`${burgerIngredientsStyles.card}`}>
+    <div className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
       <div className={burgerIngredientsStyles.counter}>
         <Counter count={1} size="default"/>
       </div>
@@ -45,29 +47,29 @@ const IngredientCard = ({ ingredient }) => {
   )
 }
 
-const IngredientsGrid = ({ingredientsType}) => {
+function IngredientsGrid ({ingredientsType, openModal}) {
   return (
     <div className = {`${burgerIngredientsStyles['ingredients-grid']} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
-        return <IngredientCard ingredient = {ingredient} key={ingredient._id}/>
+        return <IngredientCard ingredient = {ingredient} key={ingredient._id} openModal={openModal} />
       })
       }
     </div>
   )
 }
 
-const IngredientsBlock = ({text, ingredientType, ingredients})=> {
+function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
   return (
     <div>
     <h2 className="text text_type_main-medium mb-6">
       {text}
     </h2>
-    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)} />
+    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)} openModal = {openModal}/>
     </div>
   )
 }
 
-const BurgerIngredients = ({ingredients}) => {
+function BurgerIngredients ({ingredients, openModal}) {
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
@@ -77,16 +79,22 @@ const BurgerIngredients = ({ingredients}) => {
           <IngredientsSelector />
         </div>
         <div className = {`${burgerIngredientsStyles['ingredients-block']}`}>
-          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients}/>
-          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients}/>
-          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients} openModal = {openModal}/>
+          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients} openModal = {openModal}/>
+          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients} openModal = {openModal}/>
         </div>
       </section>
     )
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object)
+  ingredients: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired),
+  openModal: PropTypes.func
+}
+
+IngredientsBlock.propTypes = {
+  text: PropTypes.string,
+  ingredientType: PropTypes.string
 }
 
 export default BurgerIngredients;

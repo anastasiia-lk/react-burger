@@ -1,9 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerComponents = ({ingredients}) => {
+function BurgerComponents ({ingredients}) {
   const addsIngredients = ingredients.filter((item) => item.type !== 'bun')
   return (
     <div className = {`${burgerConstructorStyles.block} pt-25`}>
@@ -43,7 +43,7 @@ const BurgerComponents = ({ingredients}) => {
   )
 }
 
-const BurgerConstructor = ({ingredients}) => {
+function BurgerConstructor ({ingredients, openModal}) {
     return (
       <section>
         <BurgerComponents ingredients={ingredients}/>
@@ -52,16 +52,19 @@ const BurgerConstructor = ({ingredients}) => {
             <p className="text text_type_digits-medium mr-2">610</p>
             <CurrencyIcon type="primary" />
           </div>
+          <div onClick={openModal}>
           <Button type="primary" size="large">
             Оформить заказ
           </Button>
+          </div>
         </div>
       </section>
     )
   }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object)
+  ingredients: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired),
+  openModal: PropTypes.func
 }
 
 export default BurgerConstructor;
