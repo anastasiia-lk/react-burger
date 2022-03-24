@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext, TotalPriceContext} from '../../services/appContext';
+import {APIContext, TotalPriceContext, AddsIngredientsContext} from '../../services/appContext';
 
 function BurgerComponents ({ingredients, addsIngredients}) {
   return (
@@ -49,9 +49,12 @@ function BurgerConstructor ({openModal}) {
   const {totalPriceState} = useContext(TotalPriceContext);
   const { totalPriceDispatcher } = useContext(TotalPriceContext);
 
-  const [addsIngredients, setAddsIngredients] = useState([]);
+  const {addsIngredients} = useContext(AddsIngredientsContext);
+  const { setAddsIngredients } = useContext(AddsIngredientsContext);
 
-  const currentIngredients = ingredients.filter((item) => item.type !== 'bun');
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+  const currentIngredients = ingredients.filter((item) => item.type === 'bun');
 
   useEffect(()=>{
     updateTotalPrice(currentIngredients);
@@ -59,13 +62,14 @@ function BurgerConstructor ({openModal}) {
 
   const updateTotalPrice = (currentIngredients) => {
     const currentTotalPrice = currentIngredients.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
-    setAddsIngredients(currentIngredients);
+    setSelectedIngredients(currentIngredients);
     totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice});
+    setAddsIngredients({...addsIngredients, data: currentIngredients});
   }
 
     return (
       <section>
-        <BurgerComponents ingredients={ingredients} addsIngredients={addsIngredients}/>
+        <BurgerComponents ingredients={ingredients} addsIngredients={selectedIngredients}/>
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
             <p className="text text_type_digits-medium mr-2">{totalPriceState.totalPrice}</p>

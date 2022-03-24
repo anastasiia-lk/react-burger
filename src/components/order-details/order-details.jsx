@@ -5,7 +5,7 @@ function OrderDetails (props) {
   return (
     <div className={`${orderDetailsStyles.container} mt-15`}>
       <div className='text text_type_digits-large'>
-        {props.order}
+        {props.order.orderNumber}
       </div>
       <h2 className='text text_type_main-medium mt-8'>идентификатор заказа</h2>
       <div className={`${orderDetailsStyles[`order-confirmed`]} mt-15`}>

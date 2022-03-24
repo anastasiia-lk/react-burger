@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
-import {APIContext, TotalPriceContext} from '../../services/appContext';
+import {APIContext, TotalPriceContext, AddsIngredientsContext} from '../../services/appContext';
 
 const totalPriceInitialState = { totalPrice: 0 };
 function reducer(state, action) {
@@ -37,6 +37,10 @@ function App() {
   const { data, isLoading, hasError } = ingredients;
 
   const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
+
+  const [addsIngredients, setAddsIngredients] = useState({data: null});
+
+  const [orderNumber, setOrderNumber] = useState(0);
   
   useEffect(()=>{
     setIngredients({...ingredients, hasError: false, isLoading: true});
@@ -44,7 +48,7 @@ function App() {
   }, []);
 
   const getIngredients = async() => {
-    fetch(SERVICE_URL)
+    fetch(`${SERVICE_URL}/ingredients`)
     .then(res => {
       if (res.ok) {
          return res.json();
@@ -55,6 +59,36 @@ function App() {
       .catch(e => {
         setIngredients({ ...ingredients, hasError: true, isLoading: false });
       });
+  }
+
+  const postOrder = (array) => {
+    fetch(`https://norma.nomoreparties.space/api/orders`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: JSON.stringify({
+        "ingredients": array
+        })  
+    }
+    )
+    .then(res => {
+      if (res.ok) {
+         return res.json();
+     }
+     return Promise.reject(res.status);
+    })
+    .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
+    // .catch(e => {
+    //   setOrderNumber({ ...orderNumber, orderNumber: data.order.number });
+    // });
+  }
+
+  const orderIngredientsIds = (data) => {
+    let idsArray = [];
+    data.map(item => idsArray.push(item._id));
+    return idsArray;
   }
 
   const closeIngredientsDetailsModal = () => {
@@ -71,9 +105,10 @@ function App() {
   }
 
   const openOrderDetailsModal = () => {
+    const idsArray = orderIngredientsIds(addsIngredients.data);
+    postOrder(idsArray);
     setOrderDetailsModal({visibility: true});
   }
-
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
@@ -85,9 +120,11 @@ function App() {
       <main className={appStyles.main}>
         <APIContext.Provider value={data.data}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
-            <BurgerConstructor openModal={openOrderDetailsModal}/>
-          </TotalPriceContext.Provider>
+          <AddsIngredientsContext.Provider value={{addsIngredients, setAddsIngredients}}>
+            <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
+              <BurgerConstructor openModal={openOrderDetailsModal}/>
+            </TotalPriceContext.Provider>
+          </AddsIngredientsContext.Provider>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&
@@ -97,9 +134,10 @@ function App() {
       }
       { orderDetailsModal.visibility &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
-        <OrderDetails order = '034536'/>
+        <OrderDetails order = {orderNumber}/>
       </Modal>
-      }  
+      }
+      {console.log(orderNumber)}
       </>
       }
     </div>
