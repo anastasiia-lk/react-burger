@@ -1,7 +1,9 @@
+import {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import {APIContext} from '../../services/appContext';
 
 function BurgerComponents ({ingredients}) {
   const addsIngredients = ingredients.filter((item) => item.type !== 'bun')
@@ -43,7 +45,8 @@ function BurgerComponents ({ingredients}) {
   )
 }
 
-function BurgerConstructor ({ingredients, openModal}) {
+function BurgerConstructor ({openModal}) {
+  const ingredients = useContext(APIContext);
     return (
       <section>
         <BurgerComponents ingredients={ingredients}/>

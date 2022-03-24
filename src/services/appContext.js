@@ -1,3 +1,3 @@
 import {createContext} from 'react';
 
-export const BurgerIngredientsContext = createContext(null);
+export const APIContext = createContext(null);

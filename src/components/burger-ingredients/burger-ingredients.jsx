@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import {BurgerIngredientsContext} from '../../services/appContext';
+import {APIContext} from '../../services/appContext';
 
 function IngredientsSelector (){
   const [current, setCurrent] = useState('one')
@@ -71,7 +71,7 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
 }
 
 function BurgerIngredients ({openModal}) {
-  const ingredients = useContext(BurgerIngredientsContext);
+  const ingredients = useContext(APIContext);
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">

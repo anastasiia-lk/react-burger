@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
-import {BurgerIngredientsContext} from '../../services/appContext';
+import {APIContext} from '../../services/appContext';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -69,10 +69,10 @@ function App() {
       {!isLoading && !hasError && data &&
       <>
       <main className={appStyles.main}>
-        <BurgerIngredientsContext.Provider value={data.data}>
+        <APIContext.Provider value={data.data}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-        </BurgerIngredientsContext.Provider>
-        <BurgerConstructor ingredients={data.data} openModal={openOrderDetailsModal}/>
+          <BurgerConstructor openModal={openOrderDetailsModal}/>
+        </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&
         <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
