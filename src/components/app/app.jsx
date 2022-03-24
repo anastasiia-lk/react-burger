@@ -81,9 +81,9 @@ function App() {
      return Promise.reject(res.status);
     })
     .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
-    // .catch(e => {
-    //   setOrderNumber({ ...orderNumber, orderNumber: data.order.number });
-    // });
+    .catch(e => {
+      setOrderNumber({ ...orderNumber, orderNumber: data.order.number });
+    });
   }
 
   const orderIngredientsIds = (data) => {
@@ -135,12 +135,11 @@ function App() {
           <IngredientDetails ingredient = {clickedIngredient}/>
         </Modal>
       }
-      { orderDetailsModal.visibility &&
+      { orderDetailsModal.visibility && orderNumber &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
         <OrderDetails order = {orderNumber}/>
       </Modal>
       }
-      {console.log(orderNumber)}
       </>
       }
     </div>

@@ -46,6 +46,7 @@ function BurgerComponents ({bunsIngredients, addsIngredients}) {
 
 function BurgerConstructor ({openModal}) {
   const ingredients = useContext(APIContext);
+
   const {totalPriceState} = useContext(TotalPriceContext);
   const { totalPriceDispatcher } = useContext(TotalPriceContext);
 
@@ -55,14 +56,10 @@ function BurgerConstructor ({openModal}) {
   const {bunsIngredients} = useContext(BunsIngredientsContext);
   const { setBunsIngredients } = useContext(BunsIngredientsContext);
 
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-  const currentAdds = ingredients.filter((item) => item.type === 'bun');
+  const currentAdds = ingredients.filter((item) => item.type !== 'bun');
   const currentBuns = ingredients[0];
 
   useEffect(()=>{
-    // setAddsIngredients({...addsIngredients, data: currentAdds});
-    // setBunsIngredients({...bunsIngredients, data: currentBuns});
     updateTotalPrice();
   }, [totalPriceState.totalPrice]);
 
@@ -70,7 +67,6 @@ function BurgerConstructor ({openModal}) {
     const currentAddsPrice = currentAdds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
     const currentBunsPrice = currentBuns.price * 2;
     const currentTotalPrice = currentAddsPrice + currentBunsPrice;
-    // setSelectedIngredients(currentAdds);
     totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice});
     setAddsIngredients({...addsIngredients, data: currentAdds});
     setBunsIngredients({...bunsIngredients, data: currentBuns});
@@ -90,14 +86,17 @@ function BurgerConstructor ({openModal}) {
           </Button>
           </div>
         </div>
-        {console.log(bunsIngredients, addsIngredients)}
       </section>
     )
   }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired),
   openModal: PropTypes.func
+}
+
+BurgerComponents.propTypes = {
+  bunsIngredients: INGREDIENT_PROP_TYPE.isRequired,
+  addsIngredients: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired)
 }
 
 export default BurgerConstructor;
