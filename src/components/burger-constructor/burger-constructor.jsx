@@ -52,13 +52,13 @@ function BurgerConstructor ({openModal}) {
   const [addsIngredients, setAddsIngredients] = useState([]);
 
   const currentIngredients = ingredients.filter((item) => item.type !== 'bun');
-  const currentTotalPrice = addsIngredients.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
 
   useEffect(()=>{
-    updateTotalPrice();
-  }, [currentTotalPrice]);
+    updateTotalPrice(currentIngredients);
+  }, [totalPriceState.totalPrice]);
 
-  const updateTotalPrice = () => {
+  const updateTotalPrice = (currentIngredients) => {
+    const currentTotalPrice = currentIngredients.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
     setAddsIngredients(currentIngredients);
     totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice});
   }
