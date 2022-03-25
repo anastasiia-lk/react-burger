@@ -54,7 +54,7 @@ function App() {
   }
 
   const postOrder = (array) => {
-    fetch(`https://norma.nomoreparties.space/api/orders`,
+    fetch(`${SERVICE_URL}/orders`,
     {
       method: 'POST',
       headers: {
