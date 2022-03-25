@@ -82,7 +82,7 @@ function App() {
     })
     .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
     .catch(e => {
-      setOrderNumber({ ...orderNumber, orderNumber: data.order.number });
+      setOrderNumber({ ...orderNumber, orderNumber: 0 });
     });
   }
 
