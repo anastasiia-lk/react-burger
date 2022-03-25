@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
-import {APIContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
+import {APIContext} from '../../services/appContext';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -23,9 +23,6 @@ function App() {
   const [clickedIngredient, setClickedIngredient] = useState ({});
 
   const { data, isLoading, hasError } = ingredients;
-
-  const [addsIngredients, setAddsIngredients] = useState({data: null});
-  const [bunsIngredients, setBunsIngredients] = useState({data: null});
 
   const [orderNumber, setOrderNumber] = useState(0);
   
@@ -92,7 +89,10 @@ function App() {
   }
 
   const openOrderDetailsModal = () => {
-    const idsArray = orderIngredientsIds(addsIngredients.data);
+    const currentAdds = ingredients.data.data.filter((item) => item.type !== 'bun');
+    const currentBuns = ingredients.data.data[0]._id;
+    const orderArray = currentAdds.concat(currentBuns);
+    const idsArray = orderIngredientsIds(orderArray);
     postOrder(idsArray);
   }
 
@@ -106,11 +106,7 @@ function App() {
       <main className={appStyles.main}>
         <APIContext.Provider value={data.data}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <AddsIngredientsContext.Provider value={{addsIngredients, setAddsIngredients}}>
-            <BunsIngredientsContext.Provider value={{bunsIngredients, setBunsIngredients}}>
-                <BurgerConstructor openModal={openOrderDetailsModal}/>
-            </BunsIngredientsContext.Provider>
-          </AddsIngredientsContext.Provider>
+          <BurgerConstructor openModal={openOrderDetailsModal}/>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&

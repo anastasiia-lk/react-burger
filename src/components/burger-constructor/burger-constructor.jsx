@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
+import {APIContext} from '../../services/appContext';
 
 const totalPriceInitialState = { totalPrice: 0 };
 function reducer(state, action) {
@@ -61,12 +61,6 @@ function BurgerConstructor ({openModal}) {
 
   const ingredients = useContext(APIContext);
 
-  const {addsIngredients} = useContext(AddsIngredientsContext);
-  const { setAddsIngredients } = useContext(AddsIngredientsContext);
-
-  const {bunsIngredients} = useContext(BunsIngredientsContext);
-  const { setBunsIngredients } = useContext(BunsIngredientsContext);
-
   const currentAdds = ingredients.filter((item) => item.type !== 'bun');
   const currentBuns = ingredients[0];
 
@@ -78,9 +72,7 @@ function BurgerConstructor ({openModal}) {
     const currentAddsPrice = currentAdds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
     const currentBunsPrice = currentBuns.price * 2;
     const currentTotalPrice = currentAddsPrice + currentBunsPrice;
-    totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice});
-    setAddsIngredients({...addsIngredients, data: currentAdds});
-    setBunsIngredients({...bunsIngredients, data: currentBuns});
+    totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice}); 
   }
 
     return (
