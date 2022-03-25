@@ -1,9 +1,21 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useReducer} from 'react';
 import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext, TotalPriceContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
+import {APIContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
+
+const totalPriceInitialState = { totalPrice: 0 };
+function reducer(state, action) {
+  switch (action.type) {
+    case "set":
+      return { totalPrice: action.totalPrice };
+    case "reset":
+      return totalPriceInitialState;
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 function BurgerComponents ({bunsIngredients, addsIngredients}) {
   return (
@@ -45,10 +57,9 @@ function BurgerComponents ({bunsIngredients, addsIngredients}) {
 }
 
 function BurgerConstructor ({openModal}) {
-  const ingredients = useContext(APIContext);
+  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
-  const {totalPriceState} = useContext(TotalPriceContext);
-  const { totalPriceDispatcher } = useContext(TotalPriceContext);
+  const ingredients = useContext(APIContext);
 
   const {addsIngredients} = useContext(AddsIngredientsContext);
   const { setAddsIngredients } = useContext(AddsIngredientsContext);

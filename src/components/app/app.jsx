@@ -7,19 +7,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
-import {APIContext, TotalPriceContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
-
-const totalPriceInitialState = { totalPrice: 0 };
-function reducer(state, action) {
-  switch (action.type) {
-    case "set":
-      return { totalPrice: action.totalPrice };
-    case "reset":
-      return totalPriceInitialState;
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
+import {APIContext, AddsIngredientsContext, BunsIngredientsContext} from '../../services/appContext';
 
 function App() {
   const [ingredients, setIngredients] = useState({
@@ -35,8 +23,6 @@ function App() {
   const [clickedIngredient, setClickedIngredient] = useState ({});
 
   const { data, isLoading, hasError } = ingredients;
-
-  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
 
   const [addsIngredients, setAddsIngredients] = useState({data: null});
   const [bunsIngredients, setBunsIngredients] = useState({data: null});
@@ -122,9 +108,7 @@ function App() {
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
           <AddsIngredientsContext.Provider value={{addsIngredients, setAddsIngredients}}>
             <BunsIngredientsContext.Provider value={{bunsIngredients, setBunsIngredients}}>
-              <TotalPriceContext.Provider value={{ totalPriceState, totalPriceDispatcher }}>
                 <BurgerConstructor openModal={openOrderDetailsModal}/>
-              </TotalPriceContext.Provider>
             </BunsIngredientsContext.Provider>
           </AddsIngredientsContext.Provider>
         </APIContext.Provider>
