@@ -62,6 +62,11 @@ function App() {
       });
   }
 
+  const orderIngredientsIds = (data) => {
+    const idsArray = data.map(item => item._id);
+    return idsArray;
+  }
+
   const postOrder = (array) => {
     fetch(`https://norma.nomoreparties.space/api/orders`,
     {
@@ -81,15 +86,10 @@ function App() {
      return Promise.reject(res.status);
     })
     .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
+    .then(data => setOrderDetailsModal({visibility: true}))
     .catch(e => {
       setOrderNumber({ ...orderNumber, orderNumber: 0 });
     });
-  }
-
-  const orderIngredientsIds = (data) => {
-    let idsArray = [];
-    data.map(item => idsArray.push(item._id));
-    return idsArray;
   }
 
   const closeIngredientsDetailsModal = () => {
@@ -108,7 +108,6 @@ function App() {
   const openOrderDetailsModal = () => {
     const idsArray = orderIngredientsIds(addsIngredients.data);
     postOrder(idsArray);
-    setOrderDetailsModal({visibility: true});
   }
 
   return (
