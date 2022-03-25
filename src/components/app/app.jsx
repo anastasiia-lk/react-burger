@@ -42,8 +42,7 @@ function App() {
       .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
       .catch(e => {
         setIngredients({ ...ingredients, hasError: true, isLoading: false });
-      });
-  }
+      })}
 
   const orderIngredientsIds = (data) => {
     const idsArray = data.map(item => item._id);
@@ -106,7 +105,7 @@ function App() {
       <main className={appStyles.main}>
         <APIContext.Provider value={data.data}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <BurgerConstructor openModal={openOrderDetailsModal}/>
+          <BurgerConstructor openModal={openOrderDetailsModal} adds={ingredients.data.data.filter((item) => item.type !== 'bun')} buns={ingredients.data.data[0]}/>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&
