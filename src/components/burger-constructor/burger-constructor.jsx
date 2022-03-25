@@ -1,21 +1,9 @@
-import {useContext, useEffect, useReducer} from 'react';
+import {useContext, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import {APIContext} from '../../services/appContext';
-
-const totalPriceInitialState = { totalPrice: 0 };
-function reducer(state, action) {
-  switch (action.type) {
-    case "set":
-      return { totalPrice: action.totalPrice };
-    case "reset":
-      return totalPriceInitialState;
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
 
 function BurgerComponents ({bunsIngredients, addsIngredients}) {
   return (
@@ -57,30 +45,38 @@ function BurgerComponents ({bunsIngredients, addsIngredients}) {
 }
 
 function BurgerConstructor ({openModal}) {
-  const [totalPriceState, totalPriceDispatcher] = useReducer(reducer, totalPriceInitialState, undefined);
-
   const ingredients = useContext(APIContext);
 
   const currentAdds = ingredients.filter((item) => item.type !== 'bun');
   const currentBuns = ingredients[0];
 
-  useEffect(()=>{
-    updateTotalPrice();
-  }, [totalPriceState.totalPrice]);
+  // useEffect(()=>{
+    // const updateTotalPrice = useMemo(() => {
+    //   const currentAddsPrice = currentAdds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
+    //   const currentBunsPrice = currentBuns.price * 2;
+    //   const currentTotalPrice = currentAddsPrice + currentBunsPrice;
+    //   return currentTotalPrice;
+      // totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice}); 
+    // }), [currentAdds, currentBuns]);
+  //   updateTotalPrice();
+  // }, [currentAdds, currentBuns]);
 
-  const updateTotalPrice = () => {
+  const updateTotalPrice = useMemo(
+    () => {
     const currentAddsPrice = currentAdds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
     const currentBunsPrice = currentBuns.price * 2;
     const currentTotalPrice = currentAddsPrice + currentBunsPrice;
-    totalPriceDispatcher({type: 'set', totalPrice: currentTotalPrice}); 
-  }
+    return currentTotalPrice
+    },
+    [currentAdds, currentBuns]
+  );
 
     return (
       <section>
         <BurgerComponents bunsIngredients={currentBuns} addsIngredients={currentAdds}/>
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            <p className="text text_type_digits-medium mr-2">{totalPriceState.totalPrice}</p>
+            <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p>
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={openModal}>
