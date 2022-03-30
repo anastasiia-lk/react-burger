@@ -13,8 +13,6 @@ import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/index';
 import { useDispatch } from 'react-redux';
 
-import {GET_CURRENT_INGREDIENTS} from '../../services/actions/index';
-
 function App() {
   const dispatch = useDispatch();
 
@@ -24,39 +22,13 @@ function App() {
 
   const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients } = useSelector(store => store.constructor);
 
-  // const [ingredients, setIngredients] = useState({
-  //   data: null,
-  //   isLoading: false,
-  //   hasError: false,
-  // });
-
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
   const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
 
   const [clickedIngredient, setClickedIngredient] = useState ({});
 
-  // const { data, isLoading, hasError } = ingredients;
-
   const [orderNumber, setOrderNumber] = useState(0);
-  
-  // useEffect(()=>{
-  //   setIngredients({...ingredients, hasError: false, isLoading: true});
-  //   getIngredients();
-  // }, []);
-
-  // const getIngredients = async() => {
-  //   fetch(`${SERVICE_URL}/ingredients`)
-  //   .then(res => {
-  //     if (res.ok) {
-  //        return res.json();
-  //    }
-  //    return Promise.reject(res.status);
-  //   })
-  //     .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
-  //     .catch(e => {
-  //       setIngredients({ ...ingredients, hasError: true, isLoading: false });
-  //     })}
 
   const orderIngredientsIds = (data) => {
     const idsArray = data.map(item => item._id);
@@ -102,8 +74,8 @@ function App() {
   }
 
   const openOrderDetailsModal = () => {
-    const currentAdds = ingredients.data.data.filter((item) => item.type !== 'bun');
-    const currentBuns = ingredients.data.data[0]._id;
+    const currentAdds = ingredients.filter((item) => item.type !== 'bun');
+    const currentBuns = ingredients[0]._id;
     const orderArray = currentAdds.concat(currentBuns);
     const idsArray = orderIngredientsIds(orderArray);
     postOrder(idsArray);
