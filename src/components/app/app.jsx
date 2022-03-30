@@ -9,12 +9,24 @@ import OrderDetails from '../order-details/order-details';
 import {SERVICE_URL} from '../../utils/data';
 import {APIContext} from '../../services/appContext';
 
+import { useSelector } from 'react-redux';
+import { getIngredients } from '../../services/actions/index';
+import { useDispatch } from 'react-redux';
+
 function App() {
-  const [ingredients, setIngredients] = useState({
-    data: null,
-    isLoading: false,
-    hasError: false,
-  });
+  const dispatch = useDispatch();
+
+  useEffect(()=> {
+    dispatch(getIngredients())  
+  }, [dispatch]);
+
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.constructor);
+
+  // const [ingredients, setIngredients] = useState({
+  //   data: null,
+  //   isLoading: false,
+  //   hasError: false,
+  // });
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
@@ -22,27 +34,27 @@ function App() {
 
   const [clickedIngredient, setClickedIngredient] = useState ({});
 
-  const { data, isLoading, hasError } = ingredients;
+  // const { data, isLoading, hasError } = ingredients;
 
   const [orderNumber, setOrderNumber] = useState(0);
   
-  useEffect(()=>{
-    setIngredients({...ingredients, hasError: false, isLoading: true});
-    getIngredients();
-  }, []);
+  // useEffect(()=>{
+  //   setIngredients({...ingredients, hasError: false, isLoading: true});
+  //   getIngredients();
+  // }, []);
 
-  const getIngredients = async() => {
-    fetch(`${SERVICE_URL}/ingredients`)
-    .then(res => {
-      if (res.ok) {
-         return res.json();
-     }
-     return Promise.reject(res.status);
-    })
-      .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
-      .catch(e => {
-        setIngredients({ ...ingredients, hasError: true, isLoading: false });
-      })}
+  // const getIngredients = async() => {
+  //   fetch(`${SERVICE_URL}/ingredients`)
+  //   .then(res => {
+  //     if (res.ok) {
+  //        return res.json();
+  //    }
+  //    return Promise.reject(res.status);
+  //   })
+  //     .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
+  //     .catch(e => {
+  //       setIngredients({ ...ingredients, hasError: true, isLoading: false });
+  //     })}
 
   const orderIngredientsIds = (data) => {
     const idsArray = data.map(item => item._id);
@@ -98,14 +110,14 @@ function App() {
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
-      {isLoading && "Загрузка ..."}
-      {hasError && "Ошибка"}
-      {!isLoading && !hasError && data &&
+      {ingredientsRequest && "Загрузка ..."}
+      {ingredientsFailed && "Ошибка"}
+      {!ingredientsRequest && !ingredientsFailed && ingredients &&
       <>
       <main className={appStyles.main}>
-        <APIContext.Provider value={data.data}>
+        <APIContext.Provider value={ingredients}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <BurgerConstructor openModal={openOrderDetailsModal} adds={ingredients.data.data.filter((item) => item.type !== 'bun')} buns={ingredients.data.data[0]}/>
+          <BurgerConstructor openModal={openOrderDetailsModal} adds={ingredients.filter((item) => item.type !== 'bun')} buns={ingredients[0]}/>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&

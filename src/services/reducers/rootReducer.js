@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
-import { stepReducer, cartReducer } from './appReducers.js';
+import { constructorReducer } from './constructorReducer.js';
 
 export const rootReducer = combineReducers({
-  step: stepReducer,
-  cart: cartReducer,
+  constructor: constructorReducer,
 });
