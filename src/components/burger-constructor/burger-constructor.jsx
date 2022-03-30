@@ -45,7 +45,7 @@ function BurgerComponents ({buns, adds}) {
 }
 
 function BurgerConstructor ({openModal, adds, buns}) {
-  const ingredients = useContext(APIContext);
+  const ingredients = useContext(APIContext); 
 
   const updateTotalPrice = useMemo(
     () => {
