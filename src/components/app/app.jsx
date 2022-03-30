@@ -13,14 +13,16 @@ import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/index';
 import { useDispatch } from 'react-redux';
 
+import {GET_CURRENT_INGREDIENTS} from '../../services/actions/index';
+
 function App() {
   const dispatch = useDispatch();
 
   useEffect(()=> {
-    dispatch(getIngredients())  
+    dispatch(getIngredients())
   }, [dispatch]);
 
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients } = useSelector(store => store.constructor);
 
   // const [ingredients, setIngredients] = useState({
   //   data: null,
@@ -117,7 +119,7 @@ function App() {
       <main className={appStyles.main}>
         <APIContext.Provider value={ingredients}>
           <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <BurgerConstructor openModal={openOrderDetailsModal} adds={ingredients.filter((item) => item.type !== 'bun')} buns={ingredients[0]}/>
+          <BurgerConstructor openModal={openOrderDetailsModal} adds={currentIngredients} buns={ingredients[0]}/>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&

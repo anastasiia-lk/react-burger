@@ -1,7 +1,12 @@
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED
+  GET_INGREDIENTS_FAILED,
+  
+  GET_CURRENT_INGREDIENTS,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+
 } from '../actions/index';
 
 const initialState = {
@@ -28,6 +33,7 @@ export const constructorReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.ingredients,
+        currentIngredients: action.ingredients.filter((item) => item.type !== 'bun'),
         ingredientsRequest: false,
         ingredientsFailed: false
       }
@@ -39,6 +45,20 @@ export const constructorReducer = (state = initialState, action) => {
         ingredientsFailed: true
       }
     }
+    
+    case ADD_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: ++item.qty } : item)
+      }
+    }
+    case REMOVE_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: --item.qty} : item)
+      }
+    }
+
     default: {
       return state
     }
