@@ -1,26 +1,9 @@
 import {useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {INGREDIENT_PROP_TYPE} from '../../utils/data';
+import {INGREDIENT_PROP_TYPE, SCROLL_MARGIN} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import {APIContext} from '../../services/appContext';
-
-function IngredientsSelector (){
-  const [current, setCurrent] = useState('one')
-  return (
-    <div style={{ display: 'flex' }}>
-      <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-        Булки
-      </Tab>
-      <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-        Соусы
-      </Tab>
-      <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-        Начинки
-      </Tab>
-    </div>
-  )
-}
 
 function PriceElement ({price}){
   return (
@@ -72,15 +55,42 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
 
 function BurgerIngredients ({openModal}) {
   const ingredients = useContext(APIContext);
+  const [current, setCurrent] = useState('one');
+  const handleOnScroll = (e) => {
+    if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+            e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+            e.target.lastChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+            {
+              console.log('Три')
+            } else {
+              if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+                  e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+                  {
+                    console.log('Два')
+                  } else {
+                      console.log('Один')
+                      }
+              }
+        }
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
           Соберите бургер
         </h1>
         <div className = 'mb-10'>
-          <IngredientsSelector />
+          <div style={{ display: 'flex' }}>
+            <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+              Булки
+            </Tab>
+            <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+              Соусы
+            </Tab>
+            <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+              Начинки
+            </Tab>
+          </div>
         </div>
-        <div className = {`${burgerIngredientsStyles['ingredients-block']}`}>
+        <div className = {`${burgerIngredientsStyles['ingredients-block']}`} onScroll={handleOnScroll}>
           <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients} openModal = {openModal}/>
           <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients} openModal = {openModal}/>
           <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients} openModal = {openModal}/>

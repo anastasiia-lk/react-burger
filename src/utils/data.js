@@ -15,4 +15,5 @@ export const INGREDIENT_PROP_TYPE = PropTypes.shape({
   __v: PropTypes.number,
   _id: PropTypes.string,
 });
-export const SERVICE_URL = 'https://norma.nomoreparties.space/api'
+export const SERVICE_URL = 'https://norma.nomoreparties.space/api';
+export const SCROLL_MARGIN = 340;
