@@ -10,10 +10,10 @@ import {SERVICE_URL} from '../../utils/data';
 import {APIContext} from '../../services/appContext';
 
 import { useSelector } from 'react-redux';
-import { getIngredients } from '../../services/actions/index';
+import { getIngredients, postOrder } from '../../services/actions/index';
 import { useDispatch } from 'react-redux';
 
-import {GET_INGREDIENT_DETAILS} from '../../services/actions/index';
+import {GET_INGREDIENT_DETAILS, REMOVE_FLAG} from '../../services/actions/index';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,50 +22,52 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch]);
 
-  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag } = useSelector(store => store.constructor);
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
-  const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
+  // const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
 
-  const [orderNumber, setOrderNumber] = useState(0);
+  // const [orderNumber, setOrderNumber] = useState(0);
 
-  const orderIngredientsIds = (data) => {
-    const idsArray = data.map(item => item._id);
-    return idsArray;
-  }
+  // const orderIngredientsIds = (data) => {
+  //   const idsArray = data.map(item => item._id);
+  //   return idsArray;
+  // }
 
-  const postOrder = (array) => {
-    fetch(`${SERVICE_URL}/orders`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify({
-        "ingredients": array
-        })  
-    }
-    )
-    .then(res => {
-      if (res.ok) {
-         return res.json();
-     }
-     return Promise.reject(res.status);
-    })
-    .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
-    .then(data => setOrderDetailsModal({visibility: true}))
-    .catch(e => {
-      setOrderNumber({ ...orderNumber, orderNumber: 0 });
-    });
-  }
+  // const postOrder = (array) => {
+  //   fetch(`${SERVICE_URL}/orders`,
+  //   {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json; charset=UTF-8'
+  //     },
+  //     body: JSON.stringify({
+  //       "ingredients": array
+  //       })  
+  //   }
+  //   )
+  //   .then(res => {
+  //     if (res.ok) {
+  //        return res.json();
+  //    }
+  //    return Promise.reject(res.status);
+  //   })
+  //   .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
+  //   .then(data => setOrderDetailsModal({visibility: true}))
+  //   .catch(e => {
+  //     setOrderNumber({ ...orderNumber, orderNumber: 0 });
+  //   });
+  // }
 
   const closeIngredientsDetailsModal = () => {
     setIngredientDetailsModal({visibility: false}) 
   }
 
   const closeOrderDetailsModal = () => {
-    setOrderDetailsModal({visibility: false})
+    dispatch({
+      type: REMOVE_FLAG
+    });
   }
 
   const openIngredientsDetailsModal = (data) => {
@@ -77,12 +79,15 @@ function App() {
   }
 
   const openOrderDetailsModal = () => {
-    const currentAdds = ingredients.filter((item) => item.type !== 'bun');
-    const currentBuns = ingredients[0]._id;
-    const orderArray = currentAdds.concat(currentBuns);
-    const idsArray = orderIngredientsIds(orderArray);
-    postOrder(idsArray);
+    dispatch(postOrder(currentIngredients));
+    console.log(orderNumber);
+      // .then(res => setOrderDetailsModal({visibility: true}))
+    // setOrderDetailsModal({visibility: true}); 
   }
+
+  // useEffect(()=> {
+  //   dispatch(postOrder(currentIngredients));
+  // }, [openOrderDetailsModal]);
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
@@ -102,9 +107,10 @@ function App() {
           <IngredientDetails ingredient = {ingredientDetails}/>
         </Modal>
       }
-      { orderDetailsModal.visibility && orderNumber &&
+      { flag.visibility && orderNumber &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
-        <OrderDetails order = {orderNumber}/>
+        {console.log(typeof(orderNumber.number))}
+        <OrderDetails order = {orderNumber.number}/>
       </Modal>
       }
       </>
