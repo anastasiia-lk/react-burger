@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/index';
 import { useDispatch } from 'react-redux';
 
+import {GET_INGREDIENT_DETAILS} from '../../services/actions/index';
+
 function App() {
   const dispatch = useDispatch();
 
@@ -20,13 +22,11 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch]);
 
-  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails } = useSelector(store => store.constructor);
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
   const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
-
-  const [clickedIngredient, setClickedIngredient] = useState ({});
 
   const [orderNumber, setOrderNumber] = useState(0);
 
@@ -69,7 +69,10 @@ function App() {
   }
 
   const openIngredientsDetailsModal = (data) => {
-    setClickedIngredient(data);
+    dispatch({
+      type: GET_INGREDIENT_DETAILS,
+      value: data
+    });
     setIngredientDetailsModal({visibility: true}) 
   }
 
@@ -90,13 +93,13 @@ function App() {
       <>
       <main className={appStyles.main}>
         <APIContext.Provider value={ingredients}>
-          <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
+          <BurgerIngredients openModal={openIngredientsDetailsModal}/>
           <BurgerConstructor openModal={openOrderDetailsModal} adds={currentIngredients} buns={ingredients[0]}/>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&
         <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
-          <IngredientDetails ingredient = {clickedIngredient}/>
+          <IngredientDetails ingredient = {ingredientDetails}/>
         </Modal>
       }
       { orderDetailsModal.visibility && orderNumber &&

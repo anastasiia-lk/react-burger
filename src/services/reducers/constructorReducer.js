@@ -3,9 +3,10 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   
-  GET_CURRENT_INGREDIENTS,
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
+
+  GET_INGREDIENT_DETAILS
 
 } from '../actions/index';
 
@@ -56,6 +57,13 @@ export const constructorReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: --item.qty} : item)
+      }
+    }
+
+    case GET_INGREDIENT_DETAILS: {
+      return {
+        ...state,
+        ingredientDetails: action.value
       }
     }
 
