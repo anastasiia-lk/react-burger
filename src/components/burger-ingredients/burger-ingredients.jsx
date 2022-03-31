@@ -58,20 +58,20 @@ function BurgerIngredients ({openModal}) {
   const [current, setCurrent] = useState('one');
   const handleOnScroll = (e) => {
     if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
-            e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
-            e.target.lastChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+      e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+      e.target.lastChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+      {
+        setCurrent('three')
+      } else {
+        if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+            e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
             {
-              console.log('Три')
+              setCurrent('two')
             } else {
-              if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
-                  e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
-                  {
-                    console.log('Два')
-                  } else {
-                      console.log('Один')
-                      }
+                setCurrent('one')
               }
-        }
+            }
+    }
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
