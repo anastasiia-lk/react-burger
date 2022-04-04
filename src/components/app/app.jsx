@@ -15,6 +15,9 @@ import { useDispatch } from 'react-redux';
 
 import {GET_INGREDIENT_DETAILS, REMOVE_FLAG} from '../../services/actions/index';
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -98,8 +101,10 @@ function App() {
       <>
       <main className={appStyles.main}>
         <APIContext.Provider value={ingredients}>
+        <DndProvider backend={HTML5Backend}>
           <BurgerIngredients openModal={openIngredientsDetailsModal}/>
           <BurgerConstructor openModal={openOrderDetailsModal} adds={currentIngredients} buns={ingredients[0]}/>
+          </DndProvider>
         </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&

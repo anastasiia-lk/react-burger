@@ -4,6 +4,7 @@ import {INGREDIENT_PROP_TYPE, SCROLL_MARGIN} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import {APIContext} from '../../services/appContext';
+import { useDrag } from 'react-dnd';
 
 function PriceElement ({price}){
   return (
@@ -14,10 +15,13 @@ function PriceElement ({price}){
   )
 }
 
-function IngredientCard ({ ingredient, openModal }) {
-
+const IngredientCard = ({ ingredient, openModal }) => {
+  const [, dragRef] = useDrag({
+    type: 'ingredient',
+    item: ingredient._id
+  });
   return (
-    <div className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
+    <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
       <div className={burgerIngredientsStyles.counter}>
         <Counter count={1} size="default"/>
       </div>
