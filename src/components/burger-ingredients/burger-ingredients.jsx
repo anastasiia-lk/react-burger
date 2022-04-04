@@ -16,11 +16,15 @@ function PriceElement ({price}){
 }
 
 const IngredientCard = ({ ingredient, openModal }) => {
-  const [, dragRef] = useDrag({
-    type: 'ingredient',
-    item: ingredient._id
+  const [{ isDrag }, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: monitor => ({
+        isDrag: monitor.isDragging()
+    })
   });
   return (
+    !isDrag && 
     <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
       <div className={burgerIngredientsStyles.counter}>
         <Counter count={1} size="default"/>

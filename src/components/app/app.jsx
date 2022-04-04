@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { getIngredients, postOrder } from '../../services/actions/index';
 import { useDispatch } from 'react-redux';
 
-import {GET_INGREDIENT_DETAILS, REMOVE_FLAG} from '../../services/actions/index';
+import {GET_INGREDIENT_DETAILS, REMOVE_FLAG, UPDATE_INGREDIENTS, ADD_DRAGGED_INGREDIENTS} from '../../services/actions/index';
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -22,10 +22,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(()=> {
-    dispatch(getIngredients())
+    dispatch(getIngredients());
   }, [dispatch]);
 
-  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, draggedIngredients } = useSelector(store => store.constructor);
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
@@ -92,6 +92,28 @@ function App() {
   //   dispatch(postOrder(currentIngredients));
   // }, [openOrderDetailsModal]);
 
+  // const [elements, setElements] = useState([]);
+  // const [draggedElements, setDraggedElements] = useState([]);
+
+  const handleDrop = (itemId) => {
+    // setElements([
+    //   ...ingredients.filter(element => element._id !== itemId._id)
+    // ]);
+    dispatch({
+      type: UPDATE_INGREDIENTS,
+      value: itemId._id
+    });
+    // setDraggedElements([
+    //     ...draggedElements,
+    //     ...ingredients.filter(element => element._id === itemId._id)
+    // ]);
+    dispatch({
+      type: ADD_DRAGGED_INGREDIENTS,
+      value: ingredients.filter(item => item._id === itemId._id)
+    });
+    // console.log(ingredients.filter(item => item._id === itemId._id));
+    console.log(itemId.name)
+};
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
@@ -101,9 +123,9 @@ function App() {
       <>
       <main className={appStyles.main}>
         <APIContext.Provider value={ingredients}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients openModal={openIngredientsDetailsModal}/>
-          <BurgerConstructor openModal={openOrderDetailsModal} adds={currentIngredients} buns={ingredients[0]}/>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients openModal={openIngredientsDetailsModal}/>
+            <BurgerConstructor openModal={openOrderDetailsModal} />
           </DndProvider>
         </APIContext.Provider>
       </main>

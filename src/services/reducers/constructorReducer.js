@@ -13,7 +13,13 @@ import {
   POST_ORDER_FAILED,
 
   SET_FLAG,
-  REMOVE_FLAG
+  REMOVE_FLAG,
+
+  UPDATE_INGREDIENTS,
+
+  ADD_DRAGGED_INGREDIENTS,
+
+  GET_CURRENT_BOARD
 
 } from '../actions/index';
 
@@ -30,7 +36,12 @@ const initialState = {
   orderNumberRequest: false,
   orderNumberFailed: false,
 
-  flag: {visibility: false}
+  flag: {visibility: false},
+
+  draggedIngredients: [0],
+
+  board: 'default'
+
 }
 
 export const constructorReducer = (state = initialState, action) => {
@@ -57,6 +68,20 @@ export const constructorReducer = (state = initialState, action) => {
         ...state,
         ingredientsRequest: false,
         ingredientsFailed: true
+      }
+    }
+
+    case UPDATE_INGREDIENTS: {
+      return {
+        ...state,
+        ingredients: [...state.ingredients].filter(item => item._id !== action.value) 
+      }
+    }
+
+    case ADD_DRAGGED_INGREDIENTS: {
+      return {
+        ...state,
+        draggedIngredients: action.value
       }
     }
     

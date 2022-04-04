@@ -4,65 +4,79 @@ import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import {APIContext} from '../../services/appContext';
+import { useDrop } from 'react-dnd';
 
-function BurgerComponents ({buns, adds}) {
-  return (
-    <div className = {`${burgerConstructorStyles.block} pt-25`}>
-      <div className="ml-6">
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${buns.name} (верх)`}
-          price={buns.price}
-          thumbnail={buns.image}
-        />
-      </div>
-      <ul className={burgerConstructorStyles.list}>
-        {adds.map((ingredient) => {
-          return(
-            <li key={ingredient._id} className={`${burgerConstructorStyles['list-item']} mb-4`}>
-                <DragIcon type="primary"/>
-                <ConstructorElement
-                text={`${ingredient.name}`}
-                price={`${ingredient.price}`}
-                thumbnail={`${ingredient.image}`}
-                />
-            </li>
-          )  
-       })}
-      </ul>
-      <div className="ml-6">
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${buns.name} (низ)`}
-          price={buns.price}
-          thumbnail={buns.image}
-        />
-      </div>
-  </div>
-  )
-}
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-function BurgerConstructor ({openModal, adds, buns}) {
-  const ingredients = useContext(APIContext); 
+import {ADD_DRAGGED_INGREDIENTS} from '../../services/actions/index';
 
-  const updateTotalPrice = useMemo(
-    () => {
-    const currentAddsPrice = adds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
-    const currentBunsPrice = buns.price * 2;
-    const currentTotalPrice = currentAddsPrice + currentBunsPrice;
-    return currentTotalPrice
-    },
-    [adds, buns]
-  );
+// const BurgerComponents = ({children, onDropHandler}) => {
+//   const dispatch = useDispatch();
+//   const ingredients = useSelector(state => state.ingredients);
+//   const [, dropTarget] = useDrop({
+//     accept: 'ingredient',
+//     drop(itemId) {
+//       dispatch({
+//           type: ADD_DRAGGED_INGREDIENTS,
+//           ...itemId
+//       });
+//   }
+//   })
+//   return (
+//     <div ref={dropTarget} className = {`${burgerConstructorStyles.block} pt-25`}>
+//       {children}
+//     </div>
+//   )
+// }
 
+function BurgerConstructor ({openModal}) {
+   
+  // const updateTotalPrice = useMemo(
+  //   () => {
+  //   let currentTotalPrice;
+  //   if (draggedIngredients === []) {
+  //     currentTotalPrice = 0  
+  //   } else {
+  //   currentTotalPrice = draggedIngredients.map(item => item.price).reduce((prev, curr) => prev + curr, 0)
+  //   }
+  //   return currentTotalPrice
+  //   },
+  //   [draggedIngredients]
+  // );
+  const dispatch = useDispatch();
+  const {ingredients, draggedIngredients} = useSelector(store => store.constructor);
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+  }),
+    drop(ingredient) {
+      dispatch({
+          type: ADD_DRAGGED_INGREDIENTS,
+          value: ingredient
+      });
+  }
+  });
+  console.log(draggedIngredients);
     return (
       <section>
-        <BurgerComponents buns={buns} adds={adds}/>
+        <div ref={dropTarget} className = {`${burgerConstructorStyles.block} pt-25`}>
+         {/* { draggedIngredients && draggedIngredients.map(item => ( */}
+          {draggedIngredients && <div key={draggedIngredients._id} className={`${burgerConstructorStyles['list-item']} mb-4`}>
+              <DragIcon type="primary"/>
+              <ConstructorElement
+                text={`${draggedIngredients.name}`}
+                price={`${draggedIngredients.price}`}
+                thumbnail={`${draggedIngredients.image}`}
+              />
+           </div>}
+          {/* )) */}
+          {/* } */}
+        </div>
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p>
+            {/* <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p> */}
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={openModal}>
@@ -79,9 +93,9 @@ BurgerConstructor.propTypes = {
   openModal: PropTypes.func
 }
 
-BurgerComponents.propTypes = {
-  buns: INGREDIENT_PROP_TYPE.isRequired,
-  adds: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired)
-}
+// BurgerComponents.propTypes = {
+//   buns: INGREDIENT_PROP_TYPE.isRequired,
+//   adds: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired)
+// }
 
 export default BurgerConstructor;
