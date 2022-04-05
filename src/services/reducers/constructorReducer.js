@@ -123,14 +123,6 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
-    // case REMOVE_BUN_COUNTER: {
-    //   return {
-    //     ...state,
-    //     ingredients: [...state.ingredients].map(item => item.type === 'bun' ? {...item, qty: 0 } : {...item })
-    //   }
-    // }
-
-    
     case ADD_INGREDIENT_COUNTER: {
       return {
         ...state,
