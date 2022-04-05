@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { getIngredients, postOrder } from '../../services/actions/index';
 import { useDispatch } from 'react-redux';
 
-import {GET_INGREDIENT_DETAILS, REMOVE_FLAG, UPDATE_INGREDIENTS, ADD_DRAGGED_INGREDIENTS} from '../../services/actions/index';
+import {GET_INGREDIENT_DETAILS, REMOVE_FLAG, UPDATE_INGREDIENTS, ADD_DRAGGED_INGREDIENTS, INIT_DRAGGED_INGREDIENTS} from '../../services/actions/index';
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -23,11 +23,16 @@ function App() {
 
   useEffect(()=> {
     dispatch(getIngredients());
+    dispatch({
+      type: INIT_DRAGGED_INGREDIENTS
+    });
   }, [dispatch]);
 
   const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, draggedIngredients } = useSelector(store => store.constructor);
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
+  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
+
+  console.log(draggedIngredients);
 
   // const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
 

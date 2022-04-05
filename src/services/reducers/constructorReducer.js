@@ -19,7 +19,7 @@ import {
 
   ADD_DRAGGED_INGREDIENTS,
 
-  GET_CURRENT_BOARD
+  INIT_DRAGGED_INGREDIENTS
 
 } from '../actions/index';
 
@@ -41,7 +41,6 @@ const initialState = {
   draggedIngredients: [0],
 
   board: 'default'
-
 }
 
 export const constructorReducer = (state = initialState, action) => {
@@ -78,10 +77,17 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
+    case INIT_DRAGGED_INGREDIENTS: {
+      return {
+        ...state,
+        draggedIngredients: []
+      } 
+    }
+
     case ADD_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        draggedIngredients: action.value
+        draggedIngredients: [...state.draggedIngredients, action.value]
       }
     }
     

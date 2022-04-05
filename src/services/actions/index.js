@@ -20,6 +20,8 @@ export const UPDATE_INGREDIENTS = 'UPDATE_INGREDIENTS';
 
 export const ADD_DRAGGED_INGREDIENTS = 'ADD_DRAGGED_INGREDIENTS';
 
+export const INIT_DRAGGED_INGREDIENTS = 'INIT_DRAGGED_INGREDIENTS';
+
 export function getIngredients() {
   return function(dispatch) {
     dispatch({

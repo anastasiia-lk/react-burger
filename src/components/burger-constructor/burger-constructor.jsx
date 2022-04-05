@@ -1,4 +1,4 @@
-import {useContext, useMemo} from 'react';
+import {useContext, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 import burgerConstructorStyles from './burger-constructor.module.css';
@@ -9,7 +9,7 @@ import { useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import {ADD_DRAGGED_INGREDIENTS} from '../../services/actions/index';
+import {ADD_DRAGGED_INGREDIENTS, INIT_DRAGGED_INGREDIENTS} from '../../services/actions/index';
 
 // const BurgerComponents = ({children, onDropHandler}) => {
 //   const dispatch = useDispatch();
@@ -45,6 +45,11 @@ function BurgerConstructor ({openModal}) {
   //   [draggedIngredients]
   // );
   const dispatch = useDispatch();
+  useEffect(()=> {
+    dispatch({
+      type: INIT_DRAGGED_INGREDIENTS
+    });
+  }, [dispatch]);
   const {ingredients, draggedIngredients} = useSelector(store => store.constructor);
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -58,21 +63,19 @@ function BurgerConstructor ({openModal}) {
       });
   }
   });
-  console.log(draggedIngredients);
     return (
       <section>
         <div ref={dropTarget} className = {`${burgerConstructorStyles.block} pt-25`}>
-         {/* { draggedIngredients && draggedIngredients.map(item => ( */}
-          {draggedIngredients && <div key={draggedIngredients._id} className={`${burgerConstructorStyles['list-item']} mb-4`}>
+         { draggedIngredients && draggedIngredients.map(item => (
+          <div key={item._id} className={`${burgerConstructorStyles['list-item']} mb-4`}>
               <DragIcon type="primary"/>
               <ConstructorElement
-                text={`${draggedIngredients.name}`}
-                price={`${draggedIngredients.price}`}
-                thumbnail={`${draggedIngredients.image}`}
+                text={`${item.name}`}
+                price={`${item.price}`}
+                thumbnail={`${item.image}`}
               />
-           </div>}
-          {/* )) */}
-          {/* } */}
+           </div>
+         ))}    
         </div>
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
