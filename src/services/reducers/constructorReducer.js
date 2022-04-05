@@ -18,10 +18,12 @@ import {
   UPDATE_INGREDIENTS,
 
   ADD_DRAGGED_INGREDIENTS,
+  REMOVE_DRAGGED_INGREDIENTS,
 
   INIT_DRAGGED_INGREDIENTS,
 
   ADD_INGREDIENT_COUNTER,
+  REMOVE_INGREDIENT_COUNTER,
 
   INIT_INGREDIENTS_COUNTER
 
@@ -92,7 +94,14 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        draggedIngredients: [...state.draggedIngredients, action.value]
+        draggedIngredients: [...state.draggedIngredients, {...action.value, key: Math.random()}]
+      }
+    }
+
+    case REMOVE_DRAGGED_INGREDIENTS: {
+      return {
+        ...state,
+        draggedIngredients: [...state.draggedIngredients].filter(item => item.key !== action.value.key)
       }
     }
     
@@ -103,10 +112,10 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
-    case REMOVE_INGREDIENT: {
+    case REMOVE_INGREDIENT_COUNTER: {
       return {
         ...state,
-        currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: --item.qty} : {...item, qty: 0 })
+        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: --item.qty } : {...item })
       }
     }
 

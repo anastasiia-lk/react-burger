@@ -65,11 +65,6 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
 }
 
 function BurgerIngredients ({openModal}) {
-  const dispatch = useDispatch();
-  const { draggedIngredients } = useSelector(store => store.constructor);
-  // dispatch({
-  //   type: INIT_INGREDIENTS_COUNTER
-  // });
   const ingredients = useContext(APIContext);
   const [current, setCurrent] = useState('one');
   const handleOnScroll = (e) => {
