@@ -63,7 +63,7 @@ function BurgerConstructor ({openModal}) {
   }
   });
   
-  const IngredientCard = ({item}) => {
+  const IngredientCard = ({item, children}) => {
     const handleClick = (e) => {
     if (e.target.parentNode.parentNode.className.includes('action')) {
       dispatch({
@@ -74,30 +74,60 @@ function BurgerConstructor ({openModal}) {
         type: REMOVE_DRAGGED_INGREDIENTS,
         value: item
       });
-      // e.target.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
-      // console.log(e.currentTarget);
     }
-      // console.log(item);
     }
     return (
-      <div className={`${burgerConstructorStyles['list-item']} mb-4`} onClick={handleClick}>
-        <DragIcon type="primary"/>
-        <ConstructorElement
-          text={`${item.name}`}
-          price={`${item.price}`}
-          thumbnail={`${item.image}`}
-        />
+      <div onClick={handleClick}>
+        {children}
       </div>
     )
   }
     return (
       <section>
         <div ref={dropTarget} className = {`${burgerConstructorStyles.block} pt-25`}>
+        { draggedIngredients && draggedIngredients.map(item => 
+         item.type === 'bun' && 
+         <IngredientCard key={item.key} item={item}>
+           <div className="ml-6 mb-4">
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${item.name} (верх)`}
+            price={item.price}
+            thumbnail={item.image}
+          />
+        </div>
+         </IngredientCard>
+         )}
           <div className={burgerConstructorStyles.list}>
          { draggedIngredients && draggedIngredients.map(item => 
-         <IngredientCard key={item.key} item={item} />
+         item.type !== 'bun' &&
+         <IngredientCard key={item.key} item={item}>
+           <div className={`${burgerConstructorStyles['list-item']} mb-4`}>
+           <DragIcon type="primary"/>
+           <ConstructorElement
+            text={`${item.name}`}
+            price={`${item.price}`}
+            thumbnail={`${item.image}`}
+          />
+          </div>
+         </IngredientCard>
          )}
          </div>
+        { draggedIngredients && draggedIngredients.map(item => 
+         item.type === 'bun' && 
+         <IngredientCard key={item.key} item={item}>
+           <div className="ml-6">
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text={`${item.name} (низ)`}
+          price={item.price}
+          thumbnail={item.image}
+        />
+      </div>
+         </IngredientCard>
+         )}
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
             {/* <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p> */}
