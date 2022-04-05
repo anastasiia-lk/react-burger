@@ -5,6 +5,9 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import {APIContext} from '../../services/appContext';
 import { useDrag } from 'react-dnd';
+import {INIT_INGREDIENTS_COUNTER} from '../../services/actions/index';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function PriceElement ({price}){
   return (
@@ -62,6 +65,11 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
 }
 
 function BurgerIngredients ({openModal}) {
+  const dispatch = useDispatch();
+  const { draggedIngredients } = useSelector(store => store.constructor);
+  // dispatch({
+  //   type: INIT_INGREDIENTS_COUNTER
+  // });
   const ingredients = useContext(APIContext);
   const [current, setCurrent] = useState('one');
   const handleOnScroll = (e) => {

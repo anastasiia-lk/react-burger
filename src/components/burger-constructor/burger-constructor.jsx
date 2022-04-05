@@ -9,7 +9,7 @@ import { useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import {ADD_DRAGGED_INGREDIENTS, INIT_DRAGGED_INGREDIENTS} from '../../services/actions/index';
+import {ADD_DRAGGED_INGREDIENTS, INIT_DRAGGED_INGREDIENTS, ADD_INGREDIENT_COUNTER} from '../../services/actions/index';
 
 // const BurgerComponents = ({children, onDropHandler}) => {
 //   const dispatch = useDispatch();
@@ -45,11 +45,6 @@ function BurgerConstructor ({openModal}) {
   //   [draggedIngredients]
   // );
   const dispatch = useDispatch();
-  useEffect(()=> {
-    dispatch({
-      type: INIT_DRAGGED_INGREDIENTS
-    });
-  }, [dispatch]);
   const {ingredients, draggedIngredients} = useSelector(store => store.constructor);
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -61,6 +56,10 @@ function BurgerConstructor ({openModal}) {
           type: ADD_DRAGGED_INGREDIENTS,
           value: ingredient
       });
+      dispatch({
+        type: ADD_INGREDIENT_COUNTER,
+        value: ingredient
+    });
   }
   });
     return (

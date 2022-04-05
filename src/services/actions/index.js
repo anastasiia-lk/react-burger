@@ -22,6 +22,10 @@ export const ADD_DRAGGED_INGREDIENTS = 'ADD_DRAGGED_INGREDIENTS';
 
 export const INIT_DRAGGED_INGREDIENTS = 'INIT_DRAGGED_INGREDIENTS';
 
+export const ADD_INGREDIENT_COUNTER = 'ADD_INGREDIENT_COUNTER';
+
+export const  INIT_INGREDIENTS_COUNTER = 'INIT_INGREDIENTS_COUNTER';
+
 export function getIngredients() {
   return function(dispatch) {
     dispatch({

@@ -19,7 +19,11 @@ import {
 
   ADD_DRAGGED_INGREDIENTS,
 
-  INIT_DRAGGED_INGREDIENTS
+  INIT_DRAGGED_INGREDIENTS,
+
+  ADD_INGREDIENT_COUNTER,
+
+  INIT_INGREDIENTS_COUNTER
 
 } from '../actions/index';
 
@@ -54,12 +58,13 @@ export const constructorReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        ingredients: action.ingredients,
+        ingredients: action.ingredients.map(item => ({...item, qty: 0})),
         currentIngredients: action.ingredients.filter((item) => item.type !== 'bun'),
         ingredientsRequest: false,
         ingredientsFailed: false,
         flag: {visibility: false},
-        orderNumber: {}
+        orderNumber: {},
+        draggedIngredients: []
       }
     }
     case GET_INGREDIENTS_FAILED: {
@@ -77,10 +82,10 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
-    case INIT_DRAGGED_INGREDIENTS: {
+    case INIT_INGREDIENTS_COUNTER: {
       return {
         ...state,
-        draggedIngredients: []
+        ingredients: [...state.ingredients].map(item => item.qty = 0 )
       } 
     }
 
@@ -91,16 +96,17 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
     
-    case ADD_INGREDIENT: {
+    case ADD_INGREDIENT_COUNTER: {
       return {
         ...state,
-        currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: ++item.qty } : item)
+        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: ++item.qty } : {...item })
       }
     }
+
     case REMOVE_INGREDIENT: {
       return {
         ...state,
-        currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: --item.qty} : item)
+        currentIngredients: [...state.currentIngredients].map(item => item._id === action._id ? {...item, qty: --item.qty} : {...item, qty: 0 })
       }
     }
 
