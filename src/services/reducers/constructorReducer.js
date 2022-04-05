@@ -25,7 +25,10 @@ import {
   ADD_INGREDIENT_COUNTER,
   REMOVE_INGREDIENT_COUNTER,
 
-  INIT_INGREDIENTS_COUNTER
+  UPDATE_BUN_INGREDIENT,
+
+  INIT_INGREDIENTS_COUNTER,
+  ADD_BUN_COUNTER
 
 } from '../actions/index';
 
@@ -98,12 +101,35 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
+    case UPDATE_BUN_INGREDIENT: {
+      return {
+        ...state,
+        draggedIngredients: [...state.draggedIngredients].filter(item => item.type !== 'bun'),
+        ingredients: [...state.ingredients].map(item => item.type === 'bun' ? {...item, qty: 0 } : {...item })
+      }
+    }
+
     case REMOVE_DRAGGED_INGREDIENTS: {
       return {
         ...state,
         draggedIngredients: [...state.draggedIngredients].filter(item => item.key !== action.value.key)
       }
     }
+
+    case ADD_BUN_COUNTER: {
+      return {
+        ...state,
+        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: item.qty + 2 } : {...item })
+      }
+    }
+
+    // case REMOVE_BUN_COUNTER: {
+    //   return {
+    //     ...state,
+    //     ingredients: [...state.ingredients].map(item => item.type === 'bun' ? {...item, qty: 0 } : {...item })
+    //   }
+    // }
+
     
     case ADD_INGREDIENT_COUNTER: {
       return {

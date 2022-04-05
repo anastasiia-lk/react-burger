@@ -29,6 +29,11 @@ export const REMOVE_INGREDIENT_COUNTER = 'REMOVE_INGREDIENT_COUNTER';
 
 export const  INIT_INGREDIENTS_COUNTER = 'INIT_INGREDIENTS_COUNTER';
 
+export const UPDATE_BUN_INGREDIENT = 'UPDATE_BUN_INGREDIENT';
+
+export const ADD_BUN_COUNTER = 'ADD_BUN_COUNTER';
+export const REMOVE_BUN_COUNTER = 'REMOVE_BUN_COUNTER';
+
 export function getIngredients() {
   return function(dispatch) {
     dispatch({

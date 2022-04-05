@@ -9,7 +9,7 @@ import { useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import {ADD_DRAGGED_INGREDIENTS, INIT_DRAGGED_INGREDIENTS, ADD_INGREDIENT_COUNTER, REMOVE_INGREDIENT_COUNTER, REMOVE_DRAGGED_INGREDIENTS} from '../../services/actions/index';
+import {ADD_DRAGGED_INGREDIENTS, INIT_DRAGGED_INGREDIENTS, ADD_INGREDIENT_COUNTER, REMOVE_INGREDIENT_COUNTER, REMOVE_DRAGGED_INGREDIENTS, UPDATE_BUN_INGREDIENT, ADD_BUN_COUNTER, REMOVE_BUN_COUNTER} from '../../services/actions/index';
 
 // const BurgerComponents = ({children, onDropHandler}) => {
 //   const dispatch = useDispatch();
@@ -46,21 +46,39 @@ function BurgerConstructor ({openModal}) {
   // );
   const dispatch = useDispatch();
   const {ingredients, draggedIngredients} = useSelector(store => store.constructor);
+  const onDropHandler = (ingredient) => {
+    if (ingredient.type === 'bun') {
+      dispatch({
+        type: UPDATE_BUN_INGREDIENT,
+        value: ingredient
+      });
+      dispatch({
+        type: ADD_BUN_COUNTER,
+        value: ingredient
+      });
+    } else {
+      dispatch({
+        type: ADD_INGREDIENT_COUNTER,
+        value: ingredient
+      }); 
+    }
+      dispatch({
+        type: ADD_DRAGGED_INGREDIENTS,
+        value: ingredient
+      });
+      // dispatch({
+      //   type: ADD_INGREDIENT_COUNTER,
+      //   value: ingredient
+      // });
+  }
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     collect: monitor => ({
       isHover: monitor.isOver(),
   }),
     drop(ingredient) {
-      dispatch({
-          type: ADD_DRAGGED_INGREDIENTS,
-          value: ingredient
-      });
-      dispatch({
-        type: ADD_INGREDIENT_COUNTER,
-        value: ingredient
-    });
-  }
+      onDropHandler(ingredient);
+    }
   });
   
   const IngredientCard = ({item, children}) => {
