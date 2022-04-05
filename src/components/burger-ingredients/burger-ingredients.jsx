@@ -30,7 +30,7 @@ const IngredientCard = ({ ingredient, openModal }) => {
     !isDrag && 
     <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
       <div className={burgerIngredientsStyles.counter}>
-        <Counter count={1} size="default"/>
+        <Counter count={ingredient.qty} size="default"/>
       </div>
       <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient.image + ')', backgroundSize: 'cover' }}>
       </div>
