@@ -19,6 +19,7 @@ import {
 
   ADD_DRAGGED_INGREDIENTS,
   REMOVE_DRAGGED_INGREDIENTS,
+  UPDATE_DRAGGED_INGREDIENTS,
 
   INIT_DRAGGED_INGREDIENTS,
 
@@ -97,7 +98,7 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        draggedIngredients: [...state.draggedIngredients, {...action.value, key: Math.random()}]
+        draggedIngredients: [...state.draggedIngredients, {...action.value, key: Math.random(), index: ++[...state.draggedIngredients].length}]
       }
     }
 
@@ -112,7 +113,14 @@ export const constructorReducer = (state = initialState, action) => {
     case REMOVE_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        draggedIngredients: [...state.draggedIngredients].filter(item => item.key !== action.value.key)
+        draggedIngredients: [...state.draggedIngredients].filter(item => item.key !== action.value.key).map((item, index) => ({...item, index: index}))
+      }
+    }
+
+    case UPDATE_DRAGGED_INGREDIENTS: {
+      return {
+        ...state,
+        draggedIngredients: [...state.draggedIngredients].map((item, position) => item.index === action.value[position].index ? {...item} : {...item, name: action.value[position].name})
       }
     }
 
