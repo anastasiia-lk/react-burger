@@ -121,11 +121,6 @@ export const constructorReducer = (state = initialState, action) => {
 
     case BURGER_REPLACE_INGREDIENTS: {
       const { selected, target } = action;
-      // [...state.draggedIngredients].map((current, idx) => {
-      //     if (idx === selected) return [...state.draggedIngredients][target]
-      //     if (idx === target) return [...state.draggedIngredients][selected]
-      //     return current
-      //   });
       return {
           ...state,
           draggedIngredients: [...state.draggedIngredients].map((current, idx) => {

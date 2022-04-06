@@ -104,9 +104,9 @@ function BurgerConstructor ({openModal}) {
     return (
       <section>
         <div ref={dropTarget} className = {`${burgerConstructorStyles.block} pt-25`}>
-        {/* { draggedIngredients && draggedIngredients.map(item => 
+        { draggedIngredients && draggedIngredients.map(item => 
          item.type === 'bun' && 
-          <IngredientCard key={item.key} item={item}>
+          // <IngredientCard key={item.key} item={item}>
            <div className="ml-6 mb-4">
           <ConstructorElement
             type="top"
@@ -116,8 +116,8 @@ function BurgerConstructor ({openModal}) {
             thumbnail={item.image}
           />
           </div>
-          </IngredientCard>
-         )} */}
+          // </IngredientCard>
+         )}
           <div className={burgerConstructorStyles.list}>
          { draggedIngredients && draggedIngredients.map((item, index) => 
          item.type !== 'bun' &&
@@ -133,9 +133,9 @@ function BurgerConstructor ({openModal}) {
          </IngredientCard>
          )}
          </div>
-        {/* { draggedIngredients && draggedIngredients.map(item => 
+        { draggedIngredients && draggedIngredients.map(item => 
          item.type === 'bun' && 
-          <IngredientCard key={item.key} item={item}>
+          // <IngredientCard key={item.key} item={item}>
            <div className="ml-6">
         <ConstructorElement
           type="bottom"
@@ -145,8 +145,8 @@ function BurgerConstructor ({openModal}) {
           thumbnail={item.image}
         />
       </div>
-          </IngredientCard>
-         )} */}
+          // </IngredientCard>
+         )}
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
             {/* <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p> */}
