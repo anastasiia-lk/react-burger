@@ -36,6 +36,14 @@ export const UPDATE_BUN_INGREDIENT = 'UPDATE_BUN_INGREDIENT';
 export const ADD_BUN_COUNTER = 'ADD_BUN_COUNTER';
 export const REMOVE_BUN_COUNTER = 'REMOVE_BUN_COUNTER';
 
+export const BURGER_REPLACE_INGREDIENTS = 'BURGER_REPLACE_INGREDIENTS';
+
+// export const changeBurgerIngredients = ({selected, target}) => ({
+//   type: BURGER_REPLACE_INGREDIENTS,
+//   selected: selected,
+//   target: target,
+// });
+
 export function getIngredients() {
   return function(dispatch) {
     dispatch({

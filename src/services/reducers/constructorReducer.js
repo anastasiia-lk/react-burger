@@ -29,7 +29,9 @@ import {
   UPDATE_BUN_INGREDIENT,
 
   INIT_INGREDIENTS_COUNTER,
-  ADD_BUN_COUNTER
+  ADD_BUN_COUNTER,
+
+  BURGER_REPLACE_INGREDIENTS
 
 } from '../actions/index';
 
@@ -117,12 +119,22 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
-    case UPDATE_DRAGGED_INGREDIENTS: {
+    case BURGER_REPLACE_INGREDIENTS: {
+      const { selected, target } = action;
+      // [...state.draggedIngredients].map((current, idx) => {
+      //     if (idx === selected) return [...state.draggedIngredients][target]
+      //     if (idx === target) return [...state.draggedIngredients][selected]
+      //     return current
+      //   });
       return {
-        ...state,
-        draggedIngredients: [...state.draggedIngredients].map((item, position) => item.index === action.value[position].index ? {...item} : {...item, name: action.value[position].name})
-      }
-    }
+          ...state,
+          draggedIngredients: [...state.draggedIngredients].map((current, idx) => {
+            if (idx === selected-1) return [...state.draggedIngredients][target-1]
+            if (idx === target-1) return [...state.draggedIngredients][selected-1]
+            return current
+          })
+      };
+  }
 
     case ADD_BUN_COUNTER: {
       return {
