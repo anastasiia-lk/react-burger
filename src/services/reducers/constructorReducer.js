@@ -120,10 +120,10 @@ export const constructorReducer = (state = initialState, action) => {
       const { selected, target } = action;
       return {
           ...state,
-          draggedIngredients: [...state.draggedIngredients].map((current, idx) => {
+          draggedIngredients: [...state.draggedIngredients].map((item, idx) => {
             if (idx === selected-1) return [...state.draggedIngredients][target-1]
             if (idx === target-1) return [...state.draggedIngredients][selected-1]
-            return current
+            return item
           })
       };
   }

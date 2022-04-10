@@ -53,8 +53,6 @@ function App() {
     dispatch(postOrder(currentIngredients));
   }
 
-  console.log(ingredientDetails);
-
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
