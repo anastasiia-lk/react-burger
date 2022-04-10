@@ -1,6 +1,5 @@
 import orderDetailsStyles from './order-details.module.css';
 import {CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 
 function OrderDetails ({order}) {
   return (

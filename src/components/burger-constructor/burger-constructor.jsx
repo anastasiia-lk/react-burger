@@ -74,6 +74,7 @@ function BurgerConstructor({ openModal }) {
           selected: item.index,
           target: index
         });
+        console.log(draggedIngredients);
       },
     })
 

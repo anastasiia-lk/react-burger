@@ -1,13 +1,12 @@
 import {useState, useContext} from 'react';
+
+import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
+
 import {INGREDIENT_PROP_TYPE, SCROLL_MARGIN} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import {APIContext} from '../../services/appContext';
-import { useDrag } from 'react-dnd';
-import {INIT_INGREDIENTS_COUNTER} from '../../services/actions/index';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 
 function PriceElement ({price}){
   return (

@@ -2,9 +2,6 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  
-  ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
 
   GET_INGREDIENT_DETAILS,
 
@@ -19,9 +16,6 @@ import {
 
   ADD_DRAGGED_INGREDIENTS,
   REMOVE_DRAGGED_INGREDIENTS,
-  UPDATE_DRAGGED_INGREDIENTS,
-
-  INIT_DRAGGED_INGREDIENTS,
 
   ADD_INGREDIENT_COUNTER,
   REMOVE_INGREDIENT_COUNTER,
@@ -31,7 +25,9 @@ import {
   INIT_INGREDIENTS_COUNTER,
   ADD_BUN_COUNTER,
 
-  BURGER_REPLACE_INGREDIENTS
+  BURGER_REPLACE_INGREDIENTS,
+
+  REMOVE_INGREDIENT_DETAILS
 
 } from '../actions/index';
 
@@ -72,7 +68,8 @@ export const constructorReducer = (state = initialState, action) => {
         ingredientsFailed: false,
         flag: {visibility: false},
         orderNumber: {},
-        draggedIngredients: []
+        draggedIngredients: [],
+        ingredientDetails: {}
       }
     }
     case GET_INGREDIENTS_FAILED: {
@@ -153,6 +150,13 @@ export const constructorReducer = (state = initialState, action) => {
     }
 
     case GET_INGREDIENT_DETAILS: {
+      return {
+        ...state,
+        ingredientDetails: action.value
+      }
+    }
+
+    case REMOVE_INGREDIENT_DETAILS: {
       return {
         ...state,
         ingredientDetails: action.value

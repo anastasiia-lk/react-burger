@@ -14,7 +14,7 @@ import OrderDetails from '../order-details/order-details';
 
 import { APIContext } from '../../services/appContext';
 
-import { getIngredients, postOrder, GET_INGREDIENT_DETAILS, REMOVE_FLAG } from '../../services/actions/index';
+import { getIngredients, postOrder, GET_INGREDIENT_DETAILS, REMOVE_FLAG, REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +28,11 @@ function App() {
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
 
   const closeIngredientsDetailsModal = () => {
-    setIngredientDetailsModal({visibility: false}) 
+    dispatch({
+      type: REMOVE_INGREDIENT_DETAILS,
+      value: {}
+    });
+    setIngredientDetailsModal({visibility: false});
   }
 
   const closeOrderDetailsModal = () => {
@@ -48,6 +52,8 @@ function App() {
   const openOrderDetailsModal = () => {
     dispatch(postOrder(currentIngredients));
   }
+
+  console.log(ingredientDetails);
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
