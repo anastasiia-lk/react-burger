@@ -1,4 +1,5 @@
-import {useState, useContext} from 'react';
+import { useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
@@ -64,7 +65,7 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
 }
 
 function BurgerIngredients ({openModal}) {
-  const ingredients = useContext(APIContext);
+  const { ingredients } = useSelector(store => store.constructor);
   const [current, setCurrent] = useState('one');
   const handleOnScroll = (e) => {
     if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 

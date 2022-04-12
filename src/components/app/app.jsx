@@ -61,12 +61,10 @@ function App() {
       {!ingredientsRequest && !ingredientsFailed && ingredients &&
       <>
       <main className={appStyles.main}>
-        <APIContext.Provider value={ingredients}>
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients openModal={openIngredientsDetailsModal}/>
             <BurgerConstructor openModal={openOrderDetailsModal} />
           </DndProvider>
-        </APIContext.Provider>
       </main>
       { ingredientDetailsModal.visibility &&
         <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
