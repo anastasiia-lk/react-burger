@@ -37,18 +37,20 @@ export const BURGER_REPLACE_INGREDIENTS = 'BURGER_REPLACE_INGREDIENTS';
 
 export const REMOVE_INGREDIENT_DETAILS = 'REMOVE_INGREDIENT_DETAILS';
 
+const checkResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(res.status)
+}
+
 export function getIngredients() {
   return function(dispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     });
     fetch(`${SERVICE_URL}/ingredients`)
-    .then (res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject(res.status);
-    })
+    .then(checkResponse)
     .then (res => {
       return res.data
     })
@@ -82,12 +84,7 @@ export function postOrder(ingredientsArray) {
         })  
     }
     )
-    .then (res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject(res.status);
-    })
+    .then(checkResponse)
     .then (res => {
       return res.order
     })

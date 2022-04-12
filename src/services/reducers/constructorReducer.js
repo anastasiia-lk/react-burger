@@ -79,7 +79,6 @@ export const constructorReducer = (state = initialState, action) => {
         ingredientsFailed: true
       }
     }
-
     case UPDATE_INGREDIENTS: {
       return {
         ...state,
