@@ -17,11 +17,7 @@ export const UPDATE_INGREDIENTS = 'UPDATE_INGREDIENTS';
 
 export const ADD_DRAGGED_INGREDIENTS = 'ADD_DRAGGED_INGREDIENTS';
 
-// export const INIT_DRAGGED_INGREDIENTS = 'INIT_DRAGGED_INGREDIENTS';
-
 export const REMOVE_DRAGGED_INGREDIENTS = 'REMOVE_DRAGGED_INGREDIENTS';
-
-// export const UPDATE_DRAGGED_INGREDIENTS = 'UPDATE_DRAGGED_INGREDIENTS';
 
 export const ADD_INGREDIENT_COUNTER = 'ADD_INGREDIENT_COUNTER';
 export const REMOVE_INGREDIENT_COUNTER = 'REMOVE_INGREDIENT_COUNTER';
@@ -31,7 +27,6 @@ export const  INIT_INGREDIENTS_COUNTER = 'INIT_INGREDIENTS_COUNTER';
 export const UPDATE_BUN_INGREDIENT = 'UPDATE_BUN_INGREDIENT';
 
 export const ADD_BUN_COUNTER = 'ADD_BUN_COUNTER';
-// export const REMOVE_BUN_COUNTER = 'REMOVE_BUN_COUNTER';
 
 export const BURGER_REPLACE_INGREDIENTS = 'BURGER_REPLACE_INGREDIENTS';
 
@@ -65,6 +60,9 @@ export function getIngredients() {
           type: GET_INGREDIENTS_FAILED,
         })
       }})
+      .catch((err) => {
+        console.log(err)
+      })
     }
 }
 
@@ -99,6 +97,9 @@ export function postOrder(ingredientsArray) {
       dispatch ({
         type: SET_FLAG
       })
+    })
+    .catch((err) => {
+      console.log(err)
     })
   }
 }
