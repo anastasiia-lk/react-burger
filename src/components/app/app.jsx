@@ -75,7 +75,6 @@ function App() {
       }
       { flag.visibility && orderNumber &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
-        {console.log(typeof(orderNumber.number))}
         <OrderDetails order = {orderNumber.number}/>
       </Modal>
       }

@@ -1,5 +1,6 @@
 import orderDetailsStyles from './order-details.module.css';
 import {CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 function OrderDetails ({order}) {
   return (
@@ -15,6 +16,10 @@ function OrderDetails ({order}) {
       <p className={`${orderDetailsStyles['ready-message']} text text_type_main-default mt-2`}>Дождитесь готовности на орбитальной станции</p>
     </div>
   )
+}
+
+OrderDetails.propTypes = {
+  order: PropTypes.number
 }
 
 export default  OrderDetails;

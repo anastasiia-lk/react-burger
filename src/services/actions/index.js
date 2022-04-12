@@ -87,7 +87,6 @@ export function postOrder(ingredientsArray) {
       return res.order
     })
     .then (res => {
-      console.log(res);
       dispatch ({
           type: POST_ORDER_SUCCESS,
           orderNumber: res,
