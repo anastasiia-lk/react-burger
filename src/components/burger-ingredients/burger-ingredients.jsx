@@ -1,26 +1,12 @@
-import {useState, useContext} from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
-import {INGREDIENT_PROP_TYPE} from '../../utils/data';
+
+import {INGREDIENT_PROP_TYPE, SCROLL_MARGIN} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext} from '../../services/appContext';
-
-function IngredientsSelector (){
-  const [current, setCurrent] = useState('one')
-  return (
-    <div style={{ display: 'flex' }}>
-      <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-        Булки
-      </Tab>
-      <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-        Соусы
-      </Tab>
-      <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-        Начинки
-      </Tab>
-    </div>
-  )
-}
 
 function PriceElement ({price}){
   return (
@@ -31,12 +17,19 @@ function PriceElement ({price}){
   )
 }
 
-function IngredientCard ({ ingredient, openModal }) {
-
+const IngredientCard = ({ ingredient, openModal }) => {
+  const [{ isDrag }, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+    collect: monitor => ({
+        isDrag: monitor.isDragging()
+    })
+  });
   return (
-    <div className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
+    !isDrag && 
+    <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
       <div className={burgerIngredientsStyles.counter}>
-        <Counter count={1} size="default"/>
+        <Counter count={ingredient.qty} size="default"/>
       </div>
       <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient.image + ')', backgroundSize: 'cover' }}>
       </div>
@@ -71,16 +64,43 @@ function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
 }
 
 function BurgerIngredients ({openModal}) {
-  const ingredients = useContext(APIContext);
+  const { ingredients } = useSelector(store => store.constructor);
+  const [current, setCurrent] = useState('one');
+  const handleOnScroll = (e) => {
+    if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+      e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+      e.target.lastChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+      {
+        setCurrent('three')
+      } else {
+        if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+            e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+            {
+              setCurrent('two')
+            } else {
+                setCurrent('one')
+              }
+            }
+    }
     return (
       <section className = {`${burgerIngredientsStyles.constructor}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">
           Соберите бургер
         </h1>
         <div className = 'mb-10'>
-          <IngredientsSelector />
+          <div style={{ display: 'flex' }}>
+            <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+              Булки
+            </Tab>
+            <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+              Соусы
+            </Tab>
+            <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+              Начинки
+            </Tab>
+          </div>
         </div>
-        <div className = {`${burgerIngredientsStyles['ingredients-block']}`}>
+        <div className = {`${burgerIngredientsStyles['ingredients-block']}`} onScroll={handleOnScroll}>
           <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients} openModal = {openModal}/>
           <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients} openModal = {openModal}/>
           <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients} openModal = {openModal}/>

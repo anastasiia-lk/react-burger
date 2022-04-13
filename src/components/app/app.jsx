@@ -1,4 +1,9 @@
 import {useState, useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header.jsx';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
@@ -6,116 +11,65 @@ import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import {SERVICE_URL} from '../../utils/data';
-import {APIContext} from '../../services/appContext';
+
+import { getIngredients, postOrder, setIngredientDetails,removeIngredientDetails, cleanConstructor } from '../../services/actions/index';
+
+import { loadingMessage, errorMessage } from '../../utils/data';
+
+
 
 function App() {
-  const [ingredients, setIngredients] = useState({
-    data: null,
-    isLoading: false,
-    hasError: false,
-  });
+  const dispatch = useDispatch();
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
+  useEffect(()=> {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
-  const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, orderNumberRequest, orderNumberFailed } = useSelector(store => store.constructor);
 
-  const [clickedIngredient, setClickedIngredient] = useState ({});
-
-  const { data, isLoading, hasError } = ingredients;
-
-  const [orderNumber, setOrderNumber] = useState(0);
-  
-  useEffect(()=>{
-    setIngredients({...ingredients, hasError: false, isLoading: true});
-    getIngredients();
-  }, []);
-
-  const getIngredients = async() => {
-    fetch(`${SERVICE_URL}/ingredients`)
-    .then(res => {
-      if (res.ok) {
-         return res.json();
-     }
-     return Promise.reject(res.status);
-    })
-      .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
-      .catch(e => {
-        setIngredients({ ...ingredients, hasError: true, isLoading: false });
-      })}
-
-  const orderIngredientsIds = (data) => {
-    const idsArray = data.map(item => item._id);
-    return idsArray;
-  }
-
-  const postOrder = (array) => {
-    fetch(`${SERVICE_URL}/orders`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify({
-        "ingredients": array
-        })  
-    }
-    )
-    .then(res => {
-      if (res.ok) {
-         return res.json();
-     }
-     return Promise.reject(res.status);
-    })
-    .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
-    .then(data => setOrderDetailsModal({visibility: true}))
-    .catch(e => {
-      setOrderNumber({ ...orderNumber, orderNumber: 0 });
-    });
-  }
+  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
 
   const closeIngredientsDetailsModal = () => {
-    setIngredientDetailsModal({visibility: false}) 
+    dispatch(removeIngredientDetails({}));
+    setIngredientDetailsModal({visibility: false});
   }
 
   const closeOrderDetailsModal = () => {
-    setOrderDetailsModal({visibility: false})
+    dispatch(cleanConstructor());
   }
 
   const openIngredientsDetailsModal = (data) => {
-    setClickedIngredient(data);
-    setIngredientDetailsModal({visibility: true}) 
+    dispatch(setIngredientDetails(data));
+    setIngredientDetailsModal({ visibility: true }) 
   }
 
   const openOrderDetailsModal = () => {
-    const currentAdds = ingredients.data.data.filter((item) => item.type !== 'bun');
-    const currentBuns = ingredients.data.data[0]._id;
-    const orderArray = currentAdds.concat(currentBuns);
-    const idsArray = orderIngredientsIds(orderArray);
-    postOrder(idsArray);
+    dispatch(postOrder(currentIngredients));
   }
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
-      {isLoading && "Загрузка ..."}
-      {hasError && "Ошибка"}
-      {!isLoading && !hasError && data &&
+      {ingredientsRequest && loadingMessage }
+      {ingredientsFailed && errorMessage }
+      {!ingredientsRequest && !ingredientsFailed && ingredients &&
       <>
       <main className={appStyles.main}>
-        <APIContext.Provider value={data.data}>
-          <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <BurgerConstructor openModal={openOrderDetailsModal} adds={ingredients.data.data.filter((item) => item.type !== 'bun')} buns={ingredients.data.data[0]}/>
-        </APIContext.Provider>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients openModal={openIngredientsDetailsModal}/>
+            <BurgerConstructor openModal={openOrderDetailsModal} />
+          </DndProvider>
       </main>
       { ingredientDetailsModal.visibility &&
         <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
-          <IngredientDetails ingredient = {clickedIngredient}/>
+          <IngredientDetails ingredient = {ingredientDetails}/>
         </Modal>
       }
-      { orderDetailsModal.visibility && orderNumber &&
+      { orderNumberRequest && loadingMessage }
+      { orderNumberFailed && errorMessage }
+      { flag.visibility && orderNumber &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
-        <OrderDetails order = {orderNumber}/>
+        <OrderDetails order = {orderNumber.number}/>
       </Modal>
       }
       </>

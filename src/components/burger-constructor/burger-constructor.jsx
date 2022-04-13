@@ -1,87 +1,144 @@
-import {useContext, useMemo} from 'react';
+import { useMemo, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { useDrop, useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
-import {INGREDIENT_PROP_TYPE} from '../../utils/data';
+
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {APIContext} from '../../services/appContext';
 
-function BurgerComponents ({buns, adds}) {
-  return (
-    <div className = {`${burgerConstructorStyles.block} pt-25`}>
-      <div className="ml-6">
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${buns.name} (верх)`}
-          price={buns.price}
-          thumbnail={buns.image}
-        />
-      </div>
-      <ul className={burgerConstructorStyles.list}>
-        {adds.map((ingredient) => {
-          return(
-            <li key={ingredient._id} className={`${burgerConstructorStyles['list-item']} mb-4`}>
-                <DragIcon type="primary"/>
-                <ConstructorElement
-                text={`${ingredient.name}`}
-                price={`${ingredient.price}`}
-                thumbnail={`${ingredient.image}`}
-                />
-            </li>
-          )  
-       })}
-      </ul>
-      <div className="ml-6">
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${buns.name} (низ)`}
-          price={buns.price}
-          thumbnail={buns.image}
-        />
-      </div>
-  </div>
-  )
-}
+import { increaseIngredientCounter, decreaseIngredientCounter, removeIngredient, updateBun, increaseBunCounter, sortConstructorIngredients, addIngredient } from '../../services/actions/index';
 
-function BurgerConstructor ({openModal, adds, buns}) {
-  const ingredients = useContext(APIContext);
+function BurgerConstructor({ openModal }) {
+  const dispatch = useDispatch();
+  const { draggedIngredients } = useSelector(store => store.constructor);
 
   const updateTotalPrice = useMemo(
     () => {
-    const currentAddsPrice = adds.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
-    const currentBunsPrice = buns.price * 2;
-    const currentTotalPrice = currentAddsPrice + currentBunsPrice;
-    return currentTotalPrice
+      let orderBtnStatus = false;
+      const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0);
+      currentTotalPrice !== 0 ? orderBtnStatus = false : orderBtnStatus = true;
+      return [currentTotalPrice, orderBtnStatus]
     },
-    [adds, buns]
+    [draggedIngredients]
   );
 
+  const onDropHandler = (ingredient) => {
+    if (ingredient.type === 'bun') {
+      dispatch(updateBun(ingredient));
+      dispatch(increaseBunCounter(ingredient));
+    } else {
+      dispatch(increaseIngredientCounter(ingredient))
+    }
+    dispatch(addIngredient(ingredient));
+  }
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(ingredient) {
+      onDropHandler(ingredient);
+    }
+  });
+
+  const IngredientCard = ({ index, children, item }) => {
+    const dispatch = useDispatch();
+    const ref = useRef(null);
+    const [{ isDragging }, dragRef] = useDrag({
+      type: "burger-item",
+      item: () => ({ item, index }),
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging()
+      })
+    });
+    const [{ isOver }, dropRef] = useDrop({
+      accept: "burger-item",
+      collect: (monitor) => ({
+        isOver: monitor.isOver()
+      }),
+      drop: (item) => {
+        if (item.index === index) return;
+          dispatch(sortConstructorIngredients(item.index, index));
+      },
+    })
+
+    if (item.type !== "bun") {
+      dragRef(dropRef(ref));
+    };
+
+    const handleClick = (e) => {
+      if (e.target.parentNode.parentNode.className.includes('action')) {
+        dispatch(decreaseIngredientCounter(item));
+        dispatch(removeIngredient(item));
+      }
+    }
     return (
-      <section>
-        <BurgerComponents buns={buns} adds={adds}/>
+      <div ref={ref} onClick={handleClick} draggable>
+        {children}
+      </div>
+    )
+  }
+  return (
+    <section>
+      <div ref={dropTarget} className={`${burgerConstructorStyles.block} pt-25`}>
+        {draggedIngredients && draggedIngredients.map(item =>
+          item.type === 'bun' &&
+          <div className="ml-6 mb-4" key={item.key}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${item.name} (верх)`}
+              price={item.price}
+              thumbnail={item.image}
+            />
+          </div>
+        )}
+        <div className={burgerConstructorStyles.list}>
+          {draggedIngredients && draggedIngredients.map((item, index) =>
+            item.type !== 'bun' &&
+            <IngredientCard item={item} index={ draggedIngredients.indexOf(item)} key={item.key}>
+              <div className={`${burgerConstructorStyles['list-item']} mb-4`}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  text={`${item.name}`}
+                  price={`${item.price}`}
+                  thumbnail={`${item.image}`}
+                />
+              </div>
+            </IngredientCard>
+          )}
+        </div>
+        {draggedIngredients && draggedIngredients.map(item =>
+          item.type === 'bun' &&
+          <div className="ml-6" key={item.key}>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${item.name} (низ)`}
+              price={item.price}
+              thumbnail={item.image}
+            />
+          </div>
+        )}
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p>
+            <p className="text text_type_digits-medium mr-2">{updateTotalPrice[0]}</p>
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={openModal}>
-          <Button type="primary" size="large">
-            Оформить заказ
-          </Button>
+            <Button type="primary" size="large" disabled = {updateTotalPrice[1]}>
+              Оформить заказ
+            </Button>
           </div>
         </div>
-      </section>
-    )
-  }
+      </div>
+    </section>
+  )
+}
 
 BurgerConstructor.propTypes = {
   openModal: PropTypes.func
-}
-
-BurgerComponents.propTypes = {
-  buns: INGREDIENT_PROP_TYPE.isRequired,
-  adds: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired)
 }
 
 export default BurgerConstructor;
