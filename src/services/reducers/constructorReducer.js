@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -96,7 +97,8 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        draggedIngredients: [...state.draggedIngredients, {...action.value, key: Math.random(), index: ++[...state.draggedIngredients].length}]
+        // draggedIngredients: [...state.draggedIngredients, {...action.value, key: Math.random(), index: ++[...state.draggedIngredients].length}]
+        draggedIngredients: action.payload
       }
     }
 

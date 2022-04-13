@@ -1,4 +1,5 @@
 import { SERVICE_URL } from "../../utils/data";
+import { v4 as uuidv4 } from 'uuid';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -37,6 +38,23 @@ const checkResponse = (res) => {
     return res.json();
   }
   return Promise.reject(res.status)
+}
+
+export function addIngredient(ingredient) {
+  return function(dispatch, getState) {
+    const constructorIngredients = getState().constructor.draggedIngredients;
+    const keyId = uuidv4();
+    const payload = [
+      ...constructorIngredients,
+      {
+        ...ingredient,
+        key: keyId, 
+        index: ++[...constructorIngredients].length
+      }
+    ]
+    dispatch({ type: ADD_DRAGGED_INGREDIENTS, payload });
+    console.log(payload);
+  }
 }
 
 export function getIngredients() {
