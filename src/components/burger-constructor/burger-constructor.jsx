@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { ADD_DRAGGED_INGREDIENTS, ADD_INGREDIENT_COUNTER, REMOVE_INGREDIENT_COUNTER, REMOVE_DRAGGED_INGREDIENTS, updateBun, ADD_BUN_COUNTER, BURGER_REPLACE_INGREDIENTS, addIngredient } from '../../services/actions/index';
+import { ADD_DRAGGED_INGREDIENTS, increaseIngredientCounter, decreaseIngredientCounter, removeIngredient, updateBun, increaseBunCounter, sortConstructorIngredients, addIngredient } from '../../services/actions/index';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
@@ -26,15 +26,9 @@ function BurgerConstructor({ openModal }) {
   const onDropHandler = (ingredient) => {
     if (ingredient.type === 'bun') {
       dispatch(updateBun(ingredient));
-      dispatch({
-        type: ADD_BUN_COUNTER,
-        value: ingredient
-      });
+      dispatch(increaseBunCounter(ingredient));
     } else {
-      dispatch({
-        type: ADD_INGREDIENT_COUNTER,
-        value: ingredient
-      })
+      dispatch(increaseIngredientCounter(ingredient))
     }
     dispatch(addIngredient(ingredient));
   }
@@ -65,11 +59,7 @@ function BurgerConstructor({ openModal }) {
       }),
       drop: (item) => {
         if (item.index === index) return;
-        dispatch({
-          type: BURGER_REPLACE_INGREDIENTS,
-          selected: item.index,
-          target: index
-        });
+          dispatch(sortConstructorIngredients(item.index, index));
       },
     })
 
@@ -79,14 +69,8 @@ function BurgerConstructor({ openModal }) {
 
     const handleClick = (e) => {
       if (e.target.parentNode.parentNode.className.includes('action')) {
-        dispatch({
-          type: REMOVE_INGREDIENT_COUNTER,
-          value: item
-        });
-        dispatch({
-          type: REMOVE_DRAGGED_INGREDIENTS,
-          value: item
-        });
+        dispatch(decreaseIngredientCounter(item));
+        dispatch(removeIngredient(item));
       }
     }
     return (

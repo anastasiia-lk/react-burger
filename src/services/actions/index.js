@@ -141,3 +141,23 @@ export function cleanConstructor() {
 export function updateBun(value) {
   return { type: UPDATE_BUN_INGREDIENT, value }
 }
+
+export function increaseBunCounter(value) {
+  return { type: ADD_BUN_COUNTER, value }
+}
+
+export function increaseIngredientCounter(value) {
+  return { type: ADD_INGREDIENT_COUNTER, value }
+}
+
+export function decreaseIngredientCounter(value) {
+  return { type: REMOVE_INGREDIENT_COUNTER, value }
+}
+
+export function sortConstructorIngredients(selected, target) {
+  return { type: BURGER_REPLACE_INGREDIENTS, selected, target } 
+}
+
+export function removeIngredient(value) {
+  return { type: REMOVE_DRAGGED_INGREDIENTS, value }
+}
