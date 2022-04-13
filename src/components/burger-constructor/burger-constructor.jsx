@@ -15,8 +15,10 @@ function BurgerConstructor({ openModal }) {
 
   const updateTotalPrice = useMemo(
     () => {
-      const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0)
-      return currentTotalPrice
+      let orderBtnStatus = false;
+      const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0);
+      currentTotalPrice !== 0 ? orderBtnStatus = false : orderBtnStatus = true;
+      return [currentTotalPrice, orderBtnStatus]
     },
     [draggedIngredients]
   );
@@ -141,11 +143,11 @@ function BurgerConstructor({ openModal }) {
         )}
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p>
+            <p className="text text_type_digits-medium mr-2">{updateTotalPrice[0]}</p>
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={openModal}>
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" disabled = {updateTotalPrice[1]}>
               Оформить заказ
             </Button>
           </div>
