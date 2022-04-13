@@ -112,7 +112,7 @@ export const constructorReducer = (state = initialState, action) => {
     case REMOVE_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        draggedIngredients: [...state.draggedIngredients].filter(item => item.key !== action.value.key).map((item, index) => ({...item, index: index}))
+        draggedIngredients: [...state.draggedIngredients].filter(item => item.key !== action.value.key)
       }
     }
 
@@ -121,8 +121,8 @@ export const constructorReducer = (state = initialState, action) => {
       return {
           ...state,
           draggedIngredients: [...state.draggedIngredients].map((item, idx) => {
-            if (idx === selected-1) return [...state.draggedIngredients][target-1]
-            if (idx === target-1) return [...state.draggedIngredients][selected-1]
+            if (idx === selected) return [...state.draggedIngredients][target]
+            if (idx === target) return [...state.draggedIngredients][selected]
             return item
           })
       };
@@ -198,7 +198,8 @@ export const constructorReducer = (state = initialState, action) => {
       return {
         ...state,
         flag: {visibility: false},
-        draggedIngredients: []
+        draggedIngredients: [],
+        ingredients: [...state.ingredients].map(item => item.qty !== 0 ? {...item, qty: 0 } : { ...item })
       }
     }
 

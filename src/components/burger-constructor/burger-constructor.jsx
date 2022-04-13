@@ -73,7 +73,6 @@ function BurgerConstructor({ openModal }) {
           selected: item.index,
           target: index
         });
-        console.log(draggedIngredients);
       },
     })
 
@@ -117,7 +116,7 @@ function BurgerConstructor({ openModal }) {
         <div className={burgerConstructorStyles.list}>
           {draggedIngredients && draggedIngredients.map((item, index) =>
             item.type !== 'bun' &&
-            <IngredientCard item={item} index={item.index} key={item.key}>
+            <IngredientCard item={item} index={ draggedIngredients.indexOf(item)} key={item.key}>
               <div className={`${burgerConstructorStyles['list-item']} mb-4`}>
                 <DragIcon type="primary" />
                 <ConstructorElement

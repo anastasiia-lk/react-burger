@@ -23,7 +23,7 @@ function App() {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, orderNumberRequest, orderNumberFailed } = useSelector(store => store.constructor);
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
 
@@ -71,6 +71,8 @@ function App() {
           <IngredientDetails ingredient = {ingredientDetails}/>
         </Modal>
       }
+      { orderNumberRequest && "Загрузка ..." }
+      { orderNumberFailed && "Ошибка" }
       { flag.visibility && orderNumber &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
         <OrderDetails order = {orderNumber.number}/>
