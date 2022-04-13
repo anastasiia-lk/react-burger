@@ -12,9 +12,11 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 
-import { APIContext } from '../../services/appContext';
-
 import { getIngredients, postOrder, GET_INGREDIENT_DETAILS, REMOVE_FLAG, REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index';
+
+import { loadingMessage, errorMessage } from '../../utils/data';
+
+
 
 function App() {
   const dispatch = useDispatch();
@@ -56,8 +58,8 @@ function App() {
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <AppHeader />
-      {ingredientsRequest && "Загрузка ..."}
-      {ingredientsFailed && "Ошибка"}
+      {ingredientsRequest && loadingMessage }
+      {ingredientsFailed && errorMessage }
       {!ingredientsRequest && !ingredientsFailed && ingredients &&
       <>
       <main className={appStyles.main}>
@@ -71,8 +73,8 @@ function App() {
           <IngredientDetails ingredient = {ingredientDetails}/>
         </Modal>
       }
-      { orderNumberRequest && "Загрузка ..." }
-      { orderNumberFailed && "Ошибка" }
+      { orderNumberRequest && loadingMessage }
+      { orderNumberFailed && errorMessage }
       { flag.visibility && orderNumber &&
       <Modal text='' closeModal={closeOrderDetailsModal}>
         <OrderDetails order = {orderNumber.number}/>

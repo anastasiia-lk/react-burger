@@ -17,3 +17,5 @@ export const INGREDIENT_PROP_TYPE = PropTypes.shape({
 });
 export const SERVICE_URL = 'https://norma.nomoreparties.space/api';
 export const SCROLL_MARGIN = 340;
+export const loadingMessage = "Загрузка ...";
+export const errorMessage = "Ошибка";
