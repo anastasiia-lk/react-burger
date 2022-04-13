@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { ADD_DRAGGED_INGREDIENTS, increaseIngredientCounter, decreaseIngredientCounter, removeIngredient, updateBun, increaseBunCounter, sortConstructorIngredients, addIngredient } from '../../services/actions/index';
+import { increaseIngredientCounter, decreaseIngredientCounter, removeIngredient, updateBun, increaseBunCounter, sortConstructorIngredients, addIngredient } from '../../services/actions/index';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
