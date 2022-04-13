@@ -125,3 +125,19 @@ export function postOrder(ingredientsArray) {
     })
   }
 }
+
+export function removeIngredientDetails(value) {
+  return { type: REMOVE_INGREDIENT_DETAILS, value }
+}
+
+export function setIngredientDetails(value) {
+  return { type: GET_INGREDIENT_DETAILS, value }
+}
+
+export function cleanConstructor() {
+  return { type: REMOVE_FLAG }
+}
+
+export function updateBun(value) {
+  return { type: UPDATE_BUN_INGREDIENT, value }
+}

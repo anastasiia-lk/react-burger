@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { ADD_DRAGGED_INGREDIENTS, ADD_INGREDIENT_COUNTER, REMOVE_INGREDIENT_COUNTER, REMOVE_DRAGGED_INGREDIENTS, UPDATE_BUN_INGREDIENT, ADD_BUN_COUNTER, BURGER_REPLACE_INGREDIENTS, addIngredient } from '../../services/actions/index';
+import { ADD_DRAGGED_INGREDIENTS, ADD_INGREDIENT_COUNTER, REMOVE_INGREDIENT_COUNTER, REMOVE_DRAGGED_INGREDIENTS, updateBun, ADD_BUN_COUNTER, BURGER_REPLACE_INGREDIENTS, addIngredient } from '../../services/actions/index';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
@@ -25,10 +25,7 @@ function BurgerConstructor({ openModal }) {
 
   const onDropHandler = (ingredient) => {
     if (ingredient.type === 'bun') {
-      dispatch({
-        type: UPDATE_BUN_INGREDIENT,
-        value: ingredient
-      });
+      dispatch(updateBun(ingredient));
       dispatch({
         type: ADD_BUN_COUNTER,
         value: ingredient

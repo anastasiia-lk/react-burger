@@ -12,7 +12,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 
-import { getIngredients, postOrder, GET_INGREDIENT_DETAILS, REMOVE_FLAG, REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index';
+import { getIngredients, postOrder, setIngredientDetails,removeIngredientDetails, cleanConstructor } from '../../services/actions/index';
 
 import { loadingMessage, errorMessage } from '../../utils/data';
 
@@ -30,24 +30,16 @@ function App() {
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
 
   const closeIngredientsDetailsModal = () => {
-    dispatch({
-      type: REMOVE_INGREDIENT_DETAILS,
-      value: {}
-    });
+    dispatch(removeIngredientDetails({}));
     setIngredientDetailsModal({visibility: false});
   }
 
   const closeOrderDetailsModal = () => {
-    dispatch({
-      type: REMOVE_FLAG
-    });
+    dispatch(cleanConstructor());
   }
 
   const openIngredientsDetailsModal = (data) => {
-    dispatch({
-      type: GET_INGREDIENT_DETAILS,
-      value: data
-    });
+    dispatch(setIngredientDetails(data));
     setIngredientDetailsModal({ visibility: true }) 
   }
 
