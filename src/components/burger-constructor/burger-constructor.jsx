@@ -13,13 +13,13 @@ function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
   const { draggedIngredients } = useSelector(store => store.constructor);
 
-  // const updateTotalPrice = useMemo(
-  //   () => {
-  //     const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0)
-  //     return currentTotalPrice
-  //   },
-  //   [draggedIngredients]
-  // );
+  const updateTotalPrice = useMemo(
+    () => {
+      const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0)
+      return currentTotalPrice
+    },
+    [draggedIngredients]
+  );
 
   const onDropHandler = (ingredient) => {
     if (ingredient.type === 'bun') {
@@ -37,10 +37,6 @@ function BurgerConstructor({ openModal }) {
         value: ingredient
       })
     }
-    // dispatch({
-    //   type: ADD_DRAGGED_INGREDIENTS,
-    //   value: ingredient
-    // });
     dispatch(addIngredient(ingredient));
   }
   const [, dropTarget] = useDrop({
@@ -145,7 +141,7 @@ function BurgerConstructor({ openModal }) {
         )}
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            {/* <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p> */}
+            <p className="text text_type_digits-medium mr-2">{updateTotalPrice}</p>
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={openModal}>

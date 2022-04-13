@@ -104,12 +104,17 @@ export function postOrder(ingredientsArray) {
     .then (res => {
       return res.order
     })
-    .then (res => {
-      dispatch ({
+    .then(res => {
+      if (res) {
+        dispatch ({
           type: POST_ORDER_SUCCESS,
           orderNumber: res,
         })
-    })
+      } else {
+        dispatch ({
+          type: POST_ORDER_FAILED,
+        })
+      }})
     .then (res => {
       dispatch ({
         type: SET_FLAG

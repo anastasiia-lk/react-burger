@@ -97,7 +97,6 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_DRAGGED_INGREDIENTS: {
       return {
         ...state,
-        // draggedIngredients: [...state.draggedIngredients, {...action.value, key: Math.random(), index: ++[...state.draggedIngredients].length}]
         draggedIngredients: action.payload
       }
     }
@@ -198,7 +197,8 @@ export const constructorReducer = (state = initialState, action) => {
     case REMOVE_FLAG: {
       return {
         ...state,
-        flag: {visibility: false}
+        flag: {visibility: false},
+        draggedIngredients: []
       }
     }
 
