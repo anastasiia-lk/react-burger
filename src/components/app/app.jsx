@@ -16,7 +16,14 @@ import { getIngredients, postOrder, setIngredientDetails,removeIngredientDetails
 
 import { loadingMessage, errorMessage } from '../../utils/data';
 
+import { Route, Routes } from "react-router-dom";
 
+import {
+  Login
+} from '../../pages/login';
+import {
+  Layout
+} from '../../pages/layout';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,7 +56,12 @@ function App() {
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
-      <AppHeader />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="login" element={<Login />} />
+        </Route>  
+      </Routes>
+      {/* <AppHeader />
       {ingredientsRequest && loadingMessage }
       {ingredientsFailed && errorMessage }
       {!ingredientsRequest && !ingredientsFailed && ingredients &&
@@ -73,7 +85,7 @@ function App() {
       </Modal>
       }
       </>
-      }
+      } */}
     </div>
   );
 }
