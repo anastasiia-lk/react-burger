@@ -20,3 +20,10 @@
 .ready-message {
   color: #8585ad;
 }
+
+.subtitle-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

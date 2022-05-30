@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Form from '../components/form/form';
-import { loginFormConfig } from '../utils/data';
+import { registerFormConfig } from '../utils/data';
 
-export function Login() {
+export function Register() {
   return (
-    <Form config={loginFormConfig}>
+    <Form config={registerFormConfig}>
     </Form>
   );
 }

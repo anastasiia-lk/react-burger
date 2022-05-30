@@ -19,3 +19,107 @@ export const SERVICE_URL = 'https://norma.nomoreparties.space/api';
 export const SCROLL_MARGIN = 340;
 export const loadingMessage = "Загрузка ...";
 export const errorMessage = "Ошибка";
+
+export const loginFormConfig = {
+  header: 'Вход',
+  buttonText: 'Войти',
+  inputsArr: [
+    {
+      type: 'email',
+      placeholder: 'E-mail',
+      icon: '',
+      name: 'email'
+    },
+    {
+      type: 'password',
+      placeholder: 'Пароль',
+      icon: 'ShowIcon',
+      name: 'password',
+    }
+  ],
+  subtitleArr: [
+    {
+      text: 'Вы — новый пользователь?',
+      linkText: 'Зарегистрироваться'
+    },
+    {
+      text: 'Забыли пароль?',
+      linkText: 'Восстановить пароль'
+    }
+  ]
+}
+
+export const registerFormConfig = {
+  header: 'Регистрация',
+  buttonText: 'Зарегестрироваться',
+  inputsArr: [
+    {
+      type: 'text',
+      placeholder: 'Имя',
+      icon: '',
+      name: 'name'
+    },
+    {
+      type: 'email',
+      placeholder: 'E-mail',
+      icon: '',
+      name: 'email'
+    },
+    {
+      type: 'password',
+      placeholder: 'Пароль',
+      icon: 'ShowIcon',
+      name: 'password',
+    }
+  ],
+  subtitleArr: [
+    {
+      text: 'Уже зарегистрированы?',
+      linkText: 'Войти'
+    }
+  ]
+}
+
+export const forgotPasswordFormConfig = {
+  header: 'Восстановление пароля',
+  buttonText: 'Восстановить',
+  inputsArr: [
+    {
+      type: 'email',
+      placeholder: 'Укажите e-mail',
+      icon: '',
+      name: 'email'
+    }
+  ],
+  subtitleArr: [
+    {
+      text: 'Вспомнили пароль?',
+      linkText: 'Войти'
+    }
+  ]
+}
+
+export const resetPasswordFormConfig = {
+  header: 'Восстановление пароля',
+  buttonText: 'Сохранить',
+  inputsArr: [
+    {
+      type: 'password',
+      placeholder: 'Пароль',
+      icon: 'ShowIcon',
+      name: 'password',
+    },
+    {
+      type: 'number',
+      placeholder: 'Введите код из письма',
+      icon: '',
+      name: 'code',
+    },
+  ],
+  subtitleArr: [
+    {
+      text: 'Вспомнили пароль?',
+      linkText: 'Войти'
+    }
+  ]
+}

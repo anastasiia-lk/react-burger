@@ -19,11 +19,20 @@ import { loadingMessage, errorMessage } from '../../utils/data';
 import { Route, Routes } from "react-router-dom";
 
 import {
+  Layout
+} from '../../pages/layout';
+import {
   Login
 } from '../../pages/login';
 import {
-  Layout
-} from '../../pages/layout';
+  Register
+} from '../../pages/register';
+import {
+  ForgotPassword
+} from '../../pages/forgot-password';
+import { 
+  ResetPassword
+} from '../../pages/reset-password';
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +68,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
         </Route>  
       </Routes>
       {/* <AppHeader />
