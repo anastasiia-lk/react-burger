@@ -16,6 +16,7 @@ export const INGREDIENT_PROP_TYPE = PropTypes.shape({
   _id: PropTypes.string,
 });
 export const SERVICE_URL = 'https://norma.nomoreparties.space/api';
+export const PASSWORD_RESET_ENDPOINT = '/password-reset';
 export const SCROLL_MARGIN = 340;
 export const loadingMessage = "Загрузка ...";
 export const errorMessage = "Ошибка";
@@ -88,7 +89,8 @@ export const forgotPasswordFormConfig = {
       type: 'email',
       placeholder: 'Укажите e-mail',
       icon: '',
-      name: 'email'
+      name: 'email',
+      value: ''
     }
   ],
   subtitleArr: [
