@@ -7,7 +7,7 @@ import { forgotPasswordFormConfig, PASSWORD_RESET_ENDPOINT } from '../utils/data
 import { fetchAuth } from '../utils/api';
 
 export function ForgotPassword() {
-  const [emailValue, setEmailValue] = useState(' ');
+  const [emailValue, setEmailValue] = useState('');
   const onSubmitHandler = (event, body) => {
     event.preventDefault();
 

@@ -17,6 +17,7 @@ export const INGREDIENT_PROP_TYPE = PropTypes.shape({
 });
 export const SERVICE_URL = 'https://norma.nomoreparties.space/api';
 export const PASSWORD_RESET_ENDPOINT = '/password-reset';
+export const PASSWORD_RESET_CONFIRM_ENDPOINT = '/password-reset/reset';
 export const SCROLL_MARGIN = 340;
 export const loadingMessage = "Загрузка ...";
 export const errorMessage = "Ошибка";
@@ -112,9 +113,8 @@ export const resetPasswordFormConfig = {
       name: 'password',
     },
     {
-      type: 'number',
+      type: 'text',
       placeholder: 'Введите код из письма',
-      icon: '',
       name: 'code',
     },
   ],

@@ -19,9 +19,13 @@ function Form ({config, body, onSubmit, children}) {
           />
         </div>
       )} */}
-      <div className ='mb-6'>
-        {children}
-      </div>
+      {children.map((child) => {
+        return (
+          <div className ='mb-6' key={child.name}>
+            {child}
+          </div>
+        )
+      })}
       <div className='mb-20'>
         <Button type="primary" size="large">
         {config.buttonText}
