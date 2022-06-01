@@ -125,3 +125,31 @@ export const resetPasswordFormConfig = {
     }
   ]
 }
+
+export const profileFormConfig = {
+  inputsArr: [
+    {
+      type: 'text',
+      placeholder: 'Имя',
+      icon: 'EditIcon',
+      name: 'name',
+    },
+    {
+      type: 'email',
+      placeholder: 'Логин',
+      icon: 'EditIcon',
+      name: 'email',
+    },
+    {
+      type: 'password',
+      placeholder: 'Пароль',
+      icon: 'EditIcon',
+      name: 'password',
+    }
+  ],
+  navigationArr: [
+    'Профиль',
+    'История заказов',
+    'Выход'
+  ]
+}

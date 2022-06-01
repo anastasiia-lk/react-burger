@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-confirmed {
+  width: 120px;
+  height: 120px;
+  background-image: url('../../images/order-confirmed.svg');
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+}
+
+.ready-message {
+  color: #8585ad;
+}
+
+.subtitle-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* className={`${form[`subtitle-container`]}`} */

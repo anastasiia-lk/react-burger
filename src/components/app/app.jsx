@@ -33,6 +33,10 @@ import {
 import { 
   ResetPassword
 } from '../../pages/reset-password';
+import { 
+  Profile
+} from '../../pages/profile';
+import ProfileForm from '../../components/profile-form/profile-form';
 
 function App() {
   const dispatch = useDispatch();
@@ -71,6 +75,9 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="profile" element={<Profile />}>
+            <Route index element={<ProfileForm />} />
+          </Route>
         </Route>  
       </Routes>
       {/* <AppHeader />

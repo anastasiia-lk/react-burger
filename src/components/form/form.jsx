@@ -19,7 +19,12 @@ function Form ({config, body, onSubmit, children}) {
           />
         </div>
       )} */}
-      {children.map((child) => {
+      {children && children.length === undefined && 
+          <div className ='mb-6'>
+            {children}
+          </div>
+      }
+      {children && children.length>1 && children.map((child) => {
         return (
           <div className ='mb-6' key={child.name}>
             {child}

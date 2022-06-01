@@ -1,0 +1,6 @@
+.nav-item {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  min-height: 64px;
+}
