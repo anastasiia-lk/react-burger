@@ -18,6 +18,11 @@ export const INGREDIENT_PROP_TYPE = PropTypes.shape({
 export const SERVICE_URL = 'https://norma.nomoreparties.space/api';
 export const PASSWORD_RESET_ENDPOINT = '/password-reset';
 export const PASSWORD_RESET_CONFIRM_ENDPOINT = '/password-reset/reset';
+export const LOGIN_ENDPOINT = '/auth/login';
+export const REGISTRATION_ENDPOINT = '/auth/register';
+export const LOGOUT_ENDPOINT = '/auth/logout';
+export const REFRESH_TOKEN_ENDPOINT = '/auth/token';
+
 export const SCROLL_MARGIN = 340;
 export const loadingMessage = "Загрузка ...";
 export const errorMessage = "Ошибка";
