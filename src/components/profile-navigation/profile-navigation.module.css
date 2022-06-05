@@ -4,3 +4,11 @@
   width: 320px;
   min-height: 64px;
 }
+.btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
