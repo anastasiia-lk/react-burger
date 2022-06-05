@@ -32,7 +32,7 @@ function Form ({config, body, onSubmit, children}) {
         )
       })}
       <div className='mb-20'>
-        <Button type="primary" size="large">
+        <Button type="submit" size="large">
         {config.buttonText}
         </Button>
       </div>

@@ -33,3 +33,10 @@ export function saveTokens(data) {
     setCookie('token', accessToken, { path: '/', 'max-age': 1200 });
   }
 }
+
+export function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}

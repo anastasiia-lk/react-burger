@@ -3,17 +3,43 @@ import {CheckMarkIcon, Input, Button} from '@ya.praktikum/react-developer-burger
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { profileFormConfig as config } from '../../utils/data';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserInfo, getUserInfo } from '../../services/actions/user';
+import {useState, useMemo, useCallback, useEffect} from 'react';
 
 export default function ProfileForm() {
+  const { user } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, [dispatch]);
+
+  const [nameValue, setNameValue] = useState(user.name);
+  const [emailValue, setEmailValue] = useState(user.email);
+  const [passwordValue, setPasswordValue] = useState('');
+
+  const body = useMemo(() => ({
+    name: nameValue,
+    email: emailValue,
+    password: passwordValue
+  }), [nameValue, emailValue, passwordValue])
+
+  const submitHandler = useCallback((e, body) => {
+    e.preventDefault();
+    dispatch(updateUserInfo(body));
+  }, [dispatch])
+
   return (
-    <form className={`${form.container}`}>
+    <form className={`${form.container}`} onSubmit={(e) => submitHandler(e, body)}>
         <div className ='mb-6'>
           <Input 
             type = {`${config.inputsArr[0].type}`}
             placeholder = {`${config.inputsArr[0].placeholder}`}
             icon = {`${config.inputsArr[0].icon}`}
             name = {`${config.inputsArr[0].name}`}
-            value = 'Марк'
+            value = {nameValue}
+            onChange={e => setNameValue(e.target.value)}
             // onChange={e => setValue(e.target.value)}
           />
         </div>
@@ -23,7 +49,8 @@ export default function ProfileForm() {
             placeholder = {`${config.inputsArr[1].placeholder}`}
             icon = {`${config.inputsArr[1].icon}`}
             name = {`${config.inputsArr[1].name}`}
-            value = 'mail@stellar.burgers'
+            value = {emailValue}
+            onChange={e => setEmailValue(e.target.value)}
             // onChange={e => setValue(e.target.value)}
           />
         </div>
@@ -33,10 +60,15 @@ export default function ProfileForm() {
             placeholder = {`${config.inputsArr[2].placeholder}`}
             icon = {`${config.inputsArr[2].icon}`}
             name = {`${config.inputsArr[2].name}`}
-            value = '******|' 
+            value = {passwordValue}
+            onChange={e => setPasswordValue(e.target.value)}
             // onChange={e => setValue(e.target.value)}
           />
         </div>
+        <Button type="secondary">
+            Отмена
+        </Button>
+        <Button type="submit">Сохранить</Button>
     </form>
   )
 }

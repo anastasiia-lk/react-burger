@@ -22,10 +22,12 @@ export const LOGIN_ENDPOINT = '/auth/login';
 export const REGISTRATION_ENDPOINT = '/auth/register';
 export const LOGOUT_ENDPOINT = '/auth/logout';
 export const REFRESH_TOKEN_ENDPOINT = '/auth/token';
+export const USER_ENDPOINT = '/auth/user';
 
 export const SCROLL_MARGIN = 340;
 export const loadingMessage = "Загрузка ...";
 export const errorMessage = "Ошибка";
+export const TOKEN_ERR_MESSAGE = 'jwt malformed';
 
 export const loginFormConfig = {
   header: 'Вход',
