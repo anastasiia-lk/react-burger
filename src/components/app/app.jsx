@@ -21,6 +21,7 @@ import { Route, Routes } from "react-router-dom";
 import {
   Layout
 } from '../../pages/layout';
+import { Home } from '../../pages/home';
 import {
   Login
 } from '../../pages/login';
@@ -38,6 +39,7 @@ import {
 } from '../../pages/profile';
 import ProfileForm from '../../components/profile-form/profile-form';
 
+import ProtectedRoute from '../protected-route/protected-route';
 function App() {
   const dispatch = useDispatch();
 
@@ -71,11 +73,34 @@ function App() {
     <div className={`${appStyles.body} mt-10 mb-10`}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="profile" element={<Profile />}>
+          <Route
+            index
+            element={<Home />}
+          />
+          <Route path="login" element={
+            <ProtectedRoute anonymous>
+              <Login />
+            </ProtectedRoute>
+          }/>
+          <Route path="register" element={
+            <ProtectedRoute anonymous>
+                <Register />
+              </ProtectedRoute>
+          }/>
+          <Route path="forgot-password" element={
+            <ProtectedRoute anonymous>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }/>
+          <Route path="reset-password" element={
+            <ProtectedRoute anonymous>
+              <ResetPassword />
+            </ProtectedRoute>
+          }/>
+          <Route path="profile" element={ 
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>}>
             <Route index element={<ProfileForm />} />
           </Route>
         </Route>  
