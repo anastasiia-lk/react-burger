@@ -8,15 +8,15 @@ import { updateUserInfo, getUserInfo } from '../../services/actions/user';
 import {useState, useMemo, useCallback, useEffect} from 'react';
 
 export default function ProfileForm() {
-  const { user } = useSelector((store) => store.user);
+  const { name, email } = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUserInfo());
   }, [dispatch]);
 
-  const [nameValue, setNameValue] = useState(user.name);
-  const [emailValue, setEmailValue] = useState(user.email);
+  const [nameValue, setNameValue] = useState(name);
+  const [emailValue, setEmailValue] = useState(email);
   const [passwordValue, setPasswordValue] = useState('');
 
   const body = useMemo(() => ({
@@ -29,6 +29,16 @@ export default function ProfileForm() {
     e.preventDefault();
     dispatch(updateUserInfo(body));
   }, [dispatch])
+
+  const cancelHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      setNameValue(name);
+      setEmailValue(email);
+      setPasswordValue('');
+    },
+    [email, name]
+  );
 
   return (
     <form className={`${form.container}`} onSubmit={(e) => submitHandler(e, body)}>
@@ -65,7 +75,7 @@ export default function ProfileForm() {
             // onChange={e => setValue(e.target.value)}
           />
         </div>
-        <Button type="secondary">
+        <Button type="secondary" onClick={(e) => cancelHandler(e)}>
             Отмена
         </Button>
         <Button type="submit">Сохранить</Button>
