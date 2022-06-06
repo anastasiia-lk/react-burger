@@ -7,6 +7,7 @@ function AppHeader() {
       <header className = {appHeaderStyles.header}>
         <nav className = {appHeaderStyles.menu}>
           <ul className = {appHeaderStyles.list}>
+          <NavLink to="/" className={appHeaderStyles.link}>
             <li className={`${appHeaderStyles['header-item']} ml-0 mr-2 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
               <div className="ml-0 mr-2 mb-0 mt-0">
                 <BurgerIcon type="primary"/>
@@ -15,6 +16,7 @@ function AppHeader() {
                 Конструктор
               </p>
             </li>
+            </NavLink>
             <li className={`${appHeaderStyles['header-item']} ml-0 mr-0 mb-4 mt-4 pl-5 pr-5 pb-4 pt-4`}>
               <div className="ml-0 mr-2 mb-0 mt-0">
                 <ListIcon type="primary"/>
