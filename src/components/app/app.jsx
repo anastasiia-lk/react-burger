@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { DndProvider } from "react-dnd";
@@ -14,9 +14,11 @@ import OrderDetails from '../order-details/order-details';
 
 import { getIngredients, postOrder, setIngredientDetails,removeIngredientDetails, cleanConstructor } from '../../services/actions/index';
 
+import { getUserInfo } from '../../services/actions/user';
+
 import { loadingMessage, errorMessage } from '../../utils/data';
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import {
   Layout
@@ -38,16 +40,33 @@ import {
   Profile
 } from '../../pages/profile';
 import ProfileForm from '../../components/profile-form/profile-form';
+import { Ingredient } from '../../pages/ingredient';
 
 import ProtectedRoute from '../protected-route/protected-route';
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
 
   useEffect(()=> {
     dispatch(getIngredients());
+    dispatch(getUserInfo());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (location.state?.background) {
+      window.history.replaceState({}, '');
+    }
+  }, [location.state?.background])
+
   const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, orderNumberRequest, orderNumberFailed } = useSelector(store => store.constructor);
+
+  const background = location.state?.background;
+
+  const closeDetailsHandler = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
 
@@ -71,7 +90,7 @@ function App() {
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
-      <Routes>
+      <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
           <Route
             index
@@ -103,8 +122,21 @@ function App() {
             </ProtectedRoute>}>
             <Route index element={<ProfileForm />} />
           </Route>
+          <Route path="ingredients/:id" element={<Ingredient />} />
         </Route>  
       </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal close={closeDetailsHandler}>
+                <IngredientDetails isModal />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
       {/* <AppHeader />
       {ingredientsRequest && loadingMessage }
       {ingredientsFailed && errorMessage }

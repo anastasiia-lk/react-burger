@@ -14,17 +14,17 @@ function Modal (props) {
   }, [])
 
   function escPress (evt) {
-    if (evt.key === ESC_KEY) props.closeModal()
+    if (evt.key === ESC_KEY) props.close()
   }
 
   return createPortal(
     (
     <div className={modalStyles.wrapper}>
-      <ModalOverlay closeModal={props.closeModal} />
+      <ModalOverlay close={props.close} />
       <div className={`${modalStyles.modal} pt-10 pr-10 pb-15 pl-10`}>
         <div className={modalStyles.title}>
           <h2 className='text text_type_main-large'>{props.text}</h2>
-          <div className={modalStyles.closeIcon} onClick={props.closeModal}>
+          <div className={modalStyles.closeIcon} onClick={props.close}>
             <CloseIcon type="primary" />
           </div>
         </div>

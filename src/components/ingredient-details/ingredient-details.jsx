@@ -1,7 +1,19 @@
 import ingredientStyles from './ingredient-details.module.css';
 import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 
-function IngredientDetails ({ingredient}) {
+import { useParams } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+
+function IngredientDetails ({ isModal = false }) {
+  const { id } = useParams();
+
+  const { ingredients } = useSelector(store => store.constructor);
+
+  const [ingredient] = ingredients.filter(
+    (ingredient) => ingredient._id === id
+  );
+
   const CaptionBlock = ({caption, content}) => {
     return(
     <div className={ingredientStyles['caption-block']}>
@@ -11,7 +23,7 @@ function IngredientDetails ({ingredient}) {
     )
   }
 
-  const Caption = ({ingredient}) => {
+  const Caption = () => {
     return (
       <ul className = {`${ingredientStyles.caption}`}>
         <li className='mr-5'>
@@ -33,11 +45,14 @@ function IngredientDetails ({ingredient}) {
   return (
     <>
     <div className={`${ingredientStyles.container}`}>
+    {isModal && <h2 className = 'text text_type_main-large'>
+        Детали ингредиента
+      </h2>}
       <img src={ingredient.image} alt={`${ingredient.name}`} className={`${ingredientStyles.image} mb-4`}/>
       <h3 className={'text text_type_main-medium mb-8'}>
       {ingredient.name}
       </h3>
-      <Caption ingredient = {ingredient} className={'mb-15'}/>
+      <Caption className={'mb-15'}/>
     </div>
     </>
   )

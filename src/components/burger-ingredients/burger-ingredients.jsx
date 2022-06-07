@@ -8,6 +8,8 @@ import {INGREDIENT_PROP_TYPE, SCROLL_MARGIN} from '../../utils/data';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { Link, useLocation } from 'react-router-dom';
+
 function PriceElement ({price}){
   return (
     <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
@@ -17,7 +19,9 @@ function PriceElement ({price}){
   )
 }
 
-const IngredientCard = ({ ingredient, openModal }) => {
+const IngredientCard = ({ ingredient }) => {
+  const location = useLocation();
+
   const [{ isDrag }, dragRef] = useDrag({
     type: "ingredient",
     item: ingredient,
@@ -27,7 +31,11 @@ const IngredientCard = ({ ingredient, openModal }) => {
   });
   return (
     !isDrag && 
-    <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`} onClick={() => openModal(ingredient)}>
+    <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`}>
+      <Link
+        to={`/ingredients/${ingredient._id}`}
+        state={{ background: location }}
+      >
       <div className={burgerIngredientsStyles.counter}>
         <Counter count={ingredient.qty} size="default"/>
       </div>
@@ -37,33 +45,34 @@ const IngredientCard = ({ ingredient, openModal }) => {
       <p className = {`${burgerIngredientsStyles.name} text text_type_main-default`}>
         {ingredient.name}
       </p>
+      </Link>
     </div>
   )
 }
 
-function IngredientsGrid ({ingredientsType, openModal}) {
+function IngredientsGrid ({ingredientsType}) {
   return (
     <div className = {`${burgerIngredientsStyles['ingredients-grid']} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
-        return <IngredientCard ingredient = {ingredient} key={ingredient._id} openModal={openModal} />
+        return <IngredientCard ingredient = {ingredient} key={ingredient._id} />
       })
       }
     </div>
   )
 }
 
-function IngredientsBlock ({text, ingredientType, ingredients, openModal}) {
+function IngredientsBlock ({text, ingredientType, ingredients}) {
   return (
     <div>
     <h2 className="text text_type_main-medium mb-6">
       {text}
     </h2>
-    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)} openModal = {openModal}/>
+    <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)}/>
     </div>
   )
 }
 
-function BurgerIngredients ({openModal}) {
+function BurgerIngredients () {
   const { ingredients } = useSelector(store => store.constructor);
   const [current, setCurrent] = useState('one');
   const handleOnScroll = (e) => {
@@ -101,9 +110,9 @@ function BurgerIngredients ({openModal}) {
           </div>
         </div>
         <div className = {`${burgerIngredientsStyles['ingredients-block']}`} onScroll={handleOnScroll}>
-          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients} openModal = {openModal}/>
-          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients} openModal = {openModal}/>
-          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients} openModal = {openModal}/>
+          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients}/>
         </div>
       </section>
     )
