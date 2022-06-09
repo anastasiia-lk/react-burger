@@ -1,4 +1,4 @@
-import { errorMessage, SERVICE_URL, TOKEN_ERR_MESSAGE, REFRESH_TOKEN_ENDPOINT } from "./data";
+import { errorMessage, SERVICE_URL, TOKEN_ERR_MESSAGE, REFRESH_TOKEN_ENDPOINT, ORDERS_ENDPOINT } from "./data";
 
 import { saveTokens } from './utils';
 
@@ -49,4 +49,17 @@ export async function fetchWithRefresh(url, options) {
       return Promise.reject(err);
     }
   }
+}
+
+export function orderFetch(ids, token) {
+  return fetch(`${SERVICE_URL}${ORDERS_ENDPOINT}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      ingredients: ids,
+    }),
+  }).then(checkResponse);
 }

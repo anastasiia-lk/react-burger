@@ -63,6 +63,7 @@ function App() {
   const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, orderNumberRequest, orderNumberFailed } = useSelector(store => store.constructor);
 
   const background = location.state?.background;
+  const isOrderModalShown = useSelector((store) => store.order.isOpen);
 
   const closeDetailsHandler = useCallback(() => {
     navigate(-1);
@@ -90,6 +91,10 @@ function App() {
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
+       {ingredientsRequest && loadingMessage }
+      {ingredientsFailed && errorMessage }
+      {!ingredientsRequest && !ingredientsFailed && ingredients &&
+      <div>
       <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
           <Route
@@ -137,6 +142,18 @@ function App() {
           />
         </Routes>
       )}
+      {isOrderModalShown && (
+          <Modal>
+            <OrderDetails />
+          </Modal>
+        )}
+      </div>
+    }
+      {/* { flag.visibility && orderNumber &&
+      <Modal text='' closeModal={closeOrderDetailsModal}>
+        <OrderDetails order = {orderNumber.number}/>
+      </Modal>
+      } */}
       {/* <AppHeader />
       {ingredientsRequest && loadingMessage }
       {ingredientsFailed && errorMessage }

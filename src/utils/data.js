@@ -29,6 +29,8 @@ export const loadingMessage = "Загрузка ...";
 export const errorMessage = "Ошибка";
 export const TOKEN_ERR_MESSAGE = 'jwt malformed';
 
+export const ORDERS_ENDPOINT = '/orders';
+
 export const loginFormConfig = {
   header: 'Вход',
   buttonText: 'Войти',

@@ -1,5 +1,6 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { useDrop, useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
@@ -9,9 +10,16 @@ import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktiku
 
 import { increaseIngredientCounter, decreaseIngredientCounter, removeIngredient, updateBun, increaseBunCounter, sortConstructorIngredients, addIngredient } from '../../services/actions/index';
 
+import {getCookie} from '../../utils/utils'
+
+import {sendOrder} from '../../services/actions/order'
+
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { draggedIngredients } = useSelector(store => store.constructor);
+  const { isAuth } = useSelector((store) => store.user);
 
   const updateTotalPrice = useMemo(
     () => {
@@ -22,6 +30,18 @@ function BurgerConstructor({ openModal }) {
     },
     [draggedIngredients]
   );
+
+  const onClickHandler = useCallback(() => {
+    if (isAuth) {
+      const accessToken = `Bearer ${getCookie('token')}`
+      const ids = [
+        ...draggedIngredients.map((item) => item._id),
+      ];
+      dispatch(sendOrder(ids, accessToken));
+    } else {
+      navigate('/login');
+    }
+  }, [draggedIngredients, dispatch, isAuth, navigate]);
 
   const onDropHandler = (ingredient) => {
     if (ingredient.type === 'bun') {
@@ -126,7 +146,7 @@ function BurgerConstructor({ openModal }) {
             <p className="text text_type_digits-medium mr-2">{updateTotalPrice[0]}</p>
             <CurrencyIcon type="primary" />
           </div>
-          <div onClick={openModal}>
+          <div onClick={onClickHandler}>
             <Button type="primary" size="large" disabled = {updateTotalPrice[1]}>
               Оформить заказ
             </Button>
