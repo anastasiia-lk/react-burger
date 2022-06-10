@@ -39,7 +39,9 @@ function Form ({config, body, onSubmit, children}) {
       {config.subtitleArr.map((subtitle) => 
         <div className={`${form[`subtitle-container`]}`} key={subtitle.text}>
           <p className='mr-2'>{subtitle.text}</p>
-          <Link to="/register">{subtitle.linkText}</Link>
+          {subtitle.text === 'Вы — новый пользователь?' && <Link to="/register">{subtitle.linkText}</Link>}
+          {subtitle.text === 'Забыли пароль?' && <Link to="/forgot-password">{subtitle.linkText}</Link>}
+          {(subtitle.text !== 'Вы — новый пользователь?' && subtitle.text !== 'Забыли пароль?') && <Link to="/login">{subtitle.linkText}</Link>}
         </div>
       )}
     </form>

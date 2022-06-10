@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Form from '../components/form/form';
 import { resetPasswordFormConfig, PASSWORD_RESET_CONFIRM_ENDPOINT } from '../utils/data';
 import { fetchAuth } from '../utils/api';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function ResetPassword() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [passwordValue, setPasswordValue] = useState('');
   const [tokenValue, setTokenValue] = useState(' ');
+
+  const from = location.state?.from?.pathname;
+
+  useEffect(() => {
+    if (from !== '/forgot-password') {
+      navigate('/forgot-password', { replace: true });
+    }
+  }, [from, navigate]);
+
   const onSubmitHandler = (event, body) => {
     event.preventDefault();
 
     fetchAuth(PASSWORD_RESET_CONFIRM_ENDPOINT, body)
+    .then((data) => {
+      if (data.success) {
+        navigate('/login', { replace: true });
+      }
+    })
+    .catch((err) => console.log(err));
   }
   return (
   <Form 
