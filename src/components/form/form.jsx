@@ -32,16 +32,16 @@ function Form ({config, body, onSubmit, children}) {
         )
       })}
       <div className='mb-20'>
-        <Button type="submit" size="large">
+        <Button type="primary" size="large">
         {config.buttonText}
         </Button>
       </div>
       {config.subtitleArr.map((subtitle) => 
         <div className={`${form[`subtitle-container`]}`} key={subtitle.text}>
-          <p className='mr-2'>{subtitle.text}</p>
-          {subtitle.text === 'Вы — новый пользователь?' && <Link to="/register">{subtitle.linkText}</Link>}
-          {subtitle.text === 'Забыли пароль?' && <Link to="/forgot-password">{subtitle.linkText}</Link>}
-          {(subtitle.text !== 'Вы — новый пользователь?' && subtitle.text !== 'Забыли пароль?') && <Link to="/login">{subtitle.linkText}</Link>}
+          <p className={`mr-2 text text_type_main-default ${form[`text`]}`}>{subtitle.text}</p>
+          {subtitle.text === 'Вы — новый пользователь?' && <Link to="/register" className={`text_type_main-default ${form[`link`]}`}>{subtitle.linkText}</Link>}
+          {subtitle.text === 'Забыли пароль?' && <Link to="/forgot-password" className={`text_type_main-default ${form[`link`]}`}>{subtitle.linkText}</Link>}
+          {(subtitle.text !== 'Вы — новый пользователь?' && subtitle.text !== 'Забыли пароль?') && <Link to="/login" className={`text_type_main-default ${form[`link`]}`}>{subtitle.linkText}</Link>}
         </div>
       )}
     </form>

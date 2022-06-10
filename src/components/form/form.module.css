@@ -27,3 +27,12 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.text {
+  color: #8585ad;
+}
+
+.link {
+  color: #4c4cff;
+  text-decoration: none;
+}
