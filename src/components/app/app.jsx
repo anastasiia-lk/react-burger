@@ -13,6 +13,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 
 import { getIngredients, postOrder, setIngredientDetails,removeIngredientDetails, cleanConstructor } from '../../services/actions/index';
+import {closeOrderDetails} from '../../services/actions/order';
 
 import { getUserInfo } from '../../services/actions/user';
 
@@ -68,6 +69,11 @@ function App() {
   const closeDetailsHandler = useCallback(() => {
     navigate(-1);
   }, [navigate]);
+
+  const closeOrderHandler = useCallback(() => {
+    dispatch(cleanConstructor());
+    dispatch(closeOrderDetails());
+  }, [dispatch]);
 
   const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
 
@@ -135,7 +141,7 @@ function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal close={closeDetailsHandler}>
+              <Modal closeModal={closeDetailsHandler}>
                 <IngredientDetails isModal />
               </Modal>
             }
@@ -143,7 +149,7 @@ function App() {
         </Routes>
       )}
       {isOrderModalShown && (
-          <Modal>
+          <Modal closeModal={closeOrderHandler}>
             <OrderDetails />
           </Modal>
         )}

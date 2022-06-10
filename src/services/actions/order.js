@@ -18,3 +18,7 @@ export function sendOrder(ids, token) {
       })
   }
 }
+
+export function closeOrderDetails() {
+  return { type: CLOSE_ORDER_DETAILS }
+}
