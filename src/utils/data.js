@@ -31,6 +31,12 @@ export const TOKEN_ERR_MESSAGE = 'jwt malformed';
 
 export const ORDERS_ENDPOINT = '/orders';
 
+export const SHOW_ICON = 'ShowIcon';
+export const HIDE_ICON = 'HideIcon';
+export const PASSWORD = 'password';
+export const TEXT = 'text';
+export const EMAIL = 'email';
+
 export const loginFormConfig = {
   header: 'Вход',
   buttonText: 'Войти',

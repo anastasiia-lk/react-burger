@@ -1,7 +1,7 @@
 import profileNavigation from './profile-navigation.module.css';
 import {CheckMarkIcon, Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { profileFormConfig as config } from '../../utils/data';
 import { useDispatch } from 'react-redux';
  import { useCallback } from 'react';
@@ -17,17 +17,39 @@ export default function ProfileNavigation() {
   )
   return (
     <div className={`${profileNavigation[`container`]}`}>
-      {config.navigationArr.map((title) => 
-        <div key={title} className={`${profileNavigation[`nav-item`]} mb-6`}>
-          {(title === 'Профиль'|| title === 'История заказов') &&
-            <Link to="/register" className={`${profileNavigation[`link`]} text text_type_main-medium`}>
-              {title}
-            </Link>}
-          {title === 'Выход' && 
-            <button className={`${profileNavigation[`btn`]} text text_type_main-medium ${profileNavigation[`nav-item`]}`} onClick={onClickHandler}>{title}
-            </button>}
-        </div>
-      )}
+      <nav className='mb-20'>
+        <ul className={`${profileNavigation[`list`]}`}>
+          <li className={`${profileNavigation[`list__item`]}`}>
+            <NavLink to="/profile" end className={`${profileNavigation[`link`]}`}>
+              {({ isActive }) => (
+                <span
+                  className={`text text_type_main-medium
+                    ${!isActive && 'text_color_inactive'}`}
+                >
+                  Профиль
+                </span>
+              )}
+            </NavLink>
+          </li>
+          <li className={`${profileNavigation[`list__item`]}`}>
+            <NavLink to="/profile/orders" className={`${profileNavigation[`link`]}`}>
+              {({ isActive }) => (
+                <span
+                className={`text text_type_main-medium
+                  ${!isActive && 'text_color_inactive'}`}
+              >
+                  История заказов
+                </span>
+              )}
+            </NavLink>
+          </li>
+          <li
+            className={`${profileNavigation[`list__item`]} text text_type_main-medium text_color_inactive`}
+          >
+            <button className={`${profileNavigation[`exit-btn`]}`} onClick={onClickHandler}>Выход</button>
+          </li>
+        </ul>
+      </nav>
     </div>
   )
 }

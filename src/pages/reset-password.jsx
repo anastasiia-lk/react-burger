@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import CustomInput from '../components/custom-input/custom-input';
 
 import Form from '../components/form/form';
 import { resetPasswordFormConfig, PASSWORD_RESET_CONFIRM_ENDPOINT } from '../utils/data';
@@ -44,20 +44,20 @@ export function ResetPassword() {
         }
       }
     >
-      <Input 
+      <CustomInput 
         type = {`${resetPasswordFormConfig.inputsArr[0].type}`}
         placeholder = {`${resetPasswordFormConfig.inputsArr[0].placeholder}`}
         icon = {`${resetPasswordFormConfig.inputsArr[0].icon}`}
         name = {`${resetPasswordFormConfig.inputsArr[0].name}`}
         value = { passwordValue }
-        onChange={e => setPasswordValue(e.target.value)}
+        setValue={setPasswordValue}
       />
-      <Input 
+      <CustomInput 
         type = {`${resetPasswordFormConfig.inputsArr[1].type}`}
         placeholder = {`${resetPasswordFormConfig.inputsArr[1].placeholder}`}
         name = {`${resetPasswordFormConfig.inputsArr[1].name}`}
         value = { tokenValue }
-        onChange={e => setTokenValue(e.target.value)}
+        setValue={setTokenValue}
       />
     </Form>
   );

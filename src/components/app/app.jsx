@@ -132,6 +132,7 @@ function App() {
               <Profile />
             </ProtectedRoute>}>
             <Route index element={<ProfileForm />} />
+            <Route path="orders" element={<div>Мои заказы</div>} />
           </Route>
           <Route path="orders" element={<div>Лента заказов</div>} />
           <Route path="ingredients/:id" element={<Ingredient />} />

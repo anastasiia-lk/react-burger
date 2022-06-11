@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import CustomInput from '../components/custom-input/custom-input';
 
 import Form from '../components/form/form';
 import { forgotPasswordFormConfig, PASSWORD_RESET_ENDPOINT } from '../utils/data';
@@ -28,13 +28,13 @@ export function ForgotPassword() {
       onSubmit={onSubmitHandler}
       body={{email: emailValue}}
     >
-      <Input 
+      <CustomInput 
         type = {`${forgotPasswordFormConfig.inputsArr[0].type}`}
         placeholder = {`${forgotPasswordFormConfig.inputsArr[0].placeholder}`}
         icon = {`${forgotPasswordFormConfig.inputsArr[0].icon}`}
         name = {`${forgotPasswordFormConfig.inputsArr[0].name}`}
         value = { emailValue }
-        onChange={e => setEmailValue(e.target.value)}
+        setValue={setEmailValue}
       />
     </Form>
   );

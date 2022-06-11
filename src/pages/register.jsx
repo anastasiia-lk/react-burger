@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import CustomInput from '../components/custom-input/custom-input';
 
 import Form from '../components/form/form';
 import { registerFormConfig } from '../utils/data';
@@ -35,29 +35,29 @@ export function Register() {
       body={body}
       onSubmit={onSubmitHandler}
     >
-      <Input 
+      <CustomInput 
         type = {`${registerFormConfig.inputsArr[0].type}`}
         placeholder = {`${registerFormConfig.inputsArr[0].placeholder}`}
         icon = {`${registerFormConfig.inputsArr[0].icon}`}
         name = {`${registerFormConfig.inputsArr[0].name}`}
         value = { nameValue }
-        onChange={e => setNameValue(e.target.value)}
+        setValue={setNameValue}
       />
-      <Input 
+      <CustomInput 
         type = {`${registerFormConfig.inputsArr[1].type}`}
         placeholder = {`${registerFormConfig.inputsArr[1].placeholder}`}
         icon = {`${registerFormConfig.inputsArr[1].icon}`}
         name = {`${registerFormConfig.inputsArr[1].name}`}
         value = { emailValue }
-        onChange={e => setEmailValue(e.target.value)}
+        setValue={setEmailValue}
       />
-      <Input 
+      <CustomInput 
         type = {`${registerFormConfig.inputsArr[2].type}`}
         placeholder = {`${registerFormConfig.inputsArr[2].placeholder}`}
         icon = {`${registerFormConfig.inputsArr[2].icon}`}
         name = {`${registerFormConfig.inputsArr[2].name}`}
         value = { passwordValue }
-        onChange={e => setPasswordValue(e.target.value)}
+        setValue={setPasswordValue}
       />
     </Form>
   );
