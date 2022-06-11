@@ -20,11 +20,11 @@ export default function ProfileNavigation() {
       {config.navigationArr.map((title) => 
         <div key={title} className={`${profileNavigation[`nav-item`]} mb-6`}>
           {(title === 'Профиль'|| title === 'История заказов') &&
-            <Link to="/register" className="text text_type_main-medium">
+            <Link to="/register" className={`${profileNavigation[`link`]} text text_type_main-medium`}>
               {title}
             </Link>}
           {title === 'Выход' && 
-            <button className={`${profileNavigation[`btn`]} text text_type_main-medium`} onClick={onClickHandler}>{title}
+            <button className={`${profileNavigation[`btn`]} text text_type_main-medium ${profileNavigation[`nav-item`]}`} onClick={onClickHandler}>{title}
             </button>}
         </div>
       )}

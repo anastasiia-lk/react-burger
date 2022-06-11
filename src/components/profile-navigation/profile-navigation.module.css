@@ -12,3 +12,8 @@
   cursor: pointer;
   transition: opacity 0.3s;
 }
+
+.link {
+  color: #f2f2f3;
+  text-decoration: none;
+}

@@ -75,10 +75,12 @@ export default function ProfileForm() {
             // onChange={e => setValue(e.target.value)}
           />
         </div>
+        <div className={`${form.wrapper}`}>
         <Button type="secondary" onClick={(e) => cancelHandler(e)}>
             Отмена
         </Button>
-        <Button type="submit">Сохранить</Button>
+        <Button type="primary">Сохранить</Button>
+        </div>
     </form>
   )
 }

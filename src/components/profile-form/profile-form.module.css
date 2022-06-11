@@ -27,4 +27,9 @@
   align-items: center;
 }
 
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* className={`${form[`subtitle-container`]}`} */
