@@ -1,8 +1,5 @@
 import profileNavigation from './profile-navigation.module.css';
-import {CheckMarkIcon, Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { profileFormConfig as config } from '../../utils/data';
 import { useDispatch } from 'react-redux';
  import { useCallback } from 'react';
 import { signOutUser } from '../../services/actions/user';

@@ -1,4 +1,4 @@
-import { PASSWORD, SHOW_ICON, HIDE_ICON, TEXT, EMAIL } from '../../utils/data';
+import { PASSWORD, SHOW_ICON, HIDE_ICON, TEXT } from '../../utils/data';
 import React, { useState } from 'react';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 

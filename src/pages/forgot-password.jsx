@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import CustomInput from '../components/custom-input/custom-input';
 
 import Form from '../components/form/form';

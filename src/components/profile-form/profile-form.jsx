@@ -1,7 +1,5 @@
 import form from './profile-form.module.css';
-import {CheckMarkIcon, Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { profileFormConfig as config } from '../../utils/data';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo, getUserInfo } from '../../services/actions/user';

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import CustomInput from '../components/custom-input/custom-input';

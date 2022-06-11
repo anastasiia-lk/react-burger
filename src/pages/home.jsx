@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { DndProvider } from "react-dnd";
@@ -10,14 +10,14 @@ import BurgerConstructor from '../components/burger-constructor/burger-construct
 
 import { loadingMessage, errorMessage } from '../utils/data';
 
-import { getIngredients, postOrder, setIngredientDetails,removeIngredientDetails, cleanConstructor } from '../services/actions/index';
+import { postOrder, setIngredientDetails } from '../services/actions/index';
 
 export function Home() {
   const dispatch = useDispatch();
 
-  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients, ingredientDetails, orderNumber, flag, orderNumberRequest, orderNumberFailed } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients} = useSelector(store => store.constructor);
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false});
+  const [setIngredientDetailsModal] = useState ({visibility: false});
 
   const openIngredientsDetailsModal = (data) => {
     dispatch(setIngredientDetails(data));

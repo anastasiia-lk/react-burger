@@ -1,6 +1,5 @@
 import form from './form.module.css';
-import {CheckMarkIcon, Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
+import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 
 function Form ({config, body, onSubmit, children}) {
