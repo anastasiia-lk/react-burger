@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDrag } from 'react-dnd';
@@ -61,10 +61,10 @@ function IngredientsGrid ({ingredientsType}) {
   )
 }
 
-function IngredientsBlock ({text, ingredientType, ingredients}) {
+function IngredientsBlock ({text, ingredientType, ingredients, typeRef}) {
   return (
     <div>
-    <h2 className="text text_type_main-medium mb-6">
+    <h2 className="text text_type_main-medium mb-6" ref={typeRef}>
       {text}
     </h2>
     <IngredientsGrid ingredientsType={ingredients.filter((item) => item.type===ingredientType)}/>
@@ -75,6 +75,32 @@ function IngredientsBlock ({text, ingredientType, ingredients}) {
 function BurgerIngredients () {
   const { ingredients } = useSelector(store => store.constructor);
   const [current, setCurrent] = useState('one');
+
+  const bunsRef = useRef(null);
+  const saucesRef = useRef(null);
+  const mainsRef = useRef(null);
+
+  const scrollSection = (e) => {
+      if (e === 'one') {
+        return bunsRef
+        } else { 
+          if (e  === 'two') {
+            return saucesRef
+          } else { 
+            if (e  === 'three') {
+            return mainsRef
+            }
+        }
+      }
+  }
+
+  const onClickHandler = (e) => {
+    console.log(e)
+    setCurrent(e);
+    const curRef = scrollSection(e);
+    curRef.current.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
+  };
+
   const handleOnScroll = (e) => {
     if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
       e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
@@ -98,21 +124,21 @@ function BurgerIngredients () {
         </h1>
         <div className = 'mb-10'>
           <div style={{ display: 'flex' }}>
-            <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+            <Tab value="one" active={current === 'one'} onClick={onClickHandler}>
               Булки
             </Tab>
-            <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+            <Tab value="two" active={current === 'two'} onClick={onClickHandler}>
               Соусы
             </Tab>
-            <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+            <Tab value="three" active={current === 'three'} onClick={onClickHandler}>
               Начинки
             </Tab>
           </div>
         </div>
         <div className = {`${burgerIngredientsStyles['ingredients-block']}`} onScroll={handleOnScroll}>
-          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients}/>
-          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients}/>
-          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients}/>
+          <IngredientsBlock text = {'Булки'} ingredientType = {'bun'} ingredients = {ingredients} typeRef={bunsRef}/>
+          <IngredientsBlock text = {'Соусы'} ingredientType = {'sauce'} ingredients = {ingredients} typeRef={saucesRef}/>
+          <IngredientsBlock text = {'Начинки'} ingredientType = {'main'} ingredients = {ingredients} typeRef={mainsRef}/>
         </div>
       </section>
     )
