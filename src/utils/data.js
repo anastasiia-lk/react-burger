@@ -55,11 +55,13 @@ export const loginFormConfig = {
     }
   ],
   subtitleArr: [
-    {
+    { 
+      id: 1,
       text: 'Вы — новый пользователь?',
       linkText: 'Зарегистрироваться'
     },
     {
+      id: 2,
       text: 'Забыли пароль?',
       linkText: 'Восстановить пароль'
     }
@@ -90,7 +92,8 @@ export const registerFormConfig = {
     }
   ],
   subtitleArr: [
-    {
+    { 
+      id: 1,
       text: 'Уже зарегистрированы?',
       linkText: 'Войти'
     }
@@ -111,6 +114,7 @@ export const forgotPasswordFormConfig = {
   ],
   subtitleArr: [
     {
+      id: 1,
       text: 'Вспомнили пароль?',
       linkText: 'Войти'
     }
@@ -134,7 +138,8 @@ export const resetPasswordFormConfig = {
     },
   ],
   subtitleArr: [
-    {
+    { 
+      id: 1,
       text: 'Вспомнили пароль?',
       linkText: 'Войти'
     }
