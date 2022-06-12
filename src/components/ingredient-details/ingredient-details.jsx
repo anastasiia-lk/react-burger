@@ -59,7 +59,7 @@ function IngredientDetails ({ isModal = false }) {
 }
 
 IngredientDetails.propTypes = {
-	ingredient: INGREDIENT_PROP_TYPE.isRequired,
+	ingredient: INGREDIENT_PROP_TYPE,
 }
 
 export default IngredientDetails;
