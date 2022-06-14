@@ -36,6 +36,7 @@ import {
 } from '../../pages/profile';
 import ProfileForm from '../../components/profile-form/profile-form';
 import { Ingredient } from '../../pages/ingredient';
+import { Feed } from '../../pages/feed'
 
 import ProtectedRoute from '../protected-route/protected-route';
 function App() {
@@ -109,6 +110,8 @@ function App() {
             <Route path="orders" element={<div>Мои заказы</div>} />
           </Route>
           <Route path="orders" element={<div>Лента заказов</div>} />
+          <Route path="feed" element={<Feed />} />
+          <Route path="feed/:id" element={<div>Лента заказов</div>} />
           <Route path="ingredients/:id" element={<Ingredient />} />
         </Route>  
       </Routes>
