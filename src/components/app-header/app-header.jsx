@@ -22,7 +22,7 @@ function AppHeader() {
             </NavLink>
             </li>
             <li className={`${appHeaderStyles['list-item']} mt-4 mb-4 pt-4', 'pb-4 pl-5 pr-5`}>
-            <NavLink to="/orders" className={appHeaderStyles.link}>
+            <NavLink to="/feed" className={appHeaderStyles.link}>
             {({ isActive }) => (
                 <>
                   <ListIcon type={isActive ? 'primary' : 'secondary'} />
