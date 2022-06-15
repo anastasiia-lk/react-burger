@@ -37,8 +37,10 @@ import {
 import ProfileForm from '../../components/profile-form/profile-form';
 import { Ingredient } from '../../pages/ingredient';
 import { Feed } from '../../pages/feed'
+import {OrderInfoPage} from '../../pages/order-details';
 
 import ProtectedRoute from '../protected-route/protected-route';
+
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -110,6 +112,7 @@ function App() {
             <Route path="orders" element={<div>Мои заказы</div>} />
           </Route>
           <Route path="orders" element={<div>Лента заказов</div>} />
+          <Route path="profile/orders/:id" element={<OrderInfoPage />} />
           <Route path="feed" element={<Feed />} />
           <Route path="feed/:id" element={<div>Лента заказов</div>} />
           <Route path="ingredients/:id" element={<Ingredient />} />
