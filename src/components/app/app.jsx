@@ -113,7 +113,7 @@ function App() {
             <Route path="orders" element={<ProfileOrdersHistory />} />
           </Route>
           <Route path="orders" element={<div>Лента заказов</div>} />
-          <Route path="profile/orders/:id" element={<ProfileOrdersHistory />} />
+          <Route path="profile/orders/:id" element={<OrderInfoPage />} />
           <Route path="feed" element={<Feed />} />
           <Route path="feed/:id" element={<div>Лента заказов</div>} />
           <Route path="ingredients/:id" element={<Ingredient />} />
