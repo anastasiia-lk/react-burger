@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import OrderCard from '../order-card/order-card';
 import React, { useEffect, useMemo } from 'react';
 import { wsClose, wsConnectionStart } from '../../services/actions/wsActions';
+import { loadingMessage } from '../../utils/data';
 
 export default function FeedConstructor() {
   const dispatch = useDispatch();
@@ -18,22 +19,22 @@ export default function FeedConstructor() {
     };
   }, [dispatch]);
 
-  if (!orders) return (<div>Загрузка ...</div>);
+  if (!orders) return (<div>{loadingMessage}</div>);
 
   return (
     <div className={feedConstructorStyles.container}>
       <section aria-label="Лента заказов"
         className={`${feedConstructorStyles.feed} custom-scroll`}>
           <ul className="list">
-            {[1,2].map((order) => {
+            {orders.map((order) => {
               return(
-                <li className={feedConstructorStyles.orderContainer}>
+                <li className={feedConstructorStyles.orderContainer} key={order._id}>
                   <Link
                   to={`/feed/${order._id}`}
                   state={{ background: location }}
                   className={feedConstructorStyles.link}
                   >
-                    <OrderCard />
+                    <OrderCard order={order} />
                   </Link>
                 </li>
               )

@@ -40,6 +40,8 @@ export const EMAIL = 'email';
 export const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 export const wsAuthUrl = 'wss://norma.nomoreparties.space/orders';
 
+export const MONTH_TO_DAY = 1000 * 60 * 60 * 24;
+
 export const loginFormConfig = {
   header: 'Вход',
   buttonText: 'Войти',

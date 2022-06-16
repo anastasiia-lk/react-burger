@@ -1,21 +1,63 @@
 import orderCardStyles from './order-card.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
+import { formatOrderNumber, getTimeStampString } from '../../utils/utils';
+import React, { useMemo } from 'react';
+import IngredientImg from '../ingredient-image/ingredient-image'
 
 export default function OrderCard({ order }) {
+  const { ingredients } = useSelector(store => store.constructor);
+  const { name, number, ingredients: ingredIds, createdAt, status } = order;
+
+  const orderNumber = useMemo(() => {
+    return `#${formatOrderNumber(number)}`;
+  }, [number]);
+
+  const { imageUrls, totalPrice } = useMemo(() => {
+    const urls = [];
+    let price = 0;
+
+    ingredIds.forEach((id) => {
+      const ingredient = ingredients.find((item) => item._id === id);
+      if (ingredient) {
+        if (urls.length < 6) {
+          urls.push(ingredient.image_mobile);
+        }
+
+        if (ingredient.type === 'Булка') {
+          price += ingredient.price * 2;
+        } else {
+          price += ingredient.price;
+        }
+      }
+    });
+
+    return {
+      imageUrls: urls,
+      totalPrice: price,
+    };
+  }, [ingredients, ingredIds]);
+
+  const count = useMemo(() => {
+    return ingredIds.length - 6;
+  }, [ingredIds.length]);
+
+  const orderTime = getTimeStampString(createdAt);
+
   return (
     <div className={orderCardStyles.container}>
       <div className={orderCardStyles.credentials}>
-        <span className='text text_type_digits-default'>#034535</span>
-        <span className='text text_type_main-default text_color_inactive'>Сегодня, 16:20 i-GMT+3</span>
+        <span className='text text_type_digits-default'>{orderNumber}</span>
+        <span className='text text_type_main-default text_color_inactive'>{orderTime}</span>
       </div>
-      <p className='text text_type_main-medium'>Death Star Starship Main бургер</p>
+      <p className='text text_type_main-medium'>{name}</p>
       <div className={orderCardStyles.info}>
         <ul className="list">
           {
-            [1,2].map((image) => {
+            imageUrls.map((url, index) => {
               return (
-                <li className={orderCardStyles.orderContainer}>
-                  {/* <IngredientIcon /> */}
+                <li key={index} className={orderCardStyles.orderContainer}>
+                   <IngredientImg imageUrl={url} index={index} count={count} />
                 </li>
               ) 
             })
@@ -24,7 +66,7 @@ export default function OrderCard({ order }) {
       </div>
       <div className={orderCardStyles.price}>
           <span className='text text_type_digits-default'>
-            0
+            {totalPrice}
           </span>
           <CurrencyIcon />
         </div>
