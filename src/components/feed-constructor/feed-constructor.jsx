@@ -5,10 +5,11 @@ import OrderCard from '../order-card/order-card';
 import React, { useEffect, useMemo } from 'react';
 import { wsClose, wsConnectionStart } from '../../services/actions/wsActions';
 import { loadingMessage } from '../../utils/data';
+import { formatOrderNumber } from '../../utils/utils';
 
 export default function FeedConstructor() {
   const dispatch = useDispatch();
-  const { orders } = useSelector(store => store.ws.orders);
+  const { orders, total, totalToday } = useSelector(store => store.ws.orders);
   const location = useLocation();
 
   useEffect(() => {
@@ -18,6 +19,24 @@ export default function FeedConstructor() {
       dispatch(wsClose());
     };
   }, [dispatch]);
+
+  const doneOrdersNumbers = useMemo(() => {
+    return orders
+      ? orders
+          .filter((order) => order.status === 'done')
+          .map((order) => order.number)
+          .slice(0, 10)
+      : null;
+  }, [orders]);
+
+  const inWorkOrdersNumbers = useMemo(() => {
+    return orders
+      ? orders
+          .filter((order) => order.status !== 'done')
+          .map((order) => order.number)
+          .slice(0, 10)
+      : null;
+  }, [orders]);
 
   if (!orders) return (<div>{loadingMessage}</div>);
 
@@ -48,8 +67,8 @@ export default function FeedConstructor() {
               Готовы:
             </h2>
             <ul className={`${feedConstructorStyles['number-list']} list`}>
-              {
-               [1,2].map((item) => (
+            {doneOrdersNumbers &&
+                doneOrdersNumbers.map((item, index) => (
                   <li
                     className={`
                       ${feedConstructorStyles.number}
@@ -59,7 +78,7 @@ export default function FeedConstructor() {
                       mb-2`
                     }
                   >
-                    1234567
+                    {formatOrderNumber(item)}
                   </li>
                 ))}
             </ul>
@@ -70,8 +89,8 @@ export default function FeedConstructor() {
               В работе:
             </h2>
             <ul className="list">
-              {
-                [1,2].map((item) => (
+            {inWorkOrdersNumbers &&
+                inWorkOrdersNumbers.map((item) => (
                   <li
                     className={`
                       ${feedConstructorStyles.number}
@@ -80,7 +99,7 @@ export default function FeedConstructor() {
                       mb-2`
                     }
                   >
-                    1234567
+                    {formatOrderNumber(item)}
                   </li>
                 ))}
             </ul>
@@ -94,7 +113,7 @@ export default function FeedConstructor() {
           <span
             className={`${feedConstructorStyles.number} text text_type_digits-large`}
           >
-            1234567
+            {total.toLocaleString()}
           </span>
         </section>
 
@@ -105,7 +124,7 @@ export default function FeedConstructor() {
           <span
             className={`${feedConstructorStyles.count} text text_type_digits-large`}
           >
-             1234567
+             {totalToday.toLocaleString()}
           </span>
         </section>
       </section>
