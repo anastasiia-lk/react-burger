@@ -41,6 +41,7 @@ import {OrderInfoPage} from '../../pages/order-details';
 import {ProfileOrdersHistory} from '../../pages/profile-orders-history';
 
 import ProtectedRoute from '../protected-route/protected-route';
+import OrderInfo from '../order-info/order-info';
 
 function App() {
   const dispatch = useDispatch();
@@ -126,6 +127,14 @@ function App() {
             element={
               <Modal closeModal={closeDetailsHandler}>
                 <IngredientDetails isModal />
+              </Modal>
+            }
+          />
+           <Route
+            path="/feed/:id"
+            element={
+              <Modal closeModal={closeDetailsHandler}>
+                <OrderInfo isModal />
               </Modal>
             }
           />

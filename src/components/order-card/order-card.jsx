@@ -24,7 +24,7 @@ export default function OrderCard({ order }) {
           urls.push(ingredient.image_mobile);
         }
 
-        if (ingredient.type === 'Булка') {
+        if (ingredient.type === 'bun') {
           price += ingredient.price * 2;
         } else {
           price += ingredient.price;
