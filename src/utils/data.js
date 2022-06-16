@@ -37,6 +37,9 @@ export const PASSWORD = 'password';
 export const TEXT = 'text';
 export const EMAIL = 'email';
 
+export const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
+export const wsAuthUrl = 'wss://norma.nomoreparties.space/orders';
+
 export const loginFormConfig = {
   header: 'Вход',
   buttonText: 'Войти',

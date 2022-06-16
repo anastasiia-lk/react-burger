@@ -1,13 +1,24 @@
 import feedConstructorStyles from './feed-constructor.module.css';
 import {Link, useLocation} from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import OrderCard from '../order-card/order-card';
+import React, { useEffect, useMemo } from 'react';
+import { wsClose, wsConnectionStart } from '../../services/actions/wsActions';
 
 export default function FeedConstructor() {
-  // const dispatch = useDispatch();
-  // const { orders } = useSelector(getOrders);
+  const dispatch = useDispatch();
+  const { orders } = useSelector(store => store.ws.orders);
   const location = useLocation();
 
+  useEffect(() => {
+    dispatch(wsConnectionStart());
+
+    return () => {
+      dispatch(wsClose());
+    };
+  }, [dispatch]);
+
+  if (!orders) return (<div>Загрузка ...</div>);
 
   return (
     <div className={feedConstructorStyles.container}>
