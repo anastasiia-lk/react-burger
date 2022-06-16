@@ -1,13 +1,14 @@
 import orderCardStyles from './order-card.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { formatOrderNumber, getTimeStampString } from '../../utils/utils';
+import { formatOrderNumber, getTimeStampString, getOrderStatus } from '../../utils/utils';
 import React, { useMemo } from 'react';
 import IngredientImg from '../ingredient-image/ingredient-image'
 
-export default function OrderCard({ order }) {
+export default function OrderCard({ order, isUser }) {
   const { ingredients } = useSelector(store => store.constructor);
   const { name, number, ingredients: ingredIds, createdAt, status } = order;
+  const orderStatus = getOrderStatus(status);
 
   const orderNumber = useMemo(() => {
     return `#${formatOrderNumber(number)}`;
@@ -51,6 +52,13 @@ export default function OrderCard({ order }) {
         <span className='text text_type_main-default text_color_inactive'>{orderTime}</span>
       </div>
       <p className='text text_type_main-medium'>{name}</p>
+      {isUser && (
+        <p
+          className='text text_type_main-default mb-6'
+        >
+          {orderStatus}
+        </p>
+      )}
       <div className={orderCardStyles.info}>
         <ul className="list">
           {

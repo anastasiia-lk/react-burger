@@ -4,23 +4,23 @@ import { useLocation, Link } from 'react-router-dom';
 
 import OrderCard from '../order-card/order-card';
 
-// import ordersListStyles from './orders-list.module.css';
+import ordersListStyles from './orders-list.module.css';
 // import { orderPropType } from '../../utils/propTypes';
 
-export default function OrdersList() {
+export default function OrdersList({ orders, to, isUser = false }) {
   const location = useLocation();
 
   return (
     <ul className="list">
-      {[1,2].map((order) => (
-          <li>
-            {/* <Link
+      {orders.map((order) => (
+          <li key={order._id}>
+            <Link
               to={`/${to}/${order._id}`}
               state={{ background: location }}
               className={ordersListStyles.link}
-            > */}
-              <OrderCard />
-            {/* </Link> */}
+            >
+             <OrderCard order={order} isUser={isUser}/>
+            </Link>
           </li>
         ))}
     </ul>
