@@ -11,9 +11,9 @@ export default function OrdersList({ orders, to, isUser = false }) {
   const location = useLocation();
 
   return (
-    <ul className="list">
+    <ul className={`${ordersListStyles.link} list`}>
       {orders.map((order) => (
-          <li key={order._id}>
+          <li key={order._id} className={ordersListStyles.link}>
             <Link
               to={`/${to}/${order._id}`}
               state={{ background: location }}

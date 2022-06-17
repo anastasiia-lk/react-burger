@@ -7,6 +7,7 @@
   width: 600px;
   max-height: 852px;
   overflow-y: scroll;
+  padding-left: 0;
 }
 
 .stats {

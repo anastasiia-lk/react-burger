@@ -42,9 +42,8 @@ export default function FeedConstructor() {
 
   return (
     <div className={feedConstructorStyles.container}>
-      <section aria-label="Лента заказов"
-        className={`${feedConstructorStyles.feed} custom-scroll`}>
-          <ul className="list">
+      <section aria-label="Лента заказов">
+          <ul className={`${feedConstructorStyles.feed}`}>
             {orders.map((order) => {
               return(
                 <li className={feedConstructorStyles.orderContainer} key={order._id}>

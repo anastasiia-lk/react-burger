@@ -46,20 +46,20 @@ export default function OrderCard({ order, isUser }) {
   const orderTime = getTimeStampString(createdAt);
 
   return (
-    <div className={orderCardStyles.container}>
-      <div className={orderCardStyles.credentials}>
-        <span className='text text_type_digits-default'>{orderNumber}</span>
-        <span className='text text_type_main-default text_color_inactive'>{orderTime}</span>
+    <div className={`${orderCardStyles.container} mr-2`}>
+      <div className={`${orderCardStyles.credentials} pl-6 pr-6`}>
+        <span className='text text_type_digits-default mt-6'>{orderNumber}</span>
+        <span className='text text_type_main-default text_color_inactive mt-6'>{orderTime}</span>
       </div>
-      <p className='text text_type_main-medium'>{name}</p>
+      <p className='text text_type_main-medium pl-6 pr-6'>{name}</p>
       {isUser && (
         <p
-          className='text text_type_main-default mb-6'
+          className='text text_type_main-default mb-6 pl-6 pr-6'
         >
           {orderStatus}
         </p>
       )}
-      <div className={orderCardStyles.info}>
+      <div className={`${orderCardStyles.info} mb-6`}>
         <ul className="list">
           {
             imageUrls.map((url, index) => {
@@ -71,13 +71,13 @@ export default function OrderCard({ order, isUser }) {
             })
           }
         </ul>
-      </div>
-      <div className={orderCardStyles.price}>
+      <div className={`${orderCardStyles.price} pr-6`}>
           <span className='text text_type_digits-default'>
             {totalPrice}
           </span>
           <CurrencyIcon />
-        </div>
+      </div>
+    </div>
     </div>
   )
 }

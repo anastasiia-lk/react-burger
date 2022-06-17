@@ -1,4 +1,6 @@
 .link {
   color: var(--text-primary-color);
   text-decoration: none;
+  list-style-type: none;
+  padding-left: 0;
 }
