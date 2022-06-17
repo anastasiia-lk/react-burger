@@ -18,6 +18,14 @@ export default function OrderCard({ order, isUser }) {
     const urls = [];
     let price = 0;
 
+    let uniqueIngredIds = ingredIds.filter((x, i, a) => a.indexOf(x) === i)
+    uniqueIngredIds.forEach((id) => {
+      const ingredient = ingredients.find((item) => item._id === id);
+      if (ingredient.type === 'bun') {
+        price += ingredient.price*2;
+      }
+    })
+
     ingredIds.forEach((id) => {
       const ingredient = ingredients.find((item) => item._id === id);
       if (ingredient) {
@@ -25,9 +33,7 @@ export default function OrderCard({ order, isUser }) {
           urls.push(ingredient.image_mobile);
         }
 
-        if (ingredient.type === 'bun') {
-          price += ingredient.price * 2;
-        } else {
+        if (ingredient.type !== 'bun') {
           price += ingredient.price;
         }
       }
