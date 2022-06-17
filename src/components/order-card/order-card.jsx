@@ -11,7 +11,7 @@ export default function OrderCard({ order, isUser }) {
   const orderStatus = getOrderStatus(status);
 
   const orderNumber = useMemo(() => {
-    return `#${formatOrderNumber(number)}`;
+    return `#${number.toString().padStart(6, '0')}`;
   }, [number]);
 
   const { imageUrls, totalPrice } = useMemo(() => {

@@ -1,11 +1,13 @@
 import feedConstructorStyles from './feed-constructor.module.css';
 import {Link, useLocation} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import OrderCard from '../order-card/order-card';
+import OrdersList from '../orders-list/orders-list';
 import React, { useEffect, useMemo } from 'react';
 import { wsClose, wsConnectionStart } from '../../services/actions/wsActions';
 import { loadingMessage } from '../../utils/data';
 import { formatOrderNumber } from '../../utils/utils';
+import OrdersNumbersList from '../orders-numbers-list/orders-numbers-list'
+import TotalOrders from '../total-orders/total-orders'
 
 export default function FeedConstructor() {
   const dispatch = useDispatch();
@@ -43,88 +45,26 @@ export default function FeedConstructor() {
   return (
     <div className={feedConstructorStyles.container}>
       <section aria-label="Лента заказов">
-          <ul className={`${feedConstructorStyles.feed}`}>
-            {orders.map((order) => {
-              return(
-                <li className={feedConstructorStyles.orderContainer} key={order._id}>
-                  <Link
-                  to={`/feed/${order._id}`}
-                  state={{ background: location }}
-                  className={feedConstructorStyles.link}
-                  >
-                    <OrderCard order={order} />
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+        <div className={`${feedConstructorStyles.feed}`}>
+        <OrdersList orders={orders} to={'feed'} />
+        </div>
       </section>
       <section className={feedConstructorStyles.stats}>
-      <div className={`${feedConstructorStyles['orders-board']} mb-15`}>
+        <div className={`${feedConstructorStyles['orders-board']} mb-15`}>
           <section className={feedConstructorStyles.done}>
-            <h2 className={'text text_type_main-medium mb-6'}>
-              Готовы:
-            </h2>
-            <ul className={`${feedConstructorStyles['number-list']} list`}>
-            {doneOrdersNumbers &&
-                doneOrdersNumbers.map((item, index) => (
-                  <li
-                    className={`
-                      ${feedConstructorStyles.number}
-                      ${feedConstructorStyles['number_type_success']}
-                      text 
-                      text_type_digits-default
-                      mb-2`
-                    }
-                  >
-                    {formatOrderNumber(item)}
-                  </li>
-                ))}
-            </ul>
+            <OrdersNumbersList title={'Готовы:'} orders={doneOrdersNumbers}/>
           </section>
-
           <section className={feedConstructorStyles['in-work']}>
-            <h2 className='text text_type_main-medium mb-6'>
-              В работе:
-            </h2>
-            <ul className="list">
-            {inWorkOrdersNumbers &&
-                inWorkOrdersNumbers.map((item) => (
-                  <li
-                    className={`
-                      ${feedConstructorStyles.number}
-                      text 
-                      text_type_digits-default
-                      mb-2`
-                    }
-                  >
-                    {formatOrderNumber(item)}
-                  </li>
-                ))}
-            </ul>
+            <OrdersNumbersList title={'В работе:'} orders={inWorkOrdersNumbers}/>
           </section>
         </div>
 
         <section className="mb-15">
-          <h2 className='text text_type_main-medium'>
-            Выполнено за все время:
-          </h2>
-          <span
-            className={`${feedConstructorStyles.number} text text_type_digits-large`}
-          >
-            {total.toLocaleString()}
-          </span>
+          <TotalOrders title={'Выполнено за все время:'} totalOrders={total} />
         </section>
 
         <section className={feedConstructorStyles.today}>
-          <h2 className='text text_type_main-medium'>
-            Выполнено за сегодня:
-          </h2>
-          <span
-            className={`${feedConstructorStyles.count} text text_type_digits-large`}
-          >
-             {totalToday.toLocaleString()}
-          </span>
+          <TotalOrders title={'Выполнено за сегодня:'} totalOrders={totalToday} />
         </section>
       </section>
     </div>

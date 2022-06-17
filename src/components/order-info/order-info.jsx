@@ -40,7 +40,7 @@ if (!orders) return (
 
 const order = orders.find((order) => order._id === id);
 const { name, number, status, ingredients: ingredIds, createdAt } = order;
-  const orderNumber = `#${formatOrderNumber(number)}`;
+  const orderNumber = `#${number.toString().padStart(6, '0')}`;
   const orderStatus = getOrderStatus(status);
 
   const orderIngredients = ingredIds.reduce((acc, current) => {
