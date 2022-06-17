@@ -17,6 +17,7 @@ export default function OrdersNumbersList({ title, orders }) {
             text_type_digits-default
             mb-2`
           }
+          key={index}
         >
           {item.toString().padStart(6, '0')}
         </li>
