@@ -1,0 +1,38 @@
+.container {
+  width: 320px;
+}
+
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list__item {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  min-height: 64px;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.link:hover,
+.exit-btn:hover {
+  opacity: 0.8;
+}
+
+.exit-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  padding: 0;
+  margin: 0;
+}

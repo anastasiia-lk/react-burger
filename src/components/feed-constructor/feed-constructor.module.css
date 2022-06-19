@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feed {
+  width: 600px;
+  max-height: 852px;
+  overflow-y: scroll;
+  padding-left: 0;
+}
+
+.stats {
+  width: 580px;
+}
+
+.orders-board {
+  display: flex;
+  gap: 36px;
+}
+
+.done,
+.in-work {
+  width: 272px;
+}
+
+.number-list {
+  display: grid;
+  grid-template: repeat(5, 1fr) / 1fr 1fr;
+  grid-auto-flow: column;
+}
+
+.number_type_success {
+  color: #00cccc;
+}
+
+.number:last-of-type {
+  margin-bottom: 0;
+}
+
+.link {
+  color: #f2f2f3;
+  text-decoration: none;
+}
+
+.orderContainer {
+  position: relative;
+  list-style-type: none;
+}

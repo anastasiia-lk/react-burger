@@ -1,0 +1,30 @@
+.container {
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-number {
+  align-self: center;
+}
+
+.ingredients-list {
+  max-height: 312px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+}
+
+.time-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}

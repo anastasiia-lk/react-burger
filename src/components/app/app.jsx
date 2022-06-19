@@ -1,125 +1,159 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useCallback} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import appStyles from './app.module.css';
-import AppHeader from '../app-header/app-header.jsx';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
-import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import {SERVICE_URL} from '../../utils/data';
-import {APIContext} from '../../services/appContext';
+
+import { getIngredients, cleanConstructor } from '../../services/actions/index';
+import {closeOrderDetails} from '../../services/actions/order';
+
+import { getUserInfo } from '../../services/actions/user';
+
+import { loadingMessage, errorMessage } from '../../utils/data';
+
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+
+import {
+  Layout
+} from '../../pages/layout';
+import { Home } from '../../pages/home';
+import {
+  Login
+} from '../../pages/login';
+import {
+  Register
+} from '../../pages/register';
+import {
+  ForgotPassword
+} from '../../pages/forgot-password';
+import { 
+  ResetPassword
+} from '../../pages/reset-password';
+import { 
+  Profile
+} from '../../pages/profile';
+import ProfileForm from '../../components/profile-form/profile-form';
+import { Ingredient } from '../../pages/ingredient';
+import { Feed } from '../../pages/feed'
+import {OrderInfoPage} from '../../pages/order-details';
+import {ProfileOrdersHistory} from '../../pages/profile-orders-history';
+
+import ProtectedRoute from '../protected-route/protected-route';
+import OrderInfo from '../order-info/order-info';
 
 function App() {
-  const [ingredients, setIngredients] = useState({
-    data: null,
-    isLoading: false,
-    hasError: false,
-  });
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [ingredientDetailsModal, setIngredientDetailsModal] = useState ({visibility: false})
 
-  const [orderDetailsModal, setOrderDetailsModal] = useState ({visibility: false});
+  useEffect(()=> {
+    dispatch(getIngredients());
+    dispatch(getUserInfo());
+  }, [dispatch]);
 
-  const [clickedIngredient, setClickedIngredient] = useState ({});
-
-  const { data, isLoading, hasError } = ingredients;
-
-  const [orderNumber, setOrderNumber] = useState(0);
-  
-  useEffect(()=>{
-    setIngredients({...ingredients, hasError: false, isLoading: true});
-    getIngredients();
-  }, []);
-
-  const getIngredients = async() => {
-    fetch(`${SERVICE_URL}/ingredients`)
-    .then(res => {
-      if (res.ok) {
-         return res.json();
-     }
-     return Promise.reject(res.status);
-    })
-      .then(data => setIngredients({ ...ingredients, data: data, isLoading: false }))
-      .catch(e => {
-        setIngredients({ ...ingredients, hasError: true, isLoading: false });
-      })}
-
-  const orderIngredientsIds = (data) => {
-    const idsArray = data.map(item => item._id);
-    return idsArray;
-  }
-
-  const postOrder = (array) => {
-    fetch(`${SERVICE_URL}/orders`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify({
-        "ingredients": array
-        })  
+  useEffect(() => {
+    if (location.state?.background) {
+      window.history.replaceState({}, '');
     }
-    )
-    .then(res => {
-      if (res.ok) {
-         return res.json();
-     }
-     return Promise.reject(res.status);
-    })
-    .then(data => setOrderNumber({ ...orderNumber, orderNumber: data.order.number }))
-    .then(data => setOrderDetailsModal({visibility: true}))
-    .catch(e => {
-      setOrderNumber({ ...orderNumber, orderNumber: 0 });
-    });
-  }
+  }, [location.state?.background])
 
-  const closeIngredientsDetailsModal = () => {
-    setIngredientDetailsModal({visibility: false}) 
-  }
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.constructor);
 
-  const closeOrderDetailsModal = () => {
-    setOrderDetailsModal({visibility: false})
-  }
+  const background = location.state?.background;
+  const isOrderModalShown = useSelector((store) => store.order.isOpen);
 
-  const openIngredientsDetailsModal = (data) => {
-    setClickedIngredient(data);
-    setIngredientDetailsModal({visibility: true}) 
-  }
+  const closeDetailsHandler = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
-  const openOrderDetailsModal = () => {
-    const currentAdds = ingredients.data.data.filter((item) => item.type !== 'bun');
-    const currentBuns = ingredients.data.data[0]._id;
-    const orderArray = currentAdds.concat(currentBuns);
-    const idsArray = orderIngredientsIds(orderArray);
-    postOrder(idsArray);
-  }
+  const closeOrderHandler = useCallback(() => {
+    dispatch(cleanConstructor());
+    dispatch(closeOrderDetails());
+  }, [dispatch]);
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
-      <AppHeader />
-      {isLoading && "Загрузка ..."}
-      {hasError && "Ошибка"}
-      {!isLoading && !hasError && data &&
-      <>
-      <main className={appStyles.main}>
-        <APIContext.Provider value={data.data}>
-          <BurgerIngredients openModal={openIngredientsDetailsModal} clickedIngredient={clickedIngredient}/>
-          <BurgerConstructor openModal={openOrderDetailsModal} adds={ingredients.data.data.filter((item) => item.type !== 'bun')} buns={ingredients.data.data[0]}/>
-        </APIContext.Provider>
-      </main>
-      { ingredientDetailsModal.visibility &&
-        <Modal text='Детали ингредиента' closeModal = {closeIngredientsDetailsModal}>
-          <IngredientDetails ingredient = {clickedIngredient}/>
-        </Modal>
-      }
-      { orderDetailsModal.visibility && orderNumber &&
-      <Modal text='' closeModal={closeOrderDetailsModal}>
-        <OrderDetails order = {orderNumber}/>
-      </Modal>
-      }
-      </>
-      }
+       {ingredientsRequest && loadingMessage }
+      {ingredientsFailed && errorMessage }
+      {!ingredientsRequest && !ingredientsFailed && ingredients &&
+      <div>
+      <Routes location={background || location}>
+        <Route path="/" element={<Layout />}>
+          <Route
+            index
+            element={<Home />}
+          />
+          <Route path="login" element={
+            <ProtectedRoute anonymous>
+              <Login />
+            </ProtectedRoute>
+          }/>
+          <Route path="register" element={
+            <ProtectedRoute anonymous>
+                <Register />
+              </ProtectedRoute>
+          }/>
+          <Route path="forgot-password" element={
+            <ProtectedRoute anonymous>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }/>
+          <Route path="reset-password" element={
+            <ProtectedRoute anonymous>
+              <ResetPassword />
+            </ProtectedRoute>
+          }/>
+          <Route path="profile" element={ 
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>}>
+            <Route index element={<ProfileForm />} />
+            <Route path="orders" element={<ProfileOrdersHistory />} />
+          </Route>
+          <Route path="profile/orders/:id" element={<OrderInfoPage />} />
+          <Route path="feed" element={<Feed />} />
+          <Route path="feed/:id" element={<OrderInfoPage />} />
+          <Route path="ingredients/:id" element={<Ingredient />} />
+        </Route>  
+      </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal closeModal={closeDetailsHandler}>
+                <IngredientDetails isModal />
+              </Modal>
+            }
+          />
+           <Route
+            path="/feed/:id"
+            element={
+              <Modal closeModal={closeDetailsHandler}>
+                <OrderInfo isModal />
+              </Modal>
+            }
+          />
+            <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal closeModal={closeDetailsHandler}>
+                <OrderInfo isModal />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {isOrderModalShown && (
+          <Modal closeModal={closeOrderHandler}>
+            <OrderDetails />
+          </Modal>
+        )}
+      </div>
+    }
     </div>
   );
 }
