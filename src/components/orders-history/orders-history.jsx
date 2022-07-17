@@ -3,15 +3,15 @@ import ordersHistory from './orders-history.module.css';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {loadingMessage} from '../../utils/data';
-import { wsAuthConnectionStart, wsAuthClose } from '../../services/actions/wsAuthActions';
+import { wsAuthConnectionStartAction, wsAuthCloseAction } from '../../services/actions/wsAuthActions';
 
 export default function OrdersHistory() {
   const dispatch = useDispatch();
   const { orders } = useSelector(store => store.wsAuth.orders);
   useEffect(() => {
-    dispatch(wsAuthConnectionStart());
+    dispatch(wsAuthConnectionStartAction());
 
-    return () => dispatch(wsAuthClose());
+    return () => dispatch(wsAuthCloseAction());
   }, [dispatch]);
 
   if (!orders) return (

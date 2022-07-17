@@ -3,15 +3,29 @@ import {
   WS_AUTH_CONNECTION_ERROR,
   WS_AUTH_CONNECTION_SUCCESS,
   WS_GET_AUTH_ORDERS,
-} from '../actions/wsAuthActions';
+} from '../action-types';
+import { TWsAuthActions } from '../actions/wsAuthActions';
+import { IOrdersResponse } from '../types/data';
 
-const initialState = {
-  wsAuthConnected: false,
-  orders: {},
+type TWsAuthState = {
+  wsAuthConnected: boolean;
+  orders: IOrdersResponse;
 };
 
-export function wsAuthReducer(state = initialState, { type, payload }) {
-  switch (type) {
+const initialState: TWsAuthState = {
+  wsAuthConnected: false,
+  orders:  {
+    orders: [],
+    total: 0,
+    totalToday: 0,
+  },
+};
+
+export const wsAuthReducer = (
+  state = initialState,
+  action: TWsAuthActions
+): TWsAuthState => {
+  switch (action.type) {
     case WS_AUTH_CONNECTION_SUCCESS:
       return {
         ...state,
@@ -33,10 +47,10 @@ export function wsAuthReducer(state = initialState, { type, payload }) {
     case WS_GET_AUTH_ORDERS:
       return {
         ...state,
-        orders: {...payload},
-      }
+        orders: { ...action.payload },
+      };
 
     default:
       return state;
   }
-}
+};

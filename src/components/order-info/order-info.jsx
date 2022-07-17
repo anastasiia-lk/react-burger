@@ -3,8 +3,8 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useDispatch, useSelector } from 'react-redux';
 import { useMatch, useParams } from 'react-router-dom';
 import { getOrders, getUserOrders } from '../../services/selectors/ws';
-import { wsClose, wsConnectionStart } from '../../services/actions/wsActions';
-import { wsAuthClose, wsAuthConnectionStart } from '../../services/actions/wsAuthActions';
+import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';
+import { wsAuthCloseAction, wsAuthConnectionStartAction } from '../../services/actions/wsAuthActions';
 import { useEffect, useMemo } from 'react';
 import { loadingMessage } from '../../utils/data';
 import {formatOrderNumber, getOrderStatus, getTimeStampString} from '../../utils/utils';
@@ -20,16 +20,16 @@ const { ingredients } = useSelector(store => store.constructor);
 
 useEffect(() => {
   if (match) {
-    dispatch(wsConnectionStart());
+    dispatch(wsConnectionStartAction());
   } else {
-    dispatch(wsAuthConnectionStart());
+    dispatch(wsAuthConnectionStartAction());
   }
 
   return () => {
     if (match) {
-      dispatch(wsClose());
+      dispatch(wsCloseAction());
     } else {
-      dispatch(wsAuthClose());
+      dispatch(wsAuthCloseAction());
     }
   };
 }, [dispatch, match]);

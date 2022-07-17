@@ -1,11 +1,14 @@
 import { useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { IProtectedRoutProps, TLocationState } from './protected-route.types';
+import { FC } from 'react';
+import { useAppSelector } from '../../services/hooks';
 
-export default function ProtectedRoute({ children, anonymous = false }) {
-  const isAuthUser = useSelector((store) => store.user.isAuth);
+const ProtectedRoute: FC<IProtectedRoutProps> = ({ children, anonymous = false }) => {
+  const isAuthUser = useAppSelector((store) => store.user.isAuth);
 
-  const location = useLocation();
-  const fromPath = location.state?.fromPath?.pathname || '/';
+  const location = useLocation() as TLocationState;
+  const fromPath = location.state?.from?.pathname || '/';
   // Если разрешен только неавторизованный доступ, а пользователь авторизован...
   if (anonymous && isAuthUser) {
     // ...то отправляем его на предыдущую страницу
@@ -21,3 +24,5 @@ export default function ProtectedRoute({ children, anonymous = false }) {
   // Если все ок, то рендерим внутреннее содержимое
   return <>{children}</>;
 }
+
+export default ProtectedRoute;

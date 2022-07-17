@@ -3,15 +3,29 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
   WS_GET_ORDERS,
-} from '../actions/wsActions';
+} from '../action-types';
+import { TWsActions } from '../actions/wsActions';
+import { IOrdersResponse } from '../types/data';
 
-const initialState = {
-  wsConnected: false,
-  orders: {},
+type TWsState = {
+  wsConnected: boolean;
+  orders: IOrdersResponse;
 };
 
-export function wsReducer(state = initialState, { type, payload }) {
-  switch (type) {
+const initialState: TWsState = {
+  wsConnected: false,
+  orders: {
+    orders: [],
+    total: 0,
+    totalToday: 0,
+  },
+};
+
+export const wsReducer = (
+  state = initialState,
+  action: TWsActions
+): TWsState => {
+  switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
@@ -33,10 +47,10 @@ export function wsReducer(state = initialState, { type, payload }) {
     case WS_GET_ORDERS:
       return {
         ...state,
-        orders: {...payload},
+        orders: { ...action.payload },
       };
 
     default:
       return state;
   }
-}
+};

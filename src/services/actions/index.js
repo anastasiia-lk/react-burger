@@ -34,11 +34,6 @@ export const BURGER_REPLACE_INGREDIENTS = 'BURGER_REPLACE_INGREDIENTS';
 
 export const REMOVE_INGREDIENT_DETAILS = 'REMOVE_INGREDIENT_DETAILS';
 
-export const IS_EMPTY = 'IS_EMPTY'
-export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST'
-export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS'
-export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED'
-
 
 const checkResponse = (res) => {
   if (res.ok) {

@@ -3,7 +3,7 @@ import {Link, useLocation} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import OrdersList from '../orders-list/orders-list';
 import React, { useEffect, useMemo } from 'react';
-import { wsClose, wsConnectionStart } from '../../services/actions/wsActions';
+import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';
 import { loadingMessage } from '../../utils/data';
 import { formatOrderNumber } from '../../utils/utils';
 import OrdersNumbersList from '../orders-numbers-list/orders-numbers-list'
@@ -15,10 +15,10 @@ export default function FeedConstructor() {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(wsConnectionStart());
+    dispatch(wsConnectionStartAction());
 
     return () => {
-      dispatch(wsClose());
+      dispatch(wsCloseAction());
     };
   }, [dispatch]);
 

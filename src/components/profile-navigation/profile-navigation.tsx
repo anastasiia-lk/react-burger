@@ -50,7 +50,3 @@ export default function ProfileNavigation() {
     </div>
   )
 }
-
-// OrderDetails.propTypes = {
-//   order: PropTypes.number
-// }
