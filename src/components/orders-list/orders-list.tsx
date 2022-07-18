@@ -1,4 +1,4 @@
-// import React from 'react';
+import { FC } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
@@ -6,8 +6,9 @@ import OrderCard from '../order-card/order-card';
 
 import ordersListStyles from './orders-list.module.css';
 // import { orderPropType } from '../../utils/propTypes';
+import { IOrdersListProps } from './orders-list.types';
 
-export default function OrdersList({ orders, to, isUser = false }) {
+const OrdersList: FC<IOrdersListProps> = ({ orders, to, isUser = false }) => {
   const location = useLocation();
 
   return (
@@ -26,3 +27,5 @@ export default function OrdersList({ orders, to, isUser = false }) {
     </ul>
   );
 }
+
+export default OrdersList;
