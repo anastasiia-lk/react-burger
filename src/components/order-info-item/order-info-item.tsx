@@ -4,7 +4,12 @@ import IngredientImg from '../ingredient-image/ingredient-image';
 
 import orderInfoItemStyles from './order-info-item.module.css';
 
-export default function OrderInfoItem({ ingredient }) {
+import { FC } from 'react';
+
+import { IOrderInfoItem } from './order-info-item.types';
+
+
+const OrderInfoItem: FC<IOrderInfoItem> = ({ ingredient }) => {
   const { name, image_mobile: imageUrl, price, count } = ingredient;
 
   return (
@@ -22,8 +27,10 @@ export default function OrderInfoItem({ ingredient }) {
         <p className='text text_type_digits-default mr-4'>
           {`${count} x ${price}`}
         </p>
-        <CurrencyIcon />
+        <CurrencyIcon type='primary' />
       </div>
     </>
   );
 }
+
+export default OrderInfoItem;

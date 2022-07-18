@@ -1,16 +1,18 @@
-import { useMemo } from 'react';
+import { useMemo, FC } from 'react';
 
 import ingredientImgStyles from './ingredient-image.module.css';
 
-export default function IngredientImg({
+import { IIngredientImgProps } from './ingredient-image.types';
+
+const IngredientImg: FC<IIngredientImgProps> = ({
   imageUrl,
   index,
   count,
   position = 'absolute',
-}) {
+}) => {
   const ingredientIconStyle = useMemo(
     () =>
-      position === 'absolute'
+      position === 'absolute' && typeof index !== 'undefined'
         ? { position, zIndex: `${10 - index}`, left: `${index * 48}px` }
         : { position },
     [index, position]
@@ -25,7 +27,7 @@ export default function IngredientImg({
         }}
         className={ingredientImgStyles.image}
       />
-      {index === 5 && count > 0 && (
+      {index === 5 && typeof count !== 'undefined' && count > 0 && (
         <div className={ingredientImgStyles.overlay}>
           <span className='text text_type_main-small'>
             {`+${count}`}
@@ -35,3 +37,5 @@ export default function IngredientImg({
     </div>
   );
 }
+
+export default IngredientImg;
