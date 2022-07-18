@@ -1,6 +1,9 @@
 import ordersNumbersList from './orders-numbers-list.module.css';
+import { FC } from 'react';
 
-export default function OrdersNumbersList({ title, orders }) {
+import { IOrdersNumbersListProps } from './orders-numbers-list.types';
+
+const OrdersNumbersList: FC<IOrdersNumbersListProps> = ({ title, orders }) => {
   return (
     <div>
     <h2 className={'text text_type_main-medium mb-6'}>
@@ -26,3 +29,5 @@ export default function OrdersNumbersList({ title, orders }) {
   </div>
   );
 }
+
+export default OrdersNumbersList;

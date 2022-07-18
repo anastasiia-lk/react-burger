@@ -2,11 +2,11 @@ import orderDetailsStyles from './order-details.module.css';
 import {CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
 import {loadingMessage} from '../../utils/data';
+import { useAppSelector } from '../../services/hooks';
 
 function OrderDetails () {
-  const { order, request, failed, isEmpty } = useSelector(store => store.order);
+  const { order, request, failed, isEmpty } = useAppSelector(store => store.order);
   const orderNumber = order.order?.number;
   return (
     <div className={`${orderDetailsStyles.container} mt-15`}>
