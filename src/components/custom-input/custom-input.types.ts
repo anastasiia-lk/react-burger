@@ -12,16 +12,16 @@ type TFormInputPlaceholder =
 
 export type TCustomInputState = {
   icon: typeof SHOW_ICON | typeof HIDE_ICON;
-  type: typeof PASSWORD | typeof TEXT;
+  type: TFormInputType;
 };
 
 export interface ICustomInputProps {
-  name: TFormInputName;
+  name: string;
   type: TFormInputType;
-  placeholder: TFormInputPlaceholder;
+  placeholder: string;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  icon?: boolean;
+  icon?: string;
 }
 
 export type TCustomInputOnChangeHandler = (

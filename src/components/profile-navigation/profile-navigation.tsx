@@ -2,13 +2,13 @@ import profileNavigation from './profile-navigation.module.css';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
  import { useCallback } from 'react';
-import { signOutUser } from '../../services/actions/user';
+import { signOutUserThunk } from '../../services/thunks';
 
 export default function ProfileNavigation() {
   const dispatch = useDispatch()
   const onClickHandler = useCallback(
     () => {
-      dispatch(signOutUser());
+      dispatch(signOutUserThunk());
     },
     [dispatch],
   )

@@ -4,14 +4,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {loadingMessage} from '../../utils/data';
 import { wsAuthConnectionStartAction, wsAuthCloseAction } from '../../services/actions/wsAuthActions';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
+
 
 export default function OrdersHistory() {
-  const dispatch = useDispatch();
-  const { orders } = useSelector(store => store.wsAuth.orders);
+  const dispatch = useAppDispatch();
+  const { orders } = useAppSelector(store => store.wsAuth.orders);
   useEffect(() => {
     dispatch(wsAuthConnectionStartAction());
 
-    return () => dispatch(wsAuthCloseAction());
+    return () => dispatch(wsAuthCloseAction()) as any;;
   }, [dispatch]);
 
   if (!orders) return (

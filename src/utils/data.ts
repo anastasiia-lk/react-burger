@@ -42,18 +42,44 @@ export const wsAuthUrl = 'wss://norma.nomoreparties.space/orders';
 
 export const MONTH_TO_DAY = 1000 * 60 * 60 * 24;
 
-export const loginFormConfig = {
+type TInput = {
+  type: typeof EMAIL | typeof PASSWORD | typeof TEXT;
+  placeholder: 'Имя'
+  | 'E-mail'
+  | 'Пароль'
+  | 'Укажите e-mail'
+  | 'Введите новый пароль'
+  | 'Введите код из письма';
+  icon: string,
+  name: 'name' | 'email' | 'password' | 'reset-token',
+  value?: string
+}
+
+type TSub = {
+  id: number,
+  text: string,
+  linkText: string
+}
+
+type TLoginConfig = {
+  readonly header: string,
+  readonly buttonText: string,
+  inputsArr: TInput[],
+  subtitleArr: TSub[]
+}
+
+export const loginFormConfig: TLoginConfig = {
   header: 'Вход',
   buttonText: 'Войти',
   inputsArr: [
     {
-      type: 'email',
+      type: EMAIL,
       placeholder: 'E-mail',
       icon: '',
       name: 'email'
     },
     {
-      type: 'password',
+      type: PASSWORD,
       placeholder: 'Пароль',
       icon: 'ShowIcon',
       name: 'password',
@@ -73,24 +99,24 @@ export const loginFormConfig = {
   ]
 }
 
-export const registerFormConfig = {
+export const registerFormConfig: TLoginConfig = {
   header: 'Регистрация',
   buttonText: 'Зарегестрироваться',
   inputsArr: [
     {
-      type: 'text',
+      type: TEXT,
       placeholder: 'Имя',
       icon: '',
       name: 'name'
     },
     {
-      type: 'email',
+      type: EMAIL,
       placeholder: 'E-mail',
       icon: '',
       name: 'email'
     },
     {
-      type: 'password',
+      type: PASSWORD,
       placeholder: 'Пароль',
       icon: 'ShowIcon',
       name: 'password',
@@ -105,12 +131,12 @@ export const registerFormConfig = {
   ]
 }
 
-export const forgotPasswordFormConfig = {
+export const forgotPasswordFormConfig: TLoginConfig = {
   header: 'Восстановление пароля',
   buttonText: 'Восстановить',
   inputsArr: [
     {
-      type: 'email',
+      type: EMAIL,
       placeholder: 'Укажите e-mail',
       icon: '',
       name: 'email',
@@ -131,13 +157,13 @@ export const resetPasswordFormConfig = {
   buttonText: 'Сохранить',
   inputsArr: [
     {
-      type: 'password',
+      type: PASSWORD,
       placeholder: 'Пароль',
       icon: 'ShowIcon',
       name: 'password',
     },
     {
-      type: 'text',
+      type: TEXT,
       placeholder: 'Введите код из письма',
       name: 'code',
     },
@@ -154,19 +180,19 @@ export const resetPasswordFormConfig = {
 export const profileFormConfig = {
   inputsArr: [
     {
-      type: 'text',
+      type: TEXT,
       placeholder: 'Имя',
       icon: 'EditIcon',
       name: 'name',
     },
     {
-      type: 'email',
+      type: EMAIL,
       placeholder: 'Логин',
       icon: 'EditIcon',
       name: 'email',
     },
     {
-      type: 'password',
+      type: PASSWORD,
       placeholder: 'Пароль',
       icon: 'EditIcon',
       name: 'password',

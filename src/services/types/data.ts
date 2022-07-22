@@ -31,3 +31,8 @@ export interface IIngredient {
   readonly __v: number;
   keyId?: number;
 }
+
+export interface IUser {
+  readonly name: string;
+  readonly email: string;
+}
