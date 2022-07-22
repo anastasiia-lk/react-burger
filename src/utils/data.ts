@@ -49,7 +49,8 @@ type TInput = {
   | 'Пароль'
   | 'Укажите e-mail'
   | 'Введите новый пароль'
-  | 'Введите код из письма';
+  | 'Введите код из письма'
+  | 'Логин'
   icon: string,
   name: 'name' | 'email' | 'password' | 'reset-token',
   value?: string
@@ -61,11 +62,18 @@ type TSub = {
   linkText: string
 }
 
+type TNav = string[]
+
 type TLoginConfig = {
   readonly header: string,
   readonly buttonText: string,
   inputsArr: TInput[],
   subtitleArr: TSub[]
+}
+
+type TNavConfig = {
+  inputsArr: TInput[],
+  navigationArr: TNav
 }
 
 export const loginFormConfig: TLoginConfig = {
@@ -152,7 +160,7 @@ export const forgotPasswordFormConfig: TLoginConfig = {
   ]
 }
 
-export const resetPasswordFormConfig = {
+export const resetPasswordFormConfig: TLoginConfig = {
   header: 'Восстановление пароля',
   buttonText: 'Сохранить',
   inputsArr: [
@@ -177,7 +185,7 @@ export const resetPasswordFormConfig = {
   ]
 }
 
-export const profileFormConfig = {
+export const profileFormConfig: TNavConfig = {
   inputsArr: [
     {
       type: TEXT,

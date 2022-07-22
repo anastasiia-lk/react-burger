@@ -6,7 +6,7 @@ import CustomInput from '../components/custom-input/custom-input';
 import Form from '../components/form/form';
 import { registerFormConfig } from '../utils/data';
 
-import { registerUser } from '../services/actions/user';
+import { registerUser } from '../services/thunks/user';
 
 export function Register() {
   const [nameValue, setNameValue] = useState('');

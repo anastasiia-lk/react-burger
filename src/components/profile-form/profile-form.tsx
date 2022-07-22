@@ -1,24 +1,33 @@
 import form from './profile-form.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { profileFormConfig as config } from '../../utils/data';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUserInfo, getUserInfo } from '../../services/actions/user';
-import {useState, useMemo, useCallback, useEffect, useRef} from 'react';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
+import { updateUserInfoThunk } from '../../services/thunks/user';
+import { getUserInfo } from '../../services/thunks';
+import {useState, useMemo, useCallback, useEffect, useRef, FC} from 'react';
 import { PASSWORD, TEXT } from '../../utils/data'
 
-export default function ProfileForm() {
-  const { name, email } = useSelector((store) => store.user.user);
-  const dispatch = useDispatch();
+const ProfileForm: FC = () => {
+  const { user } = useAppSelector((store) => store.user);
+  let name = '';
+  let email = '';
+  if (user) {
+    name = user.name;
+    email = user.email;
+  }
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUserInfo());
   }, [dispatch]);
 
-  const [nameValue, setNameValue] = useState(name);
-  const [emailValue, setEmailValue] = useState(email);
-  const [passwordValue, setPasswordValue] = useState('');
-  const [isChange, setIsChange] = useState(false);
-  const [passInputType, setPassInputType] = useState(PASSWORD);
+  const [nameValue, setNameValue] = useState<string>(name);
+  const [emailValue, setEmailValue] = useState<string>(email);
+  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [isChange, setIsChange] = useState<boolean>(false);
+  const [passInputType, setPassInputType] = useState<
+    typeof PASSWORD | typeof TEXT
+  >(PASSWORD);
 
   const nameInputRef = useRef(null);
   const emailInputRef = useRef(null);
@@ -62,7 +71,7 @@ export default function ProfileForm() {
 
   const submitHandler = useCallback((e, body) => {
     e.preventDefault();
-    dispatch(updateUserInfo(body));
+    dispatch(updateUserInfoThunk(body));
   }, [dispatch])
 
   const cancelHandler = useCallback(
@@ -83,7 +92,7 @@ export default function ProfileForm() {
             ref={nameInputRef}
             type = {`${config.inputsArr[0].type}`}
             placeholder = {`${config.inputsArr[0].placeholder}`}
-            icon = {`${config.inputsArr[0].icon}`}
+            icon="EditIcon"
             name = {`${config.inputsArr[0].name}`}
             value = {nameValue}
             onChange={(e) => onChangeHandler(e, setNameValue)}
@@ -98,7 +107,7 @@ export default function ProfileForm() {
             ref={emailInputRef} 
             type = {`${config.inputsArr[1].type}`}
             placeholder = {`${config.inputsArr[1].placeholder}`}
-            icon = {`${config.inputsArr[1].icon}`}
+            icon="EditIcon"
             name = {`${config.inputsArr[1].name}`}
             value = {emailValue}
             onChange={(e) => onChangeHandler(e, setEmailValue)}
@@ -113,7 +122,7 @@ export default function ProfileForm() {
             ref={passInputRef} 
             type = {passInputType}
             placeholder = {`${config.inputsArr[2].placeholder}`}
-            icon = {`${config.inputsArr[2].icon}`}
+            icon="EditIcon"
             name = {`${config.inputsArr[2].name}`}
             value = {passwordValue}
             onChange={(e) => onChangeHandler(e, setPasswordValue)}
@@ -136,3 +145,5 @@ export default function ProfileForm() {
 // OrderDetails.propTypes = {
 //   order: PropTypes.number
 // }
+
+export default ProfileForm;
