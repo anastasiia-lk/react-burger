@@ -1,4 +1,4 @@
-import {useEffect, useCallback} from 'react';
+import {useEffect, useCallback, FC} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import appStyles from './app.module.css';
@@ -9,7 +9,7 @@ import OrderDetails from '../order-details/order-details';
 import { getIngredients, cleanConstructor } from '../../services/actions/index';
 import {closeOrderDetails} from '../../services/actions/order';
 
-import { getUserInfo } from '../../services/actions/user';
+import { getUserInfo } from '../../services/thunks';
 
 import { loadingMessage, errorMessage } from '../../utils/data';
 
@@ -34,7 +34,7 @@ import {
 import { 
   Profile
 } from '../../pages/profile';
-import ProfileForm from '../../components/profile-form/profile-form';
+import ProfileForm from '../profile-form/profile-form';
 import { Ingredient } from '../../pages/ingredient';
 import { Feed } from '../../pages/feed'
 import {OrderInfoPage} from '../../pages/order-details';
@@ -43,36 +43,42 @@ import {ProfileOrdersHistory} from '../../pages/profile-orders-history';
 import ProtectedRoute from '../protected-route/protected-route';
 import OrderInfo from '../order-info/order-info';
 
-function App() {
-  const dispatch = useDispatch();
-  const location = useLocation();
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
+import { TCloseModalCallback, TLocationState } from './app.types';
+import { closeOrderDetailsAction } from '../../services/actions/order';
+import { clearConstructorAction } from '../../services/actions/index';
+
+const App: FC = () => {
+  const dispatch = useAppDispatch();
+  const location = useLocation() as TLocationState;
   const navigate = useNavigate();
 
+  const background = location.state?.background;
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getIngredients());
     dispatch(getUserInfo());
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.state?.background) {
+    if (background) {
       window.history.replaceState({}, '');
     }
-  }, [location.state?.background])
+  }, [background]);
 
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useAppSelector(store => store.constructor);
 
-  const background = location.state?.background;
-  const isOrderModalShown = useSelector((store) => store.order.isOpen);
+  const isOrderModalShown = useAppSelector((store) => store.order.isOpen);
 
-  const closeDetailsHandler = useCallback(() => {
+  const closeModalHandler = useCallback<TCloseModalCallback>(() => {
     navigate(-1);
   }, [navigate]);
 
-  const closeOrderHandler = useCallback(() => {
-    dispatch(cleanConstructor());
-    dispatch(closeOrderDetails());
-  }, [dispatch]);
+  const closeOrderHandler = useCallback<TCloseModalCallback>(() => {
+    closeModalHandler();
+    dispatch(closeOrderDetailsAction());
+    dispatch(clearConstructorAction());
+  }, [dispatch, closeModalHandler]);
 
   return (
     <div className={`${appStyles.body} mt-10 mb-10`}>
@@ -124,7 +130,7 @@ function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal closeModal={closeDetailsHandler}>
+              <Modal closeModal={closeModalHandler}>
                 <IngredientDetails isModal />
               </Modal>
             }
@@ -132,7 +138,7 @@ function App() {
            <Route
             path="/feed/:id"
             element={
-              <Modal closeModal={closeDetailsHandler}>
+              <Modal closeModal={closeModalHandler}>
                 <OrderInfo isModal />
               </Modal>
             }
@@ -140,7 +146,7 @@ function App() {
             <Route
             path="/profile/orders/:id"
             element={
-              <Modal closeModal={closeDetailsHandler}>
+              <Modal closeModal={closeModalHandler}>
                 <OrderInfo isModal />
               </Modal>
             }
