@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, FC } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useDrag } from 'react-dnd';
@@ -10,7 +10,11 @@ import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger
 
 import { Link, useLocation } from 'react-router-dom';
 
-function PriceElement ({price}){
+import {TPriceEl, TIngrCard, TIngrTypes, TIngrBlock} from './burger-ingredients.types'
+import { useAppSelector } from '../../services/hooks';
+import { IIngredient } from '../../services/types/data';
+
+const PriceElement: FC<TPriceEl> = ({price}) => {
   return (
     <div className={`${burgerIngredientsStyles.price} mb-1 mt-1`}>
       <h3 className={`${burgerIngredientsStyles['price-element']} text text_type_digits-default`}>{price}</h3>
@@ -19,7 +23,7 @@ function PriceElement ({price}){
   )
 }
 
-const IngredientCard = ({ ingredient }) => {
+const IngredientCard: FC<TIngrCard> = ({ingredient}) => {
   const location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -30,38 +34,44 @@ const IngredientCard = ({ ingredient }) => {
     })
   });
   return (
+    <div> {
     !isDrag && 
     <div ref={dragRef} className = {`${burgerIngredientsStyles.card}`}>
       <Link
-        to={`/ingredients/${ingredient._id}`}
+        to={`/ingredients/${ingredient?._id}`}
         state={{ background: location }}
       >
       <div className={burgerIngredientsStyles.counter}>
-        <Counter count={ingredient.qty} size="default"/>
+        <Counter count={ingredient?.qty ? ingredient.qty : 0} size="default"/>
       </div>
-      <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient.image + ')', backgroundSize: 'cover' }}>
+      <div className = {burgerIngredientsStyles.image} style={{ backgroundImage: 'url(' + ingredient?.image + ')', backgroundSize: 'cover' }}>
       </div>
-      <PriceElement price = {ingredient.price} />
+      <PriceElement price = {ingredient?.price} />
       <p className = {`${burgerIngredientsStyles.name} text text_type_main-default`}>
-        {ingredient.name}
+        {ingredient?.name}
       </p>
       </Link>
     </div>
+}
+  </div>
   )
 }
 
-function IngredientsGrid ({ingredientsType}) {
+const IngredientsGrid:FC<TIngrTypes> = ({ingredientsType}) => {
   return (
     <div className = {`${burgerIngredientsStyles['ingredients-grid']} mt-6 mb-10 ml-4 mr-4`}>
       {ingredientsType.map((ingredient) => {
-        return <IngredientCard ingredient = {ingredient} key={ingredient._id} />
+        return (
+        <div key={ingredient._id}>
+          <IngredientCard ingredient = {ingredient} /> 
+        </div>)
       })
       }
     </div>
   )
 }
 
-function IngredientsBlock ({text, ingredientType, ingredients, typeRef}) {
+const IngredientsBlock:FC<TIngrBlock> = ({text, ingredientType, ingredients, typeRef}) => {
   return (
     <div>
     <h2 className="text text_type_main-medium mb-6" ref={typeRef}>
@@ -72,15 +82,15 @@ function IngredientsBlock ({text, ingredientType, ingredients, typeRef}) {
   )
 }
 
-function BurgerIngredients () {
-  const { ingredients } = useSelector(store => store.constructor);
+const BurgerIngredients: FC = () => {
+  const { ingredients } = useAppSelector(store => store.constructor);
   const [current, setCurrent] = useState('one');
 
   const bunsRef = useRef(null);
   const saucesRef = useRef(null);
   const mainsRef = useRef(null);
 
-  const scrollSection = (e) => {
+  const scrollSection = (e: any) => {
       if (e === 'one') {
         return bunsRef
         } else { 
@@ -94,14 +104,14 @@ function BurgerIngredients () {
       }
   }
 
-  const onClickHandler = (e) => {
+  const onClickHandler = (e: any) => {
     console.log(e)
     setCurrent(e);
-    const curRef = scrollSection(e);
+    const curRef:any = scrollSection(e);
     curRef.current.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
   };
 
-  const handleOnScroll = (e) => {
+  const handleOnScroll = (e: any) => {
     if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
       e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
       e.target.lastChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
@@ -142,16 +152,6 @@ function BurgerIngredients () {
         </div>
       </section>
     )
-}
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(INGREDIENT_PROP_TYPE.isRequired),
-  openModal: PropTypes.func
-}
-
-IngredientsBlock.propTypes = {
-  text: PropTypes.string,
-  ingredientType: PropTypes.string
 }
 
 export default BurgerIngredients;
