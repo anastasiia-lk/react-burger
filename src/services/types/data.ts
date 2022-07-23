@@ -44,3 +44,8 @@ export interface ITotalOrders {
   readonly title: string;
   readonly totalOrders: string;
 }
+
+export interface IOrderCard {
+  readonly order: IOrder;
+  readonly isUser: boolean;
+}

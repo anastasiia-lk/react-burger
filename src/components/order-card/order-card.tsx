@@ -1,12 +1,14 @@
 import orderCardStyles from './order-card.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { formatOrderNumber, getTimeStampString, getOrderStatus } from '../../utils/utils';
-import React, { useMemo } from 'react';
+import { getTimeStampString, getOrderStatus } from '../../utils/utils';
+import React, { useMemo, FC } from 'react';
 import IngredientImg from '../ingredient-image/ingredient-image'
+import {IOrderCard} from '../../services/types/data'
+import {useAppSelector} from '../../services/hooks'
 
-export default function OrderCard({ order, isUser }) {
-  const { ingredients } = useSelector(store => store.constructor);
+const OrderCard: FC<IOrderCard> = ({ order, isUser }) => {
+  const { ingredients } = useAppSelector(store => store.constructor);
   const { name, number, ingredients: ingredIds, createdAt, status } = order;
   const orderStatus = getOrderStatus(status);
 
@@ -15,13 +17,13 @@ export default function OrderCard({ order, isUser }) {
   }, [number]);
 
   const { imageUrls, totalPrice } = useMemo(() => {
-    const urls = [];
+    const urls: string[] = [];
     let price = 0;
 
     let uniqueIngredIds = ingredIds.filter((x, i, a) => a.indexOf(x) === i)
     uniqueIngredIds.forEach((id) => {
       const ingredient = ingredients.find((item) => item._id === id);
-      if (ingredient.type === 'bun') {
+      if (ingredient?.type === 'bun') {
         price += ingredient.price*2;
       }
     })
@@ -81,9 +83,12 @@ export default function OrderCard({ order, isUser }) {
           <span className='text text_type_digits-default'>
             {totalPrice}
           </span>
-          <CurrencyIcon />
+          <CurrencyIcon type='primary' />
       </div>
     </div>
     </div>
   )
 }
+
+export default OrderCard;
+
