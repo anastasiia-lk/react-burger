@@ -39,3 +39,8 @@ export interface IUser {
   readonly name: string;
   readonly email: string;
 }
+
+export interface ITotalOrders {
+  readonly title: string;
+  readonly totalOrders: string;
+}

@@ -1,6 +1,8 @@
 import totalOrdersStyles from './total-orders.module.css';
+import {FC} from 'react';
+import {ITotalOrders} from '../../services/types/data'
 
-export default function TotalOrders({ title, totalOrders }) {
+const TotalOrders: FC<ITotalOrders> = ({ title, totalOrders }) => {
   return (
     <div>
     <h2 className='text text_type_main-medium'>
@@ -19,3 +21,5 @@ export default function TotalOrders({ title, totalOrders }) {
   </div>
   );
 }
+
+export default TotalOrders;
