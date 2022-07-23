@@ -51,8 +51,8 @@ type TInput = {
   | 'Введите новый пароль'
   | 'Введите код из письма'
   | 'Логин'
-  icon: string,
-  name: 'name' | 'email' | 'password' | 'reset-token',
+  icon?: string,
+  name: 'name' | 'email' | 'password' | 'reset-token' | 'code',
   value?: string
 }
 
@@ -75,6 +75,8 @@ type TNavConfig = {
   inputsArr: TInput[],
   navigationArr: TNav
 }
+
+type TFormConfig = TLoginConfig | TNavConfig
 
 export const loginFormConfig: TLoginConfig = {
   header: 'Вход',

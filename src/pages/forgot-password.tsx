@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import CustomInput from '../components/custom-input/custom-input';
 
 import Form from '../components/form/form';
 import { forgotPasswordFormConfig, PASSWORD_RESET_ENDPOINT } from '../utils/data';
 import { fetchAuth } from '../utils/api';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { TOnSubmitHandler } from '../components/form/form.types';
 
-export function ForgotPassword() {
+export const ForgotPassword: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [emailValue, setEmailValue] = useState('');
-  const onSubmitHandler = (event, body) => {
+  const onSubmitHandler: TOnSubmitHandler = (event, body) => {
     event.preventDefault();
 
     fetchAuth(PASSWORD_RESET_ENDPOINT, body)

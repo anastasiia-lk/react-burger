@@ -1,8 +1,10 @@
 import form from './form.module.css';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
+import React, { FC } from 'react';
+import { IFormProps } from './form.types';
 
-function Form ({config, body, onSubmit, children}) {
+const Form: FC<IFormProps> = ({config, body, onSubmit, children}) => {
   return (
     <form className={`${form.container}`} onSubmit={(e) => onSubmit(e, body)}>
       <h1 className="text text_type_main-medium mb-6">{config.header}</h1>

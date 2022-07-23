@@ -5,9 +5,14 @@ import PropTypes from 'prop-types';
 import {loadingMessage} from '../../utils/data';
 import { useAppSelector } from '../../services/hooks';
 
-function OrderDetails () {
+import { FC } from 'react';
+
+const OrderDetails: FC = () => {
   const { order, request, failed, isEmpty } = useAppSelector(store => store.order);
-  const orderNumber = order.order?.number;
+  let orderNumber;
+  if (order) {
+    orderNumber = order.number;
+  }
   return (
     <div className={`${orderDetailsStyles.container} mt-15`}>
        {failed && (

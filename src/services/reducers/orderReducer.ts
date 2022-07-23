@@ -4,59 +4,67 @@ import {
   SEND_ORDER_REQUEST,
   SEND_ORDER_SUCCESS,
   CLOSE_ORDER_DETAILS,
-} from '../actions/order.js';
+} from '../action-types';
+import { TOrderActions } from '../actions/order';
+import { IOrder } from '../types/data';
 
-const initialState = {
-  order: {},
+type TOrderDetailsState = {
+  order: IOrder | null;
+  request: boolean;
+  failed: boolean;
+  isEmpty: boolean;
+};
+
+const initialState: TOrderDetailsState = {
+  order: null,
   request: false,
   failed: false,
   isEmpty: true,
-  isOpen: false,
-}
+};
 
-export const orderReducer = (state = initialState, { type, payload }) => {
-  switch (type) {
+export const orderReducer = (
+  state = initialState,
+  action: TOrderActions
+): TOrderDetailsState => {
+  switch (action.type) {
     case SEND_ORDER_REQUEST:
       return {
         ...state,
         request: true,
         failed: false,
         isEmpty: false,
-        isOpen: true,
-      }
+      };
 
     case SEND_ORDER_SUCCESS:
       return {
         ...state,
-        order: payload,
+        order: action.payload,
         request: false,
         isEmpty: false,
-      }
+      };
 
     case SEND_ORDER_FAILED:
       return {
         ...state,
-        order: {},
+        order: null,
         failed: true,
         request: false,
-      }
+      };
 
     case IS_EMPTY:
       return {
         ...state,
         isEmpty: true,
-        isOpen: true,
-      }
+      };
 
     case CLOSE_ORDER_DETAILS:
       return {
         ...state,
-        order: {},
+        order: null,
         isEmpty: true,
-        isOpen: false,
-      }
+      };
 
     default:
       return state;
   }
-}
+};
