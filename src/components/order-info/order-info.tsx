@@ -1,22 +1,25 @@
 import orderInfoStyles from './order-info.module.css';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMatch, useParams } from 'react-router-dom';
 import { getOrders, getUserOrders } from '../../services/selectors/ws';
 import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';
 import { wsAuthCloseAction, wsAuthConnectionStartAction } from '../../services/actions/wsAuthActions';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, FC } from 'react';
 import { loadingMessage } from '../../utils/data';
 import {formatOrderNumber, getOrderStatus, getTimeStampString} from '../../utils/utils';
 import OrderInfoItem from '../order-info-item/order-info-item';
+import { IIngredientWithCount, IOrderInfoProps } from './order-info.types';
+import { IIngredient, IOrder } from '../../services/types/data';
 
-export default function OrderInfo() {
+export const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
 const dispatch = useDispatch();
 const { id } = useParams();
 const match = useMatch(`/feed/${id}`);
 const selector = match ? getOrders : getUserOrders;
-const { orders } = useSelector(selector);
-const { ingredients } = useSelector(store => store.constructor);
+const { orders } = useAppSelector(selector);
+const { ingredients } = useAppSelector(store => store.constructor);
 
 useEffect(() => {
   if (match) {
@@ -38,13 +41,13 @@ if (!orders) return (
      <div>{loadingMessage}</div>
   );
 
-const order = orders.find((order) => order._id === id);
+const order: IOrder = orders.find((order: IOrder) => order._id === id)!;
 const { name, number, status, ingredients: ingredIds, createdAt } = order;
   const orderNumber = `#${number.toString().padStart(6, '0')}`;
   const orderStatus = getOrderStatus(status);
 
-  const orderIngredients = ingredIds.reduce((acc, current) => {
-    const ingredient = ingredients.find((item) => item._id === current);
+  const orderIngredients = ingredIds.reduce<{[k: string]: IIngredientWithCount}>((acc, current) => {
+    const ingredient: IIngredient = ingredients.find((item) => item._id === current)!;
     if (!acc[current]) {
       ingredient.type === 'bun'
         ? acc[current] = { ...ingredient, count: 2 }
@@ -68,7 +71,7 @@ const { name, number, status, ingredients: ingredIds, createdAt } = order;
 return (
   <div className={`${orderInfoStyles.container} pt-5`}>
       <p
-        className={`${orderInfoStyles['order-number']}
+        className={`${!isModal && orderInfoStyles['order-number']}
           text
           text_type_digits-default
           mb-10`
@@ -102,7 +105,7 @@ return (
           <span className='text text_type_digits-default mr-2'>
           {totalPrice}
           </span>
-          <CurrencyIcon />
+          <CurrencyIcon type="primary"/>
         </div>
       </div>
     </div>
