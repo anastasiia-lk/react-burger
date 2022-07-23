@@ -1,6 +1,6 @@
 import { IIngredient } from '../../services/types/data';
 
 export interface IBurgerConstructorIngredientCard {
-  item: IIngredient;
+  item?: IIngredient;
   index: number;
 }

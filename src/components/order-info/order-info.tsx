@@ -8,12 +8,12 @@ import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/w
 import { wsAuthCloseAction, wsAuthConnectionStartAction } from '../../services/actions/wsAuthActions';
 import { useEffect, useMemo, FC } from 'react';
 import { loadingMessage } from '../../utils/data';
-import {formatOrderNumber, getOrderStatus, getTimeStampString} from '../../utils/utils';
+import { getOrderStatus, getTimeStampString} from '../../utils/utils';
 import OrderInfoItem from '../order-info-item/order-info-item';
 import { IIngredientWithCount, IOrderInfoProps } from './order-info.types';
 import { IIngredient, IOrder } from '../../services/types/data';
 
-export const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
+const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
 const dispatch = useDispatch();
 const { id } = useParams();
 const match = useMatch(`/feed/${id}`);
@@ -111,3 +111,5 @@ return (
     </div>
   );
 }
+
+export default OrderInfo

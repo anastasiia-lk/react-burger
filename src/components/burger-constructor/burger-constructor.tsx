@@ -81,20 +81,20 @@ const BurgerConstructor: FC = () => {
       collect: (monitor) => ({
         isOver: monitor.isOver()
       }),
-      drop: (item) => {
+      drop: (item: any) => {
         if (item.index === index) return;
           dispatch(sortConstructorIngredients(item.index, index));
       },
     })
 
-    if (item.type !== "bun") {
+    if (item?.type !== "bun") {
       dragRef(dropRef(ref));
     };
 
-    const handleClick = (e) => {
+    const handleClick = (e: any) => {
       if (e.target.parentNode.parentNode.className.includes('action')) {
-        dispatch(decreaseIngredientCounter(item));
-        dispatch(removeIngredient(item));
+        dispatch(decreaseIngredientCounter(item!));
+        dispatch(removeIngredient(item!));
       }
     }
     return (
@@ -126,7 +126,7 @@ const BurgerConstructor: FC = () => {
                 <DragIcon type="primary" />
                 <ConstructorElement
                   text={`${item.name}`}
-                  price={`${item.price}`}
+                  price={item.price}
                   thumbnail={`${item.image}`}
                 />
               </div>
@@ -151,7 +151,7 @@ const BurgerConstructor: FC = () => {
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={onClickHandler}>
-            <Button type="primary" size="large" disabled = {updateTotalPrice[1]}>
+            <Button type="primary" size="large">
               Оформить заказ
             </Button>
           </div>

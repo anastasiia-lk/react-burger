@@ -110,12 +110,12 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
       }
     }
 
-    case INIT_INGREDIENTS_COUNTER: {
-      return {
-        ...state,
-        ingredients: [...state.ingredients].map(item => item.qty = 0 )
-      } 
-    }
+    // case INIT_INGREDIENTS_COUNTER: {
+    //   return {
+    //     ...state,
+    //     ingredients: [...state.ingredients].map(item => item.qty = 0)
+    //   } 
+    // }
 
     case ADD_DRAGGED_INGREDIENTS: {
       return {

@@ -148,9 +148,7 @@ const App: FC = () => {
               </Modal>
             }
           />
-        </Routes>
-      )}
-          <Route
+                    <Route
             path="/order-details"
             element={
               <Modal closeModal={closeOrderHandler}>
@@ -158,6 +156,8 @@ const App: FC = () => {
               </Modal>
             }
           />
+        </Routes>
+      )}
       </div>
     }
     </div>
