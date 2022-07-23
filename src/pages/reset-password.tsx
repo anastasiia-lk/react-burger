@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import CustomInput from '../components/custom-input/custom-input';
 
 import Form from '../components/form/form';
 import { resetPasswordFormConfig, PASSWORD_RESET_CONFIRM_ENDPOINT } from '../utils/data';
 import { fetchAuth } from '../utils/api';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { TLocationState } from '../components/protected-route/protected-route.types';
+import { TOnSubmitHandler } from '../components/form/form.types';
 
-export function ResetPassword() {
+export const ResetPassword: FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation() as TLocationState;
 
   const [passwordValue, setPasswordValue] = useState('');
   const [tokenValue, setTokenValue] = useState(' ');
@@ -21,7 +23,7 @@ export function ResetPassword() {
     }
   }, [from, navigate]);
 
-  const onSubmitHandler = (event, body) => {
+  const onSubmitHandler: TOnSubmitHandler = (event, body) => {
     event.preventDefault();
 
     fetchAuth(PASSWORD_RESET_CONFIRM_ENDPOINT, body)

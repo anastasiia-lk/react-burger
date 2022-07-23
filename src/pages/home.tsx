@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import {useState, FC} from 'react';
+import { useAppSelector, useAppDispatch } from '../services/hooks';
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -12,10 +12,10 @@ import { loadingMessage, errorMessage } from '../utils/data';
 
 import { postOrder, setIngredientDetails } from '../services/actions/index';
 
-export function Home() {
-  const dispatch = useDispatch();
+export const Home: FC = () => {
+  const dispatch = useAppDispatch();
 
-  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients} = useSelector(store => store.constructor);
+  const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients} = useAppSelector(store => store.constructor);
 
   const [setIngredientDetailsModal] = useState ({visibility: false});
 
