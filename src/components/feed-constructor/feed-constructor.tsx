@@ -2,17 +2,18 @@ import feedConstructorStyles from './feed-constructor.module.css';
 import {Link, useLocation} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import OrdersList from '../orders-list/orders-list';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, FC } from 'react';
 import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';
 import { loadingMessage } from '../../utils/data';
-import { formatOrderNumber } from '../../utils/utils';
 import OrdersNumbersList from '../orders-numbers-list/orders-numbers-list'
 import TotalOrders from '../total-orders/total-orders'
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
+import { IOrder } from '../../services/types/data';
 
-export default function FeedConstructor() {
-  const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector(store => store.ws.orders);
-  const location = useLocation();
+const BurgerFeed: FC = () => {
+  const dispatch = useAppDispatch();
+  const { orders, total, totalToday } = useAppSelector(store => store.ws.orders);
+  // const location = useLocation();
 
   useEffect(() => {
     dispatch(wsConnectionStartAction());
@@ -22,20 +23,20 @@ export default function FeedConstructor() {
     };
   }, [dispatch]);
 
-  const doneOrdersNumbers = useMemo(() => {
+  const doneOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
       ? orders
-          .filter((order) => order.status === 'done')
-          .map((order) => order.number)
+          .filter((order: IOrder) => order.status === 'done')
+          .map((order: IOrder) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);
 
-  const inWorkOrdersNumbers = useMemo(() => {
+  const inWorkOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
       ? orders
-          .filter((order) => order.status !== 'done')
-          .map((order) => order.number)
+          .filter((order: IOrder) => order.status !== 'done')
+          .map((order: IOrder) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);
@@ -70,3 +71,5 @@ export default function FeedConstructor() {
     </div>
   )
 }
+
+export default BurgerFeed

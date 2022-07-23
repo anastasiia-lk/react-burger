@@ -42,7 +42,7 @@ export interface IUser {
 
 export interface ITotalOrders {
   readonly title: string;
-  readonly totalOrders: string;
+  readonly totalOrders: number;
 }
 
 export interface IOrderCard {
