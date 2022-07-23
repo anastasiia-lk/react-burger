@@ -1,4 +1,4 @@
-import { useMemo, useRef, useCallback } from 'react';
+import { useMemo, useRef, useCallback, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,14 +12,18 @@ import { increaseIngredientCounter, decreaseIngredientCounter, removeIngredient,
 
 import {getCookie} from '../../utils/utils'
 
-import {sendOrder} from '../../services/actions/order'
+import {sendOrder} from '../../services/thunks/order'
 
-function BurgerConstructor({ openModal }) {
+import { useAppSelector, useAppDispatch } from '../../services/hooks';
+import { IIngredient } from '../../services/types/data';
+import {IBurgerConstructorIngredientCard} from './burger-constructor.types'
+
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { draggedIngredients } = useSelector(store => store.constructor);
-  const { isAuth } = useSelector((store) => store.user);
+  const { draggedIngredients } = useAppSelector(store => store.constructor);
+  const { isAuth } = useAppSelector((store) => store.user);
 
   const updateTotalPrice = useMemo(
     () => {
@@ -43,7 +47,7 @@ function BurgerConstructor({ openModal }) {
     }
   }, [draggedIngredients, dispatch, isAuth, navigate]);
 
-  const onDropHandler = (ingredient) => {
+  const onDropHandler = (ingredient: IIngredient) => {
     if (ingredient.type === 'bun') {
       dispatch(updateBun(ingredient));
       dispatch(increaseBunCounter(ingredient));
@@ -57,12 +61,12 @@ function BurgerConstructor({ openModal }) {
     collect: monitor => ({
       isHover: monitor.isOver(),
     }),
-    drop(ingredient) {
+    drop(ingredient: any) {
       onDropHandler(ingredient);
     }
   });
 
-  const IngredientCard = ({ index, children, item }) => {
+  const IngredientCard: FC<IBurgerConstructorIngredientCard> = ({ index, children, item })=> {
     const dispatch = useDispatch();
     const ref = useRef(null);
     const [{ isDragging }, dragRef] = useDrag({

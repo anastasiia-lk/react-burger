@@ -30,9 +30,32 @@ import {
 
   REMOVE_INGREDIENT_DETAILS
 
-} from '../actions/index';
+} from '../action-types/constructorActionTypes';
 
-const initialState = {
+import { IIngredient } from '../types/data';
+import { TConstructorActions } from '../actions/index';
+
+export interface IInitialState {
+  ingredients: Array<IIngredient>,
+  ingredientsRequest: boolean,
+  ingredientsFailed: boolean,
+
+  currentIngredients: Array<IIngredient>,
+
+  ingredientDetails: |IIngredient | {},
+
+  orderNumber: |number |{},
+  orderNumberRequest: boolean,
+  orderNumberFailed: boolean,
+
+  flag: {visibility: boolean},
+
+  draggedIngredients: Array<IIngredient>,
+
+  board: string
+}
+
+const initialState: IInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
@@ -47,12 +70,12 @@ const initialState = {
 
   flag: {visibility: false},
 
-  draggedIngredients: [0],
+  draggedIngredients: [],
 
   board: 'default'
 }
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions):IInitialState  => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -63,8 +86,8 @@ export const constructorReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        ingredients: action.ingredients.map(item => ({...item, qty: 0})),
-        currentIngredients: action.ingredients.filter((item) => item.type !== 'bun'),
+        ingredients: action.payload.map(item => ({...item, qty: 0})),
+        currentIngredients: action.payload.filter((item) => item.type !== 'bun'),
         ingredientsRequest: false,
         ingredientsFailed: false,
         flag: {visibility: false},
@@ -131,21 +154,21 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_BUN_COUNTER: {
       return {
         ...state,
-        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: item.qty + 2 } : {...item })
+        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: item.qty ? item.qty + 2 : 0 } : {...item })
       }
     }
 
     case ADD_INGREDIENT_COUNTER: {
       return {
         ...state,
-        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: ++item.qty } : {...item })
+        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: item.qty ? ++item.qty : 0 } : {...item })
       }
     }
 
     case REMOVE_INGREDIENT_COUNTER: {
       return {
         ...state,
-        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: --item.qty } : {...item })
+        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: item.qty ? --item.qty : 0 } : {...item })
       }
     }
 
@@ -163,36 +186,36 @@ export const constructorReducer = (state = initialState, action) => {
       }
     }
 
-    case POST_ORDER_REQUEST: {
-      return {
-        ...state,
-        orderNumberRequest: true
-      }
-    }
+    // case POST_ORDER_REQUEST: {
+    //   return {
+    //     ...state,
+    //     orderNumberRequest: true
+    //   }
+    // }
 
-    case POST_ORDER_SUCCESS: {
-      return {
-        ...state,
-        orderNumber: action.orderNumber,
-        orderNumberRequest: false,
-        orderNumberFailed: false
-      }
-    }
+    // case POST_ORDER_SUCCESS: {
+    //   return {
+    //     ...state,
+    //     orderNumber: action.orderNumber,
+    //     orderNumberRequest: false,
+    //     orderNumberFailed: false
+    //   }
+    // }
 
-    case POST_ORDER_FAILED: {
-      return {
-        ...state,
-        orderNumberRequest: false,
-        orderNumberFailed: true
-      }
-    }
+    // case POST_ORDER_FAILED: {
+    //   return {
+    //     ...state,
+    //     orderNumberRequest: false,
+    //     orderNumberFailed: true
+    //   }
+    // }
 
-    case SET_FLAG: {
-      return {
-        ...state,
-        flag: {visibility: true}
-      }
-    }
+    // case SET_FLAG: {
+    //   return {
+    //     ...state,
+    //     flag: {visibility: true}
+    //   }
+    // }
 
     case REMOVE_FLAG: {
       return {

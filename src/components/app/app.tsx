@@ -6,8 +6,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
 
-import { getIngredients, cleanConstructor } from '../../services/actions/index';
-import {closeOrderDetails} from '../../services/actions/order';
+import { getIngredients } from '../../services/thunks/ingredients';
 
 import { getUserInfo } from '../../services/thunks';
 
@@ -46,7 +45,7 @@ import OrderInfo from '../order-info/order-info';
 import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { TCloseModalCallback, TLocationState } from './app.types';
 import { closeOrderDetailsAction } from '../../services/actions/order';
-import { clearConstructorAction } from '../../services/actions/index';
+import { cleanConstructor } from '../../services/actions/index';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -68,8 +67,6 @@ const App: FC = () => {
 
   const { ingredients, ingredientsRequest, ingredientsFailed } = useAppSelector(store => store.constructor);
 
-  const isOrderModalShown = useAppSelector((store) => store.order.isOpen);
-
   const closeModalHandler = useCallback<TCloseModalCallback>(() => {
     navigate(-1);
   }, [navigate]);
@@ -77,7 +74,7 @@ const App: FC = () => {
   const closeOrderHandler = useCallback<TCloseModalCallback>(() => {
     closeModalHandler();
     dispatch(closeOrderDetailsAction());
-    dispatch(clearConstructorAction());
+    dispatch(cleanConstructor());
   }, [dispatch, closeModalHandler]);
 
   return (
@@ -153,11 +150,14 @@ const App: FC = () => {
           />
         </Routes>
       )}
-      {isOrderModalShown && (
-          <Modal closeModal={closeOrderHandler}>
-            <OrderDetails />
-          </Modal>
-        )}
+          <Route
+            path="/order-details"
+            element={
+              <Modal closeModal={closeOrderHandler}>
+                <OrderDetails />
+              </Modal>
+            }
+          />
       </div>
     }
     </div>

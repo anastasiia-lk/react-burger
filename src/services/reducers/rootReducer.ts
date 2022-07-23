@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { constructorReducer } from './constructorReducer.js';
+import { constructorReducer } from './constructorReducer';
 import { userReducer } from './userReducer';
 import { orderReducer } from './orderReducer';
 import { wsReducer as ws } from './wsReducer';

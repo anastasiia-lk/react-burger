@@ -8,12 +8,17 @@ const Form: FC<IFormProps> = ({config, body, onSubmit, children}) => {
   return (
     <form className={`${form.container}`} onSubmit={(e) => onSubmit(e, body)}>
       <h1 className="text text_type_main-medium mb-6">{config.header}</h1>
+      {config.header === 'Восстановление пароля' &&
+          <div className ='mb-6'>
+            {children}
+          </div>
+      }
       {children && children.length === undefined && 
           <div className ='mb-6'>
             {children}
           </div>
       }
-      {children && children.length>1 && children.map((child) => {
+      {children && children.length>1 && children.map((child: any) => {
         return (
           <div className ='mb-6' key={children.indexOf(child)}>
             {child}

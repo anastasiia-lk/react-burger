@@ -30,6 +30,9 @@ export interface IIngredient {
   readonly image_large: string;
   readonly __v: number;
   keyId?: number;
+  qty?: number;
+  key?: number;
+  index?: number;
 }
 
 export interface IUser {

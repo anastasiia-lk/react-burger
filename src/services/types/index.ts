@@ -14,15 +14,14 @@ import {
 } from '../actions/user';
 import {
   TConstructorActions,
-  TIngredientsActions,
-  TOrderActions,
 } from '../actions';
-
+import {
+  TOrderActions,
+} from '../actions/order';
 export type TRootState = ReturnType<typeof rootReducer>;
 
 export type TApplicationActions =
   | TConstructorActions
-  | TIngredientsActions
   | TOrderActions
   | TUserActions
   | TWsActions
