@@ -49,3 +49,25 @@ export interface IOrderCard {
   readonly order: IOrder;
   readonly isUser: boolean;
 }
+
+interface ISuccess {
+  readonly success: boolean;
+}
+
+export interface IUser {
+  readonly name: string;
+  readonly email: string;
+}
+
+export interface ITokenResponse extends ISuccess {
+  readonly accessToken: string;
+  readonly refreshToken: string;
+}
+
+export interface IAuthResponse extends ITokenResponse {
+  readonly user: IUser;
+}
+
+export interface ILogOut extends ISuccess {
+  readonly message: string;
+}
