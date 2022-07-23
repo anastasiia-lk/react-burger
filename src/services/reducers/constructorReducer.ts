@@ -158,10 +158,17 @@ export const constructorReducer = (state = initialState, action: TConstructorAct
       }
     }
 
+    // case ADD_INGREDIENT_COUNTER: {
+    //   return {
+    //     ...state,
+    //     ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: ++item.qty! } : {...item })
+    //   }
+    // }
+
     case ADD_INGREDIENT_COUNTER: {
       return {
         ...state,
-        ingredients: [...state.ingredients].map(item => item._id === action.value._id ? {...item, qty: item.qty ? ++item.qty : 0 } : {...item })
+        ingredients: action.value
       }
     }
 

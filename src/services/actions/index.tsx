@@ -246,10 +246,10 @@ export const increaseBunCounter = (value: IIngredient): IIncreaseBunCounter => {
 
 export interface IIncreaseIngredientCounter {
   readonly type: typeof ADD_INGREDIENT_COUNTER;
-  readonly value: IIngredient;
+  readonly value: Array<IIngredient>;
 }
 
-export const increaseIngredientCounter = (value: IIngredient):IIncreaseIngredientCounter => {
+export const increaseIngredientCounter = (value: Array<IIngredient>):IIncreaseIngredientCounter => {
   return { type: ADD_INGREDIENT_COUNTER, value }
 }
 

@@ -26,15 +26,15 @@ const BurgerConstructor: FC = () => {
   const { draggedIngredients } = useAppSelector(store => store.constructor);
   const { isAuth } = useAppSelector((store) => store.user);
 
-  // const updateTotalPrice = useMemo(
-  //   () => {
-  //     let orderBtnStatus = false;
-  //     const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0);
-  //     currentTotalPrice !== 0 ? orderBtnStatus = false : orderBtnStatus = true;
-  //     return [currentTotalPrice, orderBtnStatus]
-  //   },
-  //   [draggedIngredients]
-  // );
+  const updateTotalPrice = useMemo(
+    () => {
+      let orderBtnStatus = false;
+      const currentTotalPrice = draggedIngredients.map(item => item.type === 'bun' ? item.price * 2 : item.price).reduce((prev, curr) => prev + curr, 0);
+      currentTotalPrice !== 0 ? orderBtnStatus = false : orderBtnStatus = true;
+      return [currentTotalPrice, orderBtnStatus]
+    },
+    [draggedIngredients]
+  );
 
   const onClickHandler = useCallback(() => {
     if (isAuth) {
@@ -52,13 +52,11 @@ const BurgerConstructor: FC = () => {
     if (ingredient.type === 'bun') {
       dispatch(updateBun(ingredient));
       dispatch(increaseBunCounter(ingredient));
-      console.log(draggedIngredients)
     } else {
-      dispatch(increaseIngredientCounter(ingredient))
-      console.log(draggedIngredients)
+      // dispatch(increaseIngredientCounter(ingredient))
+      // dispatch(increaseIngredientCounter(ingredient))
     }
     dispatch(addIngredientThunk(ingredient));
-    console.log(draggedIngredients)
   }
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -151,7 +149,7 @@ const BurgerConstructor: FC = () => {
         )}
         <div className={`${burgerConstructorStyles.total} mt-10 mr-4`}>
           <div className={`${burgerConstructorStyles.price} mr-10`}>
-            {/* <p className="text text_type_digits-medium mr-2">{updateTotalPrice[0]}</p> */}
+            <p className="text text_type_digits-medium mr-2">{updateTotalPrice[0]}</p>
             <CurrencyIcon type="primary" />
           </div>
           <div onClick={onClickHandler}>
