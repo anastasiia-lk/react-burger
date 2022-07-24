@@ -93,8 +93,10 @@ const BurgerConstructor: FC = () => {
       dragRef(dropRef(ref));
     };
 
-    const handleClick = (e: any) => {
-      if (e.target.parentNode.parentNode.className.includes('action')) {
+    const handleClick = (event: React.MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const parentTarget = target.parentNode?.parentNode as HTMLElement;
+      if (parentTarget.className.includes('action')) {
         dispatch(decreaseIngredientCounter(item!));
         dispatch(removeIngredient(item!));
       }
