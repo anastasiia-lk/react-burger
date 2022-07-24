@@ -158,47 +158,47 @@ export const getIngredientsFailedAction = (): IGetIngredientsFailedAction => {
 //     }
 // }
 
-export function postOrder(ingredientsArray: any) {
-  return function(dispatch: any) {
-    dispatch({
-      type: POST_ORDER_REQUEST
-    });
-    fetch(`${SERVICE_URL}/orders`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify({
-        "ingredients": ingredientsArray
-        })  
-    }
-    )
-    .then(checkResponse)
-    .then (res => {
-      return res.order
-    })
-    .then(res => {
-      if (res) {
-        dispatch ({
-          type: POST_ORDER_SUCCESS,
-          orderNumber: res,
-        })
-      } else {
-        dispatch ({
-          type: POST_ORDER_FAILED,
-        })
-      }})
-    .then (res => {
-      dispatch ({
-        type: SET_FLAG
-      })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
-}
+// export function postOrder(ingredientsArray: any) {
+//   return function(dispatch: any) {
+//     dispatch({
+//       type: POST_ORDER_REQUEST
+//     });
+//     fetch(`${SERVICE_URL}/orders`,
+//     {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json; charset=UTF-8'
+//       },
+//       body: JSON.stringify({
+//         "ingredients": ingredientsArray
+//         })  
+//     }
+//     )
+//     .then(checkResponse)
+//     .then (res => {
+//       return res.order
+//     })
+//     .then(res => {
+//       if (res) {
+//         dispatch ({
+//           type: POST_ORDER_SUCCESS,
+//           orderNumber: res,
+//         })
+//       } else {
+//         dispatch ({
+//           type: POST_ORDER_FAILED,
+//         })
+//       }})
+//     .then (res => {
+//       dispatch ({
+//         type: SET_FLAG
+//       })
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+//   }
+// }
 
 export interface IRemoveIngredientDetails {
   readonly type: typeof REMOVE_INGREDIENT_DETAILS;

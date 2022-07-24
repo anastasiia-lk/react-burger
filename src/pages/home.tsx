@@ -11,8 +11,6 @@ import BurgerConstructor from '../components/burger-constructor/burger-construct
 
 import { loadingMessage, errorMessage } from '../utils/data';
 
-import { postOrder, setIngredientDetails } from '../services/actions/index';
-
 export const Home: FC = () => {
 
   const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients} = useAppSelector(store => store.constructor);
