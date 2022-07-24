@@ -40,7 +40,7 @@ type TFormTitle = 'Регистрация' | 'Вход' | 'Восстановл�
 type TFormBodyKey = 'name' | 'password' | 'email' | 'token';
 type TFormButtonText = 'Зарегистрироваться' | 'Войти' | 'Восстановить' | 'Сохранить';
 type TFormText = 'Уже зарегистрированы?' | 'Вы — новый пользователь?' | 'Вспомнили пароль?';
-type TFormBody = { [key in TFormBodyKey]?: string }
+export type TFormBody = { [key in TFormBodyKey]?: string }
 
 export type TOnSubmitHandler = (event: FormEvent<HTMLFormElement>, body: TFormBody) => void;
 

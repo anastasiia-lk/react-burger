@@ -17,8 +17,10 @@ import {
   userUpdateSuccessAction,
 } from '../actions/user';
 import { AppDispatch, AppThunk } from '../types';
+import {TFormBody} from '../../components/form/form.types'
+import {IProfileFormBody} from '../../components/profile-form/profile-form.types'
 
-export const registerUser: AppThunk = (body) => {
+export const registerUser: AppThunk = (body: TFormBody) => {
   return function (dispatch: AppDispatch) {
     fetchAuth(REGISTRATION_ENDPOINT, body)
       .then((data) => {
@@ -32,7 +34,7 @@ export const registerUser: AppThunk = (body) => {
   };
 }
 
-export const signInUserThunk: AppThunk = (body) => {
+export const signInUserThunk: AppThunk = (body: TFormBody) => {
   return function (dispatch: AppDispatch) {
     fetchAuth(LOGIN_ENDPOINT, body)
       .then((data) => {
@@ -81,7 +83,7 @@ export const getUserInfo: AppThunk = () => {
   };
 }
 
-export const updateUserInfoThunk: AppThunk = (body, setFn) => {
+export const updateUserInfoThunk: AppThunk = (body: IProfileFormBody) => {
   const accessToken = getCookie('token');
   return function (dispatch: AppDispatch) {
     dispatch(userUpdateRequestAction());
@@ -98,7 +100,6 @@ export const updateUserInfoThunk: AppThunk = (body, setFn) => {
           dispatch(userUpdateSuccessAction(data.user));
         }
       })
-      .then(() => setFn(false))
       .catch((err) => {
         console.log(err);
       });
