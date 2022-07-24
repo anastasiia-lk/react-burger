@@ -6,6 +6,7 @@ import { updateUserInfoThunk } from '../../services/thunks/user';
 import { getUserInfo } from '../../services/thunks';
 import {useState, useMemo, useCallback, useEffect, useRef, FC} from 'react';
 import { PASSWORD, TEXT } from '../../utils/data'
+import {IProfileFormBody} from '../profile-form/profile-form.types'
 
 const ProfileForm: FC = () => {
   const { user } = useAppSelector((store) => store.user);
@@ -69,7 +70,7 @@ const ProfileForm: FC = () => {
     [onBlurHandler]
   );
 
-  const submitHandler = useCallback((e, body) => {
+  const submitHandler = useCallback((e: React.FormEvent<HTMLFormElement>, body: IProfileFormBody) => {
     e.preventDefault();
     dispatch(updateUserInfoThunk(body));
   }, [dispatch])
