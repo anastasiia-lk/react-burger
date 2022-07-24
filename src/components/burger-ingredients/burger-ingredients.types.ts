@@ -14,5 +14,5 @@ export type TIngrTypes = {
 
 export type TIngrBlock = {
   text: string,
-  ingredientType: string, ingredients: Array<IIngredient>, typeRef: any
+  ingredientType: string, ingredients: Array<IIngredient>, typeRef: React.RefObject<HTMLInputElement>
 }
