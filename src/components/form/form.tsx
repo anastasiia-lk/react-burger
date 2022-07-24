@@ -13,14 +13,14 @@ const Form: FC<IFormProps> = ({config, body, onSubmit, children}) => {
             {children}
           </div>
       }
-      {children && children.length === undefined && 
+      {React.Children.toArray(children).length === 1 && 
           <div className ='mb-6'>
             {children}
           </div>
       }
-      {children && children.length>1 && children.map((child: any) => {
+      {React.Children.toArray(children).length > 1 && React.Children.toArray(children).map((child: React.ReactNode) => {
         return (
-          <div className ='mb-6' key={children.indexOf(child)}>
+          <div className ='mb-6'>
             {child}
           </div>
         )

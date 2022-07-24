@@ -54,5 +54,5 @@ export interface IFormProps {
   // link: '/login' | '/register';
   // linkText: 'Войти' | 'Зарегистрироваться';
   // isLoginPage?: boolean;
-  children: any
+  children: Array<React.ReactNode> | React.ReactNode
 }
