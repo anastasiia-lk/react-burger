@@ -13,7 +13,7 @@ const Modal: FC<IModalProps> = ({children, closeModal}) => {
     return () => document.removeEventListener('keydown', escPress)
   }, [])
 
-  function escPress (evt: any) {
+  function escPress (evt: KeyboardEvent) {
     if (evt.key === ESC_KEY) closeModal()
   }
 
