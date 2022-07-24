@@ -35,8 +35,8 @@ const BurgerFeed: FC = () => {
   const inWorkOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
       ? orders
-          .filter((order: IOrder) => order.status !== 'done')
-          .map((order: IOrder) => order.number)
+          .filter((order) => order.status !== 'done')
+          .map((order) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);
