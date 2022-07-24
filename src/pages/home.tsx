@@ -14,7 +14,6 @@ import { loadingMessage, errorMessage } from '../utils/data';
 import { postOrder, setIngredientDetails } from '../services/actions/index';
 
 export const Home: FC = () => {
-  // const dispatch = useDispatch();
 
   const { ingredients, ingredientsRequest, ingredientsFailed, currentIngredients} = useAppSelector(store => store.constructor);
 

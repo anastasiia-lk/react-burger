@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../services/hooks';
 
 import CustomInput from '../components/custom-input/custom-input';
 
@@ -13,7 +13,7 @@ export function Register() {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const body = useMemo(() => ({
     name: nameValue,

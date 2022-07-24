@@ -1,5 +1,4 @@
 import { useMemo, useRef, useCallback, FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { useDrop, useDrag } from 'react-dnd';
@@ -69,7 +68,7 @@ const BurgerConstructor: FC = () => {
   });
 
   const IngredientCard: FC<IBurgerConstructorIngredientCard> = ({ index, children, item })=> {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const ref = useRef(null);
     const [{ isDragging }, dragRef] = useDrag({
       type: "burger-item",

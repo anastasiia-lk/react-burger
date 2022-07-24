@@ -1,7 +1,6 @@
 import orderInfoStyles from './order-info.module.css';
 import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { useMatch, useParams } from 'react-router-dom';
 import { getOrders, getUserOrders } from '../../services/selectors/ws';
 import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';
@@ -14,7 +13,7 @@ import { IIngredientWithCount, IOrderInfoProps } from './order-info.types';
 import { IIngredient, IOrder } from '../../services/types/data';
 
 const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
-const dispatch = useDispatch();
+const dispatch = useAppDispatch();
 const { id } = useParams();
 const match = useMatch(`/feed/${id}`);
 const selector = match ? getOrders : getUserOrders;
