@@ -32,7 +32,7 @@ export interface IIngredient {
   keyId?: number;
   qty?: number;
   key?: number;
-  index?: number;
+  index: number;
 }
 
 export interface IUser {

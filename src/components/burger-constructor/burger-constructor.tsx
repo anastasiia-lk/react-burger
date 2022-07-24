@@ -15,7 +15,7 @@ import {sendOrder} from '../../services/thunks/order'
 
 import { useAppSelector, useAppDispatch } from '../../services/hooks';
 import { IIngredient } from '../../services/types/data';
-import {IBurgerConstructorIngredientCard} from './burger-constructor.types'
+import {IBurgerConstructorIngredientCard, IDragObj, ICollect} from './burger-constructor.types'
 import {addIngredientThunk} from '../../services/thunks/constructor'
 
 const BurgerConstructor: FC = () => {
@@ -77,12 +77,16 @@ const BurgerConstructor: FC = () => {
         isDragging: monitor.isDragging()
       })
     });
-    const [{ isOver }, dropRef] = useDrop({
+    const [{ isOver }, dropRef] = useDrop<
+    IDragObj,
+    void,
+    ICollect
+  >({
       accept: "burger-item",
       collect: (monitor) => ({
         isOver: monitor.isOver()
       }),
-      drop: (item: any) => {
+      drop: ({ item }) => {
         if (item.index === index) return;
           dispatch(sortConstructorIngredients(item.index, index));
       },
