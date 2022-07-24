@@ -89,7 +89,7 @@ const BurgerIngredients: FC = () => {
   const saucesRef = useRef(null);
   const mainsRef = useRef(null);
 
-  const scrollSection = (e: any) => {
+  const scrollSection = (e: string) => {
       if (e === 'one') {
         return bunsRef
         } else { 
@@ -103,22 +103,26 @@ const BurgerIngredients: FC = () => {
       }
   }
 
-  const onClickHandler = (e: any) => {
+  const onClickHandler = (e: string) => {
     console.log(e)
     setCurrent(e);
     const curRef:any = scrollSection(e);
     curRef.current.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
   };
 
-  const handleOnScroll = (e: any) => {
-    if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
-      e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
-      e.target.lastChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+  const handleOnScroll = (e: React.UIEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    const firstChildTarget = target.firstChild as HTMLElement
+    const nextSiblingTarget = firstChildTarget.nextSibling as HTMLElement
+    const lastChildTarget = target.lastChild as HTMLElement
+    if ( firstChildTarget.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+    nextSiblingTarget.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+    lastChildTarget.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
       {
         setCurrent('three')
       } else {
-        if ( e.target.firstChild.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
-            e.target.firstChild.nextSibling.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
+        if ( firstChildTarget.getBoundingClientRect().top - SCROLL_MARGIN < 0 && 
+        nextSiblingTarget.getBoundingClientRect().top - SCROLL_MARGIN < 0 ) 
             {
               setCurrent('two')
             } else {
