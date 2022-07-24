@@ -83,11 +83,11 @@ export const checkResponse = (res: Response) => {
 // }
 export interface IAddIngredientAction {
   readonly type: typeof ADD_DRAGGED_INGREDIENTS;
-  readonly payload: any;
+  readonly payload: IIngredient[];
 }
 
 export const addIngredient = (
-  payload: any
+  payload: IIngredient[]
 ): IAddIngredientAction => {
   return { type: ADD_DRAGGED_INGREDIENTS, payload };
 };
@@ -264,11 +264,11 @@ export const decreaseIngredientCounter = (value: IIngredient): IDecreaseIngredie
 
 export interface ISortConstructorIngredients {
   readonly type: typeof BURGER_REPLACE_INGREDIENTS;
-  readonly selected: any;
-  readonly target: any;
+  readonly selected: number;
+  readonly target: number;
 }
 
-export const sortConstructorIngredients = (selected: any, target: any): ISortConstructorIngredients => {
+export const sortConstructorIngredients = (selected: number, target: number): ISortConstructorIngredients => {
   return { type: BURGER_REPLACE_INGREDIENTS, selected, target } 
 }
 
