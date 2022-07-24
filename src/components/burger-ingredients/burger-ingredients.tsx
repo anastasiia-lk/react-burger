@@ -1,5 +1,4 @@
 import { useState, useRef, useMemo, FC } from 'react';
-import { useSelector } from 'react-redux';
 
 import { useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';

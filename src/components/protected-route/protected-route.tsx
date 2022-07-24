@@ -1,5 +1,4 @@
 import { useLocation, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { IProtectedRoutProps, TLocationState } from './protected-route.types';
 import { FC } from 'react';
 import { useAppSelector } from '../../services/hooks';

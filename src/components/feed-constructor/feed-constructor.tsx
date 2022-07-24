@@ -1,6 +1,5 @@
 import feedConstructorStyles from './feed-constructor.module.css';
 import {Link, useLocation} from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
 import OrdersList from '../orders-list/orders-list';
 import React, { useEffect, useMemo, FC } from 'react';
 import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';

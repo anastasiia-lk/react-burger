@@ -1,7 +1,6 @@
 import OrdersList from '../orders-list/orders-list';
 import ordersHistory from './orders-history.module.css';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {loadingMessage} from '../../utils/data';
 import { wsAuthConnectionStartAction, wsAuthCloseAction } from '../../services/actions/wsAuthActions';
 import { useAppDispatch, useAppSelector } from '../../services/hooks';

@@ -1,5 +1,4 @@
 import {useEffect, useCallback, FC} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import appStyles from './app.module.css';
 import Modal from '../modal/modal';

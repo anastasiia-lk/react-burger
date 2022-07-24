@@ -3,7 +3,6 @@ import {INGREDIENT_PROP_TYPE} from '../../utils/data';
 
 import { useParams } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../services/hooks';
 
 import {FC} from 'react';

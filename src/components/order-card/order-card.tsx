@@ -1,6 +1,5 @@
 import orderCardStyles from './order-card.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { getTimeStampString, getOrderStatus } from '../../utils/utils';
 import React, { useMemo, FC } from 'react';
 import IngredientImg from '../ingredient-image/ingredient-image'

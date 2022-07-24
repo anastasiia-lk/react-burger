@@ -1,7 +1,7 @@
 import orderInfoStyles from './order-info.module.css';
 import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useMatch, useParams } from 'react-router-dom';
 import { getOrders, getUserOrders } from '../../services/selectors/ws';
 import { wsCloseAction, wsConnectionStartAction } from '../../services/actions/wsActions';
